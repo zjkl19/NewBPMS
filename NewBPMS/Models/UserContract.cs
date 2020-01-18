@@ -36,7 +36,7 @@ namespace NewBPMS.Models
         //public decimal? CalcValue { get; set; }
 
         [ForeignKey("ApplicationUser")]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         [ForeignKey("Contract")]

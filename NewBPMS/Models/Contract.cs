@@ -104,7 +104,7 @@ namespace NewBPMS.Models
         /// 1份合同只能由1位职工负责
         /// </summary>
         [ForeignKey("ApplicationUser")]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         //[ForeignKey("CreateStaff")]
