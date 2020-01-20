@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NewBPMS.Models;
+using NewBPMS.IRepository;
+using NewBPMS.Repository;
 
 namespace NewBPMS
 {
@@ -74,6 +76,14 @@ namespace NewBPMS
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
+
+
+            services.AddScoped<IUserManagerRepository, MyUserManagerRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleManager, MyRoleManager>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
