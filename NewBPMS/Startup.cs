@@ -15,6 +15,10 @@ using Microsoft.Extensions.Hosting;
 using NewBPMS.Models;
 using NewBPMS.IRepository;
 using NewBPMS.Repository;
+using AutoMapper;
+using NewBPMS.ControllerServices;
+using NewBPMS.IControllerServices;
+using NewBPMS.AutoMapper;
 
 namespace NewBPMS
 {
@@ -23,9 +27,14 @@ namespace NewBPMS
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            MapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new AutoMapperProfileConfiguration());
+            });
         }
 
         public IConfiguration Configuration { get; }
+        private MapperConfiguration MapperConfiguration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -77,13 +86,18 @@ namespace NewBPMS
                 options.SlidingExpiration = true;
             });
 
+            //services.AddSingleton(sp => MapperConfiguration.CreateMapper());
+            services.AddSingleton<IMapper>(sp => MapperConfiguration.CreateMapper());
 
 
+            services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IUserManagerRepository, MyUserManagerRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleManager, MyRoleManager>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+
+            services.AddScoped<IContractService, ContractService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
