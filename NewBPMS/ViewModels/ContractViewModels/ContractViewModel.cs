@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,14 +11,10 @@ namespace NewBPMS.ViewModels.ContractViewModels
     {
         public Guid Id { get; set; }
 
-        /// <summary>
-        /// 编号
-        /// </summary>
+        [Display(Name = "编号")]
         public string No { get; set; }
 
-        /// <summary>
-        /// 名称
-        /// </summary>
+        [Display(Name = "名称")]
         public string Name { get; set; }
 
         /// <summary>
@@ -101,5 +98,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         /// 1份合同只能由1位职工负责
         /// </summary>
         public string UserId { get; set; }
+        [Display(Name = "负责人")]
+        public string UserName { get; set; }
     }
 }

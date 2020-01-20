@@ -10,9 +10,9 @@ namespace NewBPMS.AutoMapper
         {
 
             //CreateMap<source, destination>()
-            CreateMap<Contract, ContractViewModel>();
+            CreateMap<Contract, ContractViewModel>()
             //    .ForMember(dest => dest.EngineeringStatus, src => src.MapFrom(x => x.EngineeringStatus))
-            //    .ForMember(dest => dest.ResponseStaffName, src => src.MapFrom(x => x.ResponseStaff.Name));
+                .ForMember(dest => dest.UserName, src => src.MapFrom(x => x.ApplicationUser.StaffName));
             //p => p.EngineeringStatus, q => q.MapFrom(x => (EngineeringStatus)x.EngineeringStatus));
 
             //CreateMap<CMProject, EditCMProjectViewModel>();
