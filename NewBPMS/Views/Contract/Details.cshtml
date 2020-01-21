@@ -1,0 +1,72 @@
+﻿@model DetailsContractViewModel
+@{
+    ViewData["Title"] = "详细";
+
+    int i = 1;
+    var headerMetadata = Model.UserProductValueViewModels.FirstOrDefault();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <partial name="StatusMessagePartial" model='Model.StatusMessage'>
+</div>
+
+@if (Model.UserProductValueViewModels.Count() != 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    序号
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.StaffName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Labor)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Ratio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Amount)
+                </th>
+
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.UserProductValueViewModels)
+            {
+                <tr>
+                    <td>
+                        @i
+                        @{
+                            i++;
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Labor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ratio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">编辑</a>
+                        | <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">删除</a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+}

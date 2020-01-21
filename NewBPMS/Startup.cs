@@ -89,8 +89,9 @@ namespace NewBPMS
             //services.AddSingleton(sp => MapperConfiguration.CreateMapper());
             services.AddSingleton<IMapper>(sp => MapperConfiguration.CreateMapper());
 
-
+            services.AddScoped<IUserContractRepository, UserContractRepository>();
             services.AddScoped<IContractRepository, ContractRepository>();
+
             services.AddScoped<IUserManagerRepository, MyUserManagerRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleManager, MyRoleManager>();
@@ -98,6 +99,7 @@ namespace NewBPMS
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
             services.AddScoped<IContractService, ContractService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

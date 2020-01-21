@@ -44,5 +44,23 @@ namespace NewBPMS.Controllers
             };
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult Details(Guid Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var userProductViewModel = _contractService.GetUserProductValue(Id);
+
+            var model = new DetailsContractViewModel
+            {
+                StatusMessage = StatusMessage,
+                UserProductValueViewModels = userProductViewModel,
+            };
+            return View(model);
+        }
     }
 }

@@ -9,5 +9,11 @@ namespace NewBPMS.IControllerServices
     public interface IContractService
     {
         IEnumerable<ContractViewModel> GetContractIndexlinqVar(string ContractName = "");
+        /// <summary>
+        /// 获取某个合同下的各人产值列表
+        /// </summary>
+        /// <param name="Id">合同Id</param>
+        /// <returns></returns>
+        IEnumerable<UserProductValueViewModel> GetUserProductValue(Guid Id);
     }
 }
