@@ -1,0 +1,46 @@
+﻿@model UserContractIndexViewModel
+@{
+    ViewData["Title"] = "绩效考核";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<form asp-action="SummaryUserProductValue" method="post" data-ajax="true"
+      data-ajax-mode="replace"
+      data-ajax-update="#SummaryUserProductValue">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row form-group">
+        <div class="col-md-3 col-6 alert alert-info">
+            请将需要查询汇总产值的员工工号依次输入，各工号之间用半角逗号分隔
+        </div>
+    </div>
+    <div class="row form-group">
+        <label asp-for="SummaryUserProductValueQueryViewModel.StaffNoString" class=" col-6 col-md-1 col-form-label control-label"></label>
+        <div class="col-md-3 col-6">
+            <input asp-for="SummaryUserProductValueQueryViewModel.StaffNoString" class="form-control" />
+            <span asp-validation-for="SummaryUserProductValueQueryViewModel.StaffNoString" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label asp-for="SummaryUserProductValueQueryViewModel.StartDateTime" class=" col-6 col-md-1 col-form-label control-label"></label>
+        <div class="col-md-3 col-6">
+            <input asp-for="SummaryUserProductValueQueryViewModel.StartDateTime" class="form-control" />
+            <span asp-validation-for="SummaryUserProductValueQueryViewModel.StartDateTime" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label asp-for="SummaryUserProductValueQueryViewModel.EndDateTime" class="col-6 col-md-1 col-form-label control-label"></label>
+        <div class="col-md-3 col-6">
+            <input asp-for="SummaryUserProductValueQueryViewModel.EndDateTime" class="form-control" />
+            <span asp-validation-for="SummaryUserProductValueQueryViewModel.EndDateTime" class="text-danger"></span>
+        </div>
+    </div>
+
+    <p>
+        <button class="btn btn-primary">提交</button>
+    </p>
+</form>
+
+<div id="SummaryUserProductValue">
+
+</div>

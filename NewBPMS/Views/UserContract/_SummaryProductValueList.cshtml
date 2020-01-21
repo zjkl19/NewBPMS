@@ -1,0 +1,52 @@
+﻿
+@model List<SummaryUserProductValueViewModel>
+
+@{
+    int i = 1;
+    var headerMetadata = Model.FirstOrDefault();
+}
+<style>
+    .table th, .table td {
+        text-align: center;
+        vertical-align: middle !important;
+    }
+</style>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                序号
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => headerMetadata.StaffName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => headerMetadata.StaffNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => headerMetadata.Amount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var item = 0; item < Model.Count; item++)
+        {
+            <tr>
+                <td>
+                    @i
+                    @{i++;}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[item].StaffName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[item].StaffNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[item].Amount)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

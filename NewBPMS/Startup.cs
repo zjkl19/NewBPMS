@@ -99,6 +99,7 @@ namespace NewBPMS
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
             services.AddScoped<IContractService, ContractService>();
+            services.AddScoped<IUserContractService, UserContractService>();
 
         }
 
