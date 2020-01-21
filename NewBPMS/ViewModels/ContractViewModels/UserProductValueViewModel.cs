@@ -22,7 +22,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         [Display(Name = "产值比例")]
         public decimal Ratio { get; set; }
 
-        [Display(Name = "合同额")]
+        [Display(Name = "产值")]
         [Column(TypeName = "money")]
         public decimal Amount { get; set; }
 

@@ -45,16 +45,17 @@ namespace NewBPMS.ControllerServices
             //    .Where(p => p.ContractId==Id).OrderBy(p=>p.Labor);
 
             //TODO：用lambda表达式及AutoMapper重构
-            var linqVar = from p in _userContractRepository.EntityItems
+            var linqVar = (from p in _userContractRepository.EntityItems
                           join q in _contractRepository.EntityItems on p.ContractId equals q.Id
                           join r in _userRepository.EntityItems on p.UserId equals r.Id
+                          where q.Id==Id
                           select new UserProductValueViewModel
-                          {                      
+                          {
                               Labor=(Labor)p.Labor,
                               Ratio=p.Ratio,
                               Amount=(p.Ratio)*q.Amount,
                               StaffName=r.StaffName,
-                          };
+                          }).OrderBy(p=>p.Labor);
 
             return linqVar;
         }
