@@ -1,0 +1,26 @@
+﻿@model QueryPagingViewModel<UserSelectQuery>
+@*<div id="localLoading" class="load" style="display:none">
+        <p>查询中...</p>
+    </div>*@
+<div class="row">
+    <div class="col-md-2">
+        <p>&nbsp;</p>
+    </div>
+    <div id="localLoading" class="col-md-3 load" style="display:none">
+        <p>查询中...</p>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-5">
+        <label asp-for="QueryItems.No"> </label><input asp-for="QueryItems.No" />
+    </div>
+
+    <div class="col-5">
+        <label asp-for="QueryItems.Name"> </label><input asp-for="QueryItems.Name" />
+    </div>
+
+    <div class="col-2">
+        <button type="submit" class="btn btn-primary">查询</button>
+    </div>
+</div>

@@ -8,6 +8,32 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+
+    <script>
+        function GotoPreviousPage(obj) {
+            var tmp = obj;
+            $(tmp).parent().children("[name='PagingInfo\\.CurrentPage']").val(parseInt($(tmp).parent().children("[name='PagingInfo\\.CurrentPage']").val()) - 1);
+            $(tmp).parent().children("[name='PagingInfo_Submit']").click();
+        }
+
+        function GotoNextPage(obj) {
+            var tmp = obj;
+            $(tmp).parent().children("[name='PagingInfo\\.CurrentPage']").val(parseInt($(tmp).parent().children("[name='PagingInfo\\.CurrentPage']").val()) + 1);
+            $(tmp).parent().children("[name='PagingInfo_Submit']").click();
+        }
+    </script>
+
+    @*表单提交前修改当前页数为1*@
+    <script>
+        function ResetPagePara(obj) {
+            var tmp = obj;
+            $(tmp).closest("form").find("input[name='PagingInfo\\.CurrentPage']").val(1);
+            return true;
+        }
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">

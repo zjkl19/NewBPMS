@@ -1,0 +1,60 @@
+﻿
+@model ItemListViewModel<UserSelectViewModel>
+
+@{
+    int i = 1;
+
+    var headerMetadata = Model.ItemViewModels.FirstOrDefault();
+
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <!-- RadioBox -->
+            </th>
+            <th>
+                序号
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => headerMetadata.No)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => headerMetadata.Name)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.ItemViewModels)
+        {
+            <tr>
+                <td>
+                    @Html.RadioButtonFor(modelItem => item.Id, false)
+                </td>
+                <td style="display: none">
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @i
+                    @{
+                        i++;
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+<partial name="PagingTagPartial" model='new PagingViewModel { PagingInfo = Model.PagingInfo }'>
