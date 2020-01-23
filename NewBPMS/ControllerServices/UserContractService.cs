@@ -37,23 +37,56 @@ namespace NewBPMS.ControllerServices
 
             var staffNoIntList = staffNoList.Select<string, int>(q => Convert.ToInt32(q));
 
-            var linqVar = (from p in _userContractRepository.EntityItems
-                          join q in _contractRepository.EntityItems on p.ContractId equals q.Id
-                          join r in _userRepository.EntityItems on p.UserId equals r.Id
-                          //TODO:合同完成时间
-                          select new SummaryUserProductValueViewModel
-                          {
-                              StaffName = r.StaffName,
-                              StaffNo = r.StaffNo,
-                              Amount = p.Ratio * q.Amount
-                          });
+
+            //            var query = from c in dt.AsEnumerable()
+            //                        group c by new { id = c.Field<int>("ID") }
+            //into s
+            //                        select new
+            //                        {
+            //                            ID = s.Key.id,
+            //                            Math = s.Sum(p => p.Field<decimal>("Math")),
+            //                            Chinese = s.Sum(p => p.Field<decimal>("Chinese"))
+            //                        };
+
+            var connTable = (from p in _userContractRepository.EntityItems
+                             join q in _contractRepository.EntityItems on p.ContractId equals q.Id
+                             join r in _userRepository.EntityItems on p.UserId equals r.Id
+                             where q.FinishDateTime >= queryModel.StartDateTime
+                             && q.FinishDateTime <= queryModel.EndDateTime
+                             select new
+                             {
+                                 r.StaffName,
+                                 r.StaffNo,
+                                 q.FinishDateTime,
+                                 Amount = p.Ratio * q.Amount
+                             });
+            var query = from p in connTable
+                        group p by new { p.StaffName, p.StaffNo }
+                        into s
+                        select new SummaryUserProductValueViewModel
+                        {
+                            StaffName = s.Key.StaffName,
+                            StaffNo = s.Key.StaffNo,
+                            Amount = s.Sum(p => p.Amount)
+                        };
+
+            //var linqVar = (from p in _userContractRepository.EntityItems
+            //               join q in _contractRepository.EntityItems on p.ContractId equals q.Id
+            //               join r in _userRepository.EntityItems on p.UserId equals r.Id
+            //               //TODO:合同完成时间
+            //               select new SummaryUserProductValueViewModel
+            //               {
+            //                   StaffName = r.StaffName,
+            //                   StaffNo = r.StaffNo,
+            //                   Amount = p.Ratio * q.Amount
+            //               });
 
             if (queryModel.SummaryPdtValueOrderType == SummaryPdtValueOrderType.PdtValue)
             {
-                linqVar = linqVar.OrderByDescending(x => x.Amount);
+                query = query.OrderByDescending(x => x.Amount);
             }
 
-            return linqVar;
+            return query;
         }
     }
 }

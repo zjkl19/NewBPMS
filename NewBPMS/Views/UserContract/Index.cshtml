@@ -35,6 +35,12 @@
             <span asp-validation-for="SummaryUserProductValueQueryViewModel.EndDateTime" class="text-danger"></span>
         </div>
     </div>
+    <div class="row form-group">
+        <label asp-for="SummaryUserProductValueQueryViewModel.SummaryPdtValueOrderType" class="col-6 col-md-1 col-form-label control-label"> </label>
+        <div class="col-md-3 col-6">
+            <select class="form-control"  asp-for="SummaryUserProductValueQueryViewModel.SummaryPdtValueOrderType" asp-items="Html.GetEnumSelectList<SummaryPdtValueOrderType>()"></select>
+        </div>
+    </div>
 
     <p>
         <button class="btn btn-primary">提交</button>

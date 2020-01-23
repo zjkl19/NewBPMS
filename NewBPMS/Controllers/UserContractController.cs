@@ -24,7 +24,7 @@ namespace NewBPMS.Controllers
         }
 
         [HttpPost]
-        public IActionResult SummaryUserProductValue(SummaryUserProductValueQueryViewModel queryModel)
+        public IActionResult SummaryUserProductValue([Bind(Prefix = "SummaryUserProductValueQueryViewModel")]SummaryUserProductValueQueryViewModel queryModel)
         {
             var startDateTime = queryModel.StartDateTime;
             var endDateTime = queryModel.EndDateTime;
