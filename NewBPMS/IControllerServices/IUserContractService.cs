@@ -8,6 +8,6 @@ namespace NewBPMS.IControllerServices
 {
     public interface IUserContractService
     {
-        IEnumerable<SummaryUserProductValueViewModel> GetSummaryUserProductValue();
+        IEnumerable<SummaryUserProductValueViewModel> GetSummaryUserProductValue(SummaryUserProductValueQueryViewModel queryModel);
     }
 }

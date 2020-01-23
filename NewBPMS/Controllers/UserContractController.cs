@@ -29,7 +29,7 @@ namespace NewBPMS.Controllers
             var startDateTime = queryModel.StartDateTime;
             var endDateTime = queryModel.EndDateTime;
 
-            var l = _userContractService.GetSummaryUserProductValue().ToList();
+            var l = _userContractService.GetSummaryUserProductValue(queryModel).ToList();
 
             return PartialView("_SummaryProductValueList", l);
         }

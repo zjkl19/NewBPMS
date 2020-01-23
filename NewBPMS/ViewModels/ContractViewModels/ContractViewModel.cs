@@ -88,6 +88,10 @@ namespace NewBPMS.ViewModels.ContractViewModels
         /// 提交时间
         /// </summary>
         public DateTime SubmitDateTime { get; set; } = new DateTime(9999, 1, 1);
+        /// <summary>
+        /// 完成时间
+        /// </summary>
+        public DateTime FinishDateTime { get; set; }
 
         /// <summary>
         /// 变更记录

@@ -96,6 +96,11 @@ namespace NewBPMS.Models
         public DateTime SubmitDateTime { get; set; } = new DateTime(9999, 1, 1);
 
         /// <summary>
+        /// 完成时间
+        /// </summary>
+        public DateTime FinishDateTime { get; set; } = new DateTime(9999, 1, 1);
+
+        /// <summary>
         /// 变更记录
         /// </summary>
         public string ChangeLog { get; set; }
