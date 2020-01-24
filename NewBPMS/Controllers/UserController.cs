@@ -19,6 +19,9 @@ namespace NewBPMS.Controllers
             _userRepository = userRepository;
         }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         [NonAction]
         public IActionResult Index()
         {
@@ -70,6 +73,7 @@ namespace NewBPMS.Controllers
             var linqVar = _userRepository.QueryEntity<ApplicationUser>(queryExpression)
                 .Select(p => new UserSelectViewModel
                 {
+                    Id=p.Id,
                     No = p.StaffNo,
                     Name = p.StaffName,
                 });

@@ -55,6 +55,7 @@ namespace NewBPMS.ControllerServices
                               Ratio=p.Ratio,
                               Amount=(p.Ratio)*q.Amount,
                               StaffName=r.StaffName,
+                              ContractId=q.Id
                           }).OrderBy(p=>p.Labor);
 
             return linqVar;

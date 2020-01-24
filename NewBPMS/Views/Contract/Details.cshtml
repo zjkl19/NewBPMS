@@ -72,5 +72,5 @@
 }
 
 <div>
-    <partial name="../UserContract/Create" model="new CreateUserContractViewModel { }">
+    <partial name="../UserContract/Create" model="new CreateUserContractViewModel { ContractId=Model.UserProductValueViewModels.FirstOrDefault().ContractId }">
 </div>

@@ -10,7 +10,7 @@ namespace NewBPMS.ViewModels
     public class UserSelectViewModel
     {
         [HiddenInput]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Display(Name = "姓名")]
         [DataType(DataType.Text)]

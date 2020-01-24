@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using NewBPMS.Models;
 using NewBPMS.ViewModels.ContractViewModels;
+using NewBPMS.ViewModels.UserContractViewModels;
+using System;
 
 namespace NewBPMS.AutoMapper
 {
@@ -19,6 +21,9 @@ namespace NewBPMS.AutoMapper
                 .ForMember(dest => dest.Labor, src => src.MapFrom(x => (Labor)x.Labor))
                 .ForMember(dest => dest.StaffName, src => src.MapFrom(x => x.ApplicationUser.StaffName))
                 .ForMember(dest => dest.Amount, src => src.MapFrom(x => (x.Ratio)*x.Contract.Amount));
+
+            CreateMap<CreateUserContractViewModel, UserContract>()
+                .ForMember(dest => dest.Id, src => src.MapFrom(x => Guid.NewGuid()));
 
             //CreateMap<CMProject, EditCMProjectViewModel>();
 
