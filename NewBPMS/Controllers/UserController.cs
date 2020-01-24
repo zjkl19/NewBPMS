@@ -26,7 +26,7 @@ namespace NewBPMS.Controllers
         }
 
         //[PagingAction]
-        public async Task<PartialViewResult> SelectList(UserSelectQuery queryModel, [Bind(Prefix = "PagingInfo")]PagingInfo pagingInfo)
+        public async Task<PartialViewResult> SelectList([Bind(Prefix = "QueryItems")]UserSelectQuery queryModel, [Bind(Prefix = "PagingInfo")]PagingInfo pagingInfo)
         {
             int pageIndex = pagingInfo?.CurrentPage ?? 1;
             int pageSize = pagingInfo?.ItemsPerPage ?? 10;
@@ -35,7 +35,7 @@ namespace NewBPMS.Controllers
             var newModel = new ItemListViewModel<UserSelectViewModel>
             {
 
-                ItemViewModels = await Task.FromResult(linqVar.OrderBy(x => x.No).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList()),
+                ItemViewModels = await Task.FromResult(linqVar.OrderBy(x => x.No).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList()).ConfigureAwait(false),
 
                 PagingInfo = new PagingInfo
                 {
@@ -46,7 +46,7 @@ namespace NewBPMS.Controllers
 
             };
 
-            return PartialView("_StaffSelectListPartial", newModel);
+            return PartialView("_UserSelectListPartial", newModel);
         }
 
         private IEnumerable<UserSelectViewModel> IEnumUserSelectViewModelFactory(UserSelectQuery queryModel)
