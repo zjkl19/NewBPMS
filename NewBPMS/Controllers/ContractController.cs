@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
@@ -11,6 +12,7 @@ using X.PagedList;
 
 namespace NewBPMS.Controllers
 {
+    [Authorize]
     public class ContractController : Controller
     {
         private readonly IContractService _contractService;

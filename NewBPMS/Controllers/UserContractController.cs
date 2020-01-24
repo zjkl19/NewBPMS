@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewBPMS.IControllerServices;
@@ -12,6 +13,7 @@ using NewBPMS.ViewModels.UserContractViewModels;
 
 namespace NewBPMS.Controllers
 {
+    [Authorize]
     public class UserContractController : Controller
     {
         private readonly IUserManagerRepository _userManager;
@@ -47,6 +49,13 @@ namespace NewBPMS.Controllers
 
             return PartialView("_SummaryProductValueList", l);
         }
+
+        [HttpGet]
+        public IActionResult Create(Guid ContractId)
+        {
+            return PartialView("Create", new CreateUserContractViewModel { ContractId = ContractId});
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserContractViewModel model)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NewBPMS.IRepository;
 using NewBPMS.Models;
@@ -10,6 +11,7 @@ using NewBPMS.ViewModels;
 
 namespace NewBPMS.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;

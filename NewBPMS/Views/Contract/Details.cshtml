@@ -71,6 +71,19 @@
 
 }
 
-<div>
-    <partial name="../UserContract/Create" model="new CreateUserContractViewModel { ContractId=Model.UserProductValueViewModels.FirstOrDefault().ContractId }">
+<a asp-controller="UserContract" asp-action="Create" asp-route-ContractId="@Model.UserProductValueViewModels.FirstOrDefault().ContractId" 
+        data-ajax="true"
+        data-ajax-mode="replace"
+        data-ajax-loading-duration=1000
+        data-ajax-update="#CreateOrEditUserContract"
+        method="get"
+        class="btn btn-primary">
+    添加产值分配人员
+</a>
+
+<div id="CreateOrEditUserContract">
+
 </div>
+@*<div>
+        <partial name="../UserContract/Create" model="new CreateUserContractViewModel { ContractId=Model.UserProductValueViewModels.FirstOrDefault().ContractId }">
+    </div>*@
