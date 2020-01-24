@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
 using NewBPMS.Models;
@@ -77,6 +78,41 @@ namespace NewBPMS.Controllers
             return RedirectToAction("Details","Contract",new {Id=model.ContractId });
         }
 
+
+        /// <summary>
+        /// 删除测点
+        /// </summary>
+        /// <param name="Id">测点Id</param>
+        /// <returns></returns>
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            UserContract varDeleted;
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                varDeleted = await _userContractRepository.DeleteAsync(Id);
+                if (varDeleted != null)
+                {
+                    //StatusMessage = @$"{varDeleted.ApplicationUser.StaffName}信息已成功删除!";
+                    StatusMessage = $"信息已成功删除!";
+                }
+                else
+                {
+                    StatusMessage = $"已成功删除!";
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("Details", "Contract", new { Id =varDeleted.ContractId });
+
+        }
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public IActionResult List(ListViewModel model)

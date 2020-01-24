@@ -51,6 +51,7 @@ namespace NewBPMS.ControllerServices
                           where q.Id==Id
                           select new UserProductValueViewModel
                           {
+                              Id=p.Id,
                               Labor=(Labor)p.Labor,
                               Ratio=p.Ratio,
                               Amount=(p.Ratio)*q.Amount,

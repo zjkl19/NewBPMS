@@ -60,8 +60,8 @@
                         @Html.DisplayFor(modelItem => item.Amount)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">编辑</a>
-                        | <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">删除</a>
+                        <a asp-controller="UserContract" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">编辑</a>
+                        | <a asp-controller="UserContract" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">删除</a>
                     </td>
                 </tr>
 
