@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
 using NewBPMS.Models;
+using NewBPMS.ViewModels.ContractViewModels;
 using NewBPMS.ViewModels.UserContractViewModels;
 
 namespace NewBPMS.Controllers
@@ -48,6 +49,64 @@ namespace NewBPMS.Controllers
             var l = _userContractService.GetSummaryUserProductValue(queryModel).ToList();
 
             return PartialView("_SummaryProductValueList", l);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid Id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            //查询项目负责人
+            var userContract = _userContractRepository.EntityItems.Where(x => x.Id == Id).FirstOrDefault();
+
+            //if (user.Id != contract.UserId)
+            //{
+            //    return PartialView("/Views/Account/AccessDenied.cshtml");    //?View
+            //}
+
+            //TODO:AutoMapper重构
+            //var userContractToEdit = _mapper.Map<EditUserContractViewModel>(userContract);
+            var userContractToEdit = new EditUserContractViewModel
+            {
+                Id=userContract.Id,
+                Labor=(Labor)userContract.Labor,
+                Ratio=userContract.Ratio,
+                ContractId=userContract.ContractId,
+                UserId = userContract.UserId,
+            };
+
+            return PartialView("Edit", userContractToEdit );
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserContractViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User).ConfigureAwait(false);
+
+            var contract = _contractRepository.EntityItems.Where(x => x.Id == model.ContractId).FirstOrDefault();
+
+            if (user.Id != contract.UserId)
+            {
+                return PartialView("/Views/Account/AccessDenied.cshtml");    //?View
+            }
+
+            try
+            {
+
+                var userContractToEdit = _mapper.Map<UserContract>(model);
+
+                await _userContractRepository.EditAsync(userContractToEdit);
+
+                //StatusMessage = $"成功编辑\"参与人员\"{model.StaffName}";
+                StatusMessage = $"成功编辑\"参与人员\"";
+
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+
+            return RedirectToAction("Details", "Contract", new { Id = model.ContractId });
         }
 
         [HttpGet]

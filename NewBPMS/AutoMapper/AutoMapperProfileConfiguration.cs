@@ -22,8 +22,13 @@ namespace NewBPMS.AutoMapper
                 .ForMember(dest => dest.StaffName, src => src.MapFrom(x => x.ApplicationUser.StaffName))
                 .ForMember(dest => dest.Amount, src => src.MapFrom(x => (x.Ratio)*x.Contract.Amount));
 
+            //CreateMap<UserContract, EditUserContractViewModel>()
+            //    .ForMember(dest => dest.StaffName, src => src.MapFrom(x => x.ApplicationUser.StaffName));
+
             CreateMap<CreateUserContractViewModel, UserContract>()
                 .ForMember(dest => dest.Id, src => src.MapFrom(x => Guid.NewGuid()));
+
+            CreateMap<EditUserContractViewModel, UserContract>();
 
             //CreateMap<CMProject, EditCMProjectViewModel>();
 

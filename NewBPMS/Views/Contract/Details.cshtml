@@ -60,7 +60,13 @@
                         @Html.DisplayFor(modelItem => item.Amount)
                     </td>
                     <td>
-                        <a asp-controller="UserContract" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">编辑</a>
+                        <a asp-controller="UserContract" asp-action="Edit" asp-route-id="@item.Id"
+                            data-ajax="true"
+                            data-ajax-mode="replace"
+                            data-ajax-loading-duration=1000
+                            data-ajax-update="#CreateOrEditUserContract"
+                            method="get"
+                           class="btn btn-secondary">编辑</a>
                         | <a asp-controller="UserContract" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">删除</a>
                     </td>
                 </tr>

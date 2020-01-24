@@ -1,0 +1,197 @@
+﻿@model EditUserContractViewModel
+
+<script>
+    //获取id,工号,姓名
+    $(document).ready(function () {
+        $('#selectResonpseStaffButton').on('click', function () {
+            Id = $(":input:radio:checked").map(function () {
+                return $(this).parent().siblings('td').eq(0).text();  // 根据checkbox定位到后面的td，然后使用text()函数获取内容
+            }).get();   // 获取内容数组并拼接为字符串
+
+            No = $(":input:radio:checked").map(function () {
+                return $(this).parent().siblings('td').eq(2).text();
+            }).get();
+
+            Name = $(":input:radio:checked").map(function () {
+                return $(this).parent().siblings('td').eq(3).text();
+            }).get();
+
+            $("#ResonpseStaffId").attr("value", $.trim(Id));
+            $("#ResonpseStaffName").attr("value", Name);
+
+            console.log(Id)
+            console.log(No)
+            console.log(Name)
+
+        });
+    });
+
+    $(document).ready(function () {
+        $('#selectUserButton').on('click', function () {
+
+            var item = $(":button.btn.btn-primary").attr("data-whatever");
+
+            Id = $(":input:radio:checked").map(function () {
+                return $(this).parent().siblings('td').eq(0).text();  // 根据checkbox定位到后面的td，然后使用text()函数获取内容
+            }).get();   // 获取内容数组并拼接为字符串
+
+            No = $(":input:radio:checked").map(function () {
+                return $(this).parent().siblings('td').eq(2).text();
+            }).get();
+
+            Name = $(":input:radio:checked").map(function () {
+                return $(this).parent().siblings('td').eq(3).text();
+            }).get();
+
+            var itemId
+            var itemName
+
+            //if (item == 'selectAcceptStaffButton') {
+            //    itemId = "#AcceptStaffId";
+            //    itemName = "#AcceptStaffName";
+            //}
+            //else {
+            //    itemId = "#ResponseStaffId";
+            //    itemName = "#ResponseStaffName";
+            //}
+
+            itemId = "#UserId";
+            itemName = "#StaffName";
+
+            console.log(itemId)
+            console.log(itemName)
+
+            $(itemId).attr("value", $.trim(Id));
+
+            $(itemName).attr("value", Name);
+
+        });
+    });
+
+
+
+</script>
+
+<!-- /.modal -->
+<script>
+    //修改Id
+    $(function () {
+        $('#popup_id').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+
+            console.log(recipient)  //调试
+            console.log($(":button.btn.btn-primary").attr("data-whatever"))    //before
+
+            modal.find(':button.btn.btn-primary').attr("data-whatever", recipient)
+
+            console.log($(":button.btn.btn-primary").attr("data-whatever"))
+        })
+    });
+</script>
+<form asp-controller="UserContract" asp-action="Edit" method="post">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(x => x.StaffName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(x => x.Labor)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(x => x.Ratio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(x => x.Amount)
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+
+                <td class="form-group">
+                    <input asp-for="UserId" class="form-control" hidden />
+
+                    <input type="button" data-toggle="modal" data-target="#popup_id" value="选择职工" />
+                    <input asp-for="StaffName" class="form-control" readonly />
+                    <input asp-for="ContractId" class="form-control" hidden />
+                </td>
+                <td class="form-group">
+
+                    <select asp-for="Labor" asp-items="Html.GetEnumSelectList<Labor>()" class="form-control"></select>
+                    <span asp-validation-for="Labor" class="text-danger"></span>
+                </td>
+                <td class="form-group">
+                    <input asp-for="Ratio" placeholder="例:0.35" class="form-control" />
+                </td>
+                <td class="form-group">
+                    <input asp-for="Amount" placeholder="自动计算" class="form-control" readonly />
+                </td>
+                @*<td class="form-group">
+                        <input type="submit" value="保存" class="btn btn-primary" />
+                    </td>*@
+            </tr>
+            <tr>
+
+                <td class="form-group"></td>
+                <td class="form-group">
+                    <span asp-validation-for="Labor" class="text-danger"></span>
+                </td>
+                <td class="form-group">
+                    <span asp-validation-for="Ratio" class="text-danger"></span>
+                </td>
+                <td class="form-group"></td>
+
+
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-success" type="submit">提交</button>
+</form>
+<!-- 模态框 -->
+<div class="modal fade" id="popup_id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">请选择职工</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <form asp-area="" asp-controller="User" asp-action="SelectList"
+                          data-ajax="true"
+                          data-ajax-mode="replace"
+                          data-ajax-loading="#localLoading"
+                          data-ajax-loading-duration=1000
+                          data-ajax-update="#ajaxSelectStaffBody"
+                          method="get">
+                        <partial name="UserSelectQueryPartial" model='new QueryPagingViewModel<UserSelectQuery>()'>
+                            <div id="ajaxSelectStaffBody" class="row">
+
+                            </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div style="display: inline-block">
+                    <button id="selectUserButton" class="btn btn-primary" data-dismiss="modal" data-whatever="">选择</button>
+                </div>
+                <div style="display: inline-block">
+                    <button class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
