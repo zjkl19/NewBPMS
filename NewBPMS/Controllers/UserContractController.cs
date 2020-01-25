@@ -20,6 +20,7 @@ namespace NewBPMS.Controllers
         private readonly IUserManagerRepository _userManager;
         private readonly IUserContractRepository _userContractRepository;
         private readonly IUserContractService _userContractService;
+        private readonly IUserRepository _userRepository;
         private readonly IContractRepository _contractRepository;
         private readonly IMapper _mapper;
 
@@ -27,12 +28,14 @@ namespace NewBPMS.Controllers
             IUserManagerRepository userManager
              , IUserContractRepository userContractRepository
              , IUserContractService userContractService
+             ,IUserRepository userRepository
              , IContractRepository contractRepository
             , IMapper mapper)
         {
             _userManager = userManager;
             _userContractRepository = userContractRepository;
             _userContractService = userContractService;
+            _userRepository = userRepository;
             _contractRepository = contractRepository;
             _mapper = mapper;
         }
@@ -59,6 +62,20 @@ namespace NewBPMS.Controllers
             //查询项目负责人
             var userContract = _userContractRepository.EntityItems.Where(x => x.Id == Id).FirstOrDefault();
 
+            var userContractToEdit = from p in _userContractRepository.EntityItems
+                          join q in _userRepository.EntityItems
+                          on p.UserId equals q.Id
+                          where p.Id == Id
+                          select new EditUserContractViewModel
+                          {
+                              Id = userContract.Id,
+                              Labor = (Labor)userContract.Labor,
+                              Ratio = userContract.Ratio,
+                              ContractId = userContract.ContractId,
+                              UserId = userContract.UserId,
+                              StaffName=q.StaffName
+                          };
+
             //if (user.Id != contract.UserId)
             //{
             //    return PartialView("/Views/Account/AccessDenied.cshtml");    //?View
@@ -66,14 +83,6 @@ namespace NewBPMS.Controllers
 
             //TODO:AutoMapper重构
             //var userContractToEdit = _mapper.Map<EditUserContractViewModel>(userContract);
-            var userContractToEdit = new EditUserContractViewModel
-            {
-                Id=userContract.Id,
-                Labor=(Labor)userContract.Labor,
-                Ratio=userContract.Ratio,
-                ContractId=userContract.ContractId,
-                UserId = userContract.UserId,
-            };
 
             return PartialView("Edit", userContractToEdit );
         }

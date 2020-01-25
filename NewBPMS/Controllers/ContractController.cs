@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
+using NewBPMS.Models;
 using NewBPMS.ViewModels.ContractViewModels;
 using X.PagedList;
 
@@ -45,6 +47,51 @@ namespace NewBPMS.Controllers
                 ContractViewModels = onePageOflinqVar,
             };
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateContractViewModel model)
+        {
+            //var cnt = await _mainRepository.QueryByNoAsync(model.No);
+            //if (cnt.Count > 0)
+            //{
+            //    ModelState.AddModelError("No", "已存在合同编号：" + model.No);
+
+            //}
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var contract = _mapper.Map<Contract>(model);
+            try
+            {
+                await _contractRepository.CreateAsync(contract);
+
+                StatusMessage = $"项目\"{contract.Name}\"成功创建";
+            }
+            catch (DbUpdateException ex)
+            {
+
+                // Log the error(uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "无法保存更改。 " +
+                 "请重试, 如果该问题仍然存在 " +
+                 "请联系系统管理员。");
+
+                StatusMessage = $"合同/项目创建失败";
+                throw;
+                //return View(new CreateCMProjectViewModel());
+            }
+
+            return RedirectToAction(nameof(ContractController.Index));
         }
 
         [HttpGet]
