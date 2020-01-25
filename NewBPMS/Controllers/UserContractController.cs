@@ -43,6 +43,11 @@ namespace NewBPMS.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult SummaryUserProductValue([Bind(Prefix = "SummaryUserProductValueQueryViewModel")]SummaryUserProductValueQueryViewModel queryModel)
         {

@@ -23,7 +23,6 @@ namespace NewBPMS.Controllers
 
         [TempData]
         public string StatusMessage { get; set; }
-
         [NonAction]
         public IActionResult Index()
         {
