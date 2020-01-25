@@ -111,5 +111,43 @@ namespace NewBPMS.Controllers
             };
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+            var linqVar = await _contractRepository.QueryByIdAsync(Id);
+            var model = _mapper.Map<DeleteContractViewModel>(linqVar);
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            //var linqVar = await _CMProjectRepository.QueryByIdAsync(Id);
+
+            try
+            {
+                var varDeleted = await _contractRepository.DeleteAsync(Id);
+                if (varDeleted != null)
+                {
+                    StatusMessage = $"合同：\"{varDeleted.Name}\"已成功删除";
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                throw ex;
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
