@@ -1,0 +1,109 @@
+﻿@model ListViewModel
+@{
+    ViewData["Title"] = "工作量查询";
+    var headerMetadata = Model.UserSelectListViewModel.FirstOrDefault();
+    var pCount = Model.UserSelectListViewModel.Count;
+}
+
+<h3>@ViewData["Title"]</h3>
+<div class="alert alert-info">
+    积分试行期间，积分规则将会适时调整，带来不便敬请谅解。
+</div>
+@* 各种功能必须加载的js脚本 *@
+<script src="~/js/SelectAllOption.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#chooseToday').on('click', function () {
+
+            var myDate = new Date();
+            //获取当前年
+            var year = myDate.getFullYear();
+            //获取当前月
+            var month = myDate.getMonth() + 1;
+            if (month <= 9) {
+                month = '0' + month.toString()
+            }
+
+            var day = myDate.getDate();
+
+            var startDate = year.toString() + "-" + month.toString() + "-" + day.toString() + "T00:00:00.000";
+            var endDate = year.toString() + "-" + month.toString() + "-" + day.toString() + "T23:59:59.000";
+            //var startDate = "2019-07-21T00:00:00.000"
+            //var endDate = "2019-07-22T00:00:00.000"
+            $("#StartDateTime").val(startDate);
+            $("#EndDateTime").val(endDate);
+
+        });
+    });
+</script>
+<div class="alert alert-danger">
+    由于该查询对服务器性能消耗很大，故一次最多查询100条记录。
+</div>
+<form asp-action="List" method="post" data-ajax="true"
+      data-ajax-mode="replace"
+      data-ajax-update="#ListUserProductValueDetail">
+    <div class="row form-group">
+        <label asp-for="StartDateTime" class=" col-6 col-md-1 col-form-label control-label"></label>
+        <div class="col-md-3 col-6">
+            <input asp-for="StartDateTime" class="form-control" />
+            <span asp-validation-for="StartDateTime" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label asp-for="EndDateTime" class="col-6 col-md-1 col-form-label control-label"></label>
+        <div class="col-md-3 col-6">
+            <input asp-for="EndDateTime" class="form-control" />
+            <span asp-validation-for="EndDateTime" class="text-danger"></span>
+        </div>
+    </div>
+    @*<p>
+            <button id="chooseToday" type="button" class="btn btn-info">今天</button>
+        </p>*@
+    <div style="height:@(pCount*5<18?pCount*5:18)em; overflow:auto;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="selectAllOption">&nbsp;全选/全不选
+                    </th>
+                    <th>
+                        序号
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => headerMetadata.No)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => headerMetadata.Name)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.UserSelectListViewModel.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input asp-for="@Model.ItemChosen[i]" type="checkbox" value="@Model.UserSelectListViewModel[i].Id" />
+                        </td>
+                        <td>
+                            @(i + 1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.UserSelectListViewModel[i].No)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.UserSelectListViewModel[i].Name)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <p>
+        <button class="btn btn-primary">提交</button>
+    </p>
+</form>
+
+<div id="ListUserProductValueDetail">
+
+</div>

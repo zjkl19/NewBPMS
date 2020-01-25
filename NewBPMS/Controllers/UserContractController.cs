@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
 using NewBPMS.Models;
+using NewBPMS.ViewModels;
 using NewBPMS.ViewModels.ContractViewModels;
 using NewBPMS.ViewModels.UserContractViewModels;
 
@@ -40,6 +41,8 @@ namespace NewBPMS.Controllers
             _mapper = mapper;
         }
 
+        private const int maxListUsers = 1000;    //产值详情最大查询记录数量
+
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -57,6 +60,68 @@ namespace NewBPMS.Controllers
             var l = _userContractService.GetSummaryUserProductValue(queryModel).ToList();
 
             return PartialView("_SummaryProductValueList", l);
+        }
+
+        [HttpGet]
+        public IActionResult List()
+        {
+            var userSelectListViewModel = _userRepository.EntityItems.Select(x => new UserSelectViewModel
+            {
+                Id = x.Id,
+                No = x.StaffNo,
+                Name = x.StaffName,
+            }).OrderBy(x => x.No).ToList();
+
+            var model = new ListViewModel
+            {
+               UserSelectListViewModel = userSelectListViewModel,
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult List(ListViewModel model)
+        {
+            var startDateTime = model.StartDateTime;
+            var endDateTime = model.EndDateTime;
+
+            var listViewModels = new List<UserProductValueDetailsViewModel>();
+
+            //积分查询人数最大不超过maxListUsers
+            for (int i = 0; i < (model.ItemChosen.Count <= maxListUsers ? model.ItemChosen.Count : maxListUsers); i++)
+            {
+                if (model.ItemChosen[i] != "false")
+                {
+                    var k = (from p in _userContractRepository.EntityItems
+                             join q in _userRepository.EntityItems
+                             on p.UserId equals q.Id
+                             join r in _contractRepository.EntityItems
+                             on p.ContractId equals r.Id
+                             where p.UserId==model.ItemChosen[i]
+                             select new UserProductValueDetailsViewModel
+                             {
+                                 Labor = (Labor)p.Labor,
+                                 Ratio = p.Ratio,
+                                 StaffNo =q.StaffNo,
+                                 StaffName=q.StaffName,
+                                 ContractNo=r.No,
+                                 ContractName=r.Name,
+                                 Amount=(p.Ratio)*r.Amount
+                             }).ToList();
+
+                    listViewModels.Add(new UserProductValueDetailsViewModel
+                    {
+                        StaffNo = _userRepository.EntityItems.Where(x => x.Id == model.ItemChosen[i]).FirstOrDefault().StaffNo,
+                        StaffName = _userRepository.EntityItems.Where(x => x.Id == model.ItemChosen[i]).FirstOrDefault().StaffName,
+                        ContractNo=_contractRepository
+                        Score = _scoreRecordRepository.EntityItems.Where(x => x.UserId == model.ItemChosen[i] && x.ScoreTime >= startDateTime && x.ScoreTime <= endDateTime).Sum(x => x.Score),
+                    });
+                }
+            }
+
+
+            return PartialView("_ListUserProductValueDetailsPartial", listViewModels);
         }
 
         [HttpGet]
