@@ -19,16 +19,19 @@ namespace NewBPMS.Controllers
     {
         private readonly IContractService _contractService;
         private readonly IContractRepository _contractRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
         public ContractController(
             IMapper mapper,
              IContractService contractService
-           , IContractRepository contractRepository)
+           , IContractRepository contractRepository
+           , IUserRepository userRepository)
         {
             _mapper = mapper;
             _contractService = contractService;
             _contractRepository = contractRepository;
+            _userRepository = userRepository;
         }
 
         [TempData]
@@ -112,7 +115,9 @@ namespace NewBPMS.Controllers
             var model = new DetailsContractViewModel
             {
                 StatusMessage = StatusMessage,
-                ContractViewModel = _mapper.Map<ContractViewModel>(_contractRepository.QueryById(Id)),
+                ContractViewModel = _contractRepository.EntityItems
+                    .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
+                    .Where(p => p.Id == Id).FirstOrDefault(),
                 UserProductValueViewModels = userProductViewModel,
             };
             return View(model);
