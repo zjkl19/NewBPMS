@@ -96,9 +96,14 @@
         })
     });
 </script>
-<h2>@ViewData["Title"]</h2>
+<h4>@ViewData["Title"]</h4>
 
 <hr />
+<div class="row">
+    <p>
+        <a asp-action="Index" class="btn btn-info"><i class="fa fa-arrow-circle-left"></i> 返回</a>
+    </p>
+</div>
 <div class="row">
     <div class="col-4">
         <form asp-action="Create">

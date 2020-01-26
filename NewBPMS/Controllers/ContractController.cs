@@ -94,7 +94,11 @@ namespace NewBPMS.Controllers
 
             return RedirectToAction(nameof(ContractController.Index));
         }
-
+        /// <summary>
+        /// 合同详情，包括产值分配信息
+        /// </summary>
+        /// <param name="Id">合同Id</param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Details(Guid Id)
         {
@@ -108,6 +112,7 @@ namespace NewBPMS.Controllers
             var model = new DetailsContractViewModel
             {
                 StatusMessage = StatusMessage,
+                ContractViewModel = _mapper.Map<ContractViewModel>(_contractRepository.QueryById(Id)),
                 UserProductValueViewModels = userProductViewModel,
             };
             return View(model);

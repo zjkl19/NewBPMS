@@ -12,6 +12,8 @@ namespace NewBPMS.ViewModels.ContractViewModels
     {
         public string StatusMessage { get; set; }
 
+        public ContractViewModel ContractViewModel { get; set; }
+
         public IEnumerable<UserProductValueViewModel> UserProductValueViewModels { get; set; }
 
     }

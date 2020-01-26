@@ -10,7 +10,7 @@
     var headerMetadata = Model.ContractViewModels.FirstOrDefault();
 
 }
-<h3>@ViewData["Title"]</h3>
+<h4>@ViewData["Title"]</h4>
 
 <div>
     <partial name="StatusMessagePartial" model='Model.StatusMessage'>
@@ -89,7 +89,7 @@
     </table>
     if (Model.ContractViewModels.Count() > 10)
     {
-        @Html.PagedListPager((IPagedList)Model.ContractViewModels, page => Url.Action("Index", new { page, ContractName = Model.ContractName }))
+        @Html.PagedListPager((IPagedList)Model.ContractViewModels, page => Url.Action("Index", new { page, ContractNo = Model.ContractNo , ContractName = Model.ContractName }))
     }
 
 }
