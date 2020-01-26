@@ -88,29 +88,58 @@ namespace NewBPMS.Controllers
 
             var listViewModels = new List<UserProductValueDetailsViewModel>();
 
+    //        ContractViewModel = _contractRepository.EntityItems
+    //.Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
+    //.Where(p => p.Id == Id).FirstOrDefault(),
+
             //积分查询人数最大不超过maxListUsers
             for (int i = 0; i < (model.ItemChosen.Count <= maxListUsers ? model.ItemChosen.Count : maxListUsers); i++)
             {
                 if (model.ItemChosen[i] != "false")
                 {
-                    List<UserProductValueDetailsViewModel> k = (from p in _userContractRepository.EntityItems
-                             join q in _userRepository.EntityItems
-                             on p.UserId equals q.Id
-                             join r in _contractRepository.EntityItems
-                             on p.ContractId equals r.Id
-                             where p.UserId==model.ItemChosen[i]
-                             select new UserProductValueDetailsViewModel
-                             {
-                                 Labor = (Labor)p.Labor,
-                                 Ratio = p.Ratio,
-                                 StaffNo =q.StaffNo,
-                                 StaffName=q.StaffName,
-                                 ContractNo=r.No,
-                                 ContractName=r.Name,
-                                 Amount=(p.Ratio)*r.Amount
-                             }).ToList();
+                    //方法1
+                    //List<UserProductValueDetailsViewModel> k = (from p in _userContractRepository.EntityItems
+                    //         join q in _userRepository.EntityItems
+                    //         on p.UserId equals q.Id
+                    //         join r in _contractRepository.EntityItems
+                    //         on p.ContractId equals r.Id
+                    //         where p.UserId==model.ItemChosen[i]
+                    //         select new UserProductValueDetailsViewModel
+                    //         {
+                    //             Labor = (Labor)p.Labor,
+                    //             Ratio = p.Ratio,
+                    //             StaffNo =q.StaffNo,
+                    //             StaffName=q.StaffName,
+                    //             ContractNo=r.No,
+                    //             ContractName=r.Name,
+                    //             Amount=(p.Ratio)*r.Amount
+                    //         }).ToList();
 
-                    listViewModels=listViewModels.Union(k).ToList();
+                    //方法2
+                    //var k = _userContractRepository.EntityItems
+                    //    .Where(p=>p.UserId == model.ItemChosen[i])
+                    //    .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => (p, q))
+                    //    .Join(_contractRepository.EntityItems, s => s.p.ContractId, r => r.Id, (s, r) => 
+                    //    new UserProductValueDetailsViewModel
+                    //    {
+                    //        Labor = (Labor)s.p.Labor,
+                    //        Ratio = s.p.Ratio,
+                    //        StaffNo = s.q.StaffNo,
+                    //        StaffName = s.q.StaffName,
+                    //        ContractNo = r.No,
+                    //        ContractName = r.Name,
+                    //        Amount = (s.p.Ratio) * r.Amount
+                    //    }).ToList();
+
+                    //方法3
+                    var k = _userContractRepository.EntityItems
+                            .Where(p => p.UserId == model.ItemChosen[i])
+                            .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => (p, q))
+                            .Join(_contractRepository.EntityItems, s => s.p.ContractId, r => r.Id, (s, r) =>
+                            _mapper.Map<UserProductValueDetailsViewModel>(s.p));
+      
+
+                    listViewModels = listViewModels.Union(k).ToList();
                 }
             }
 
