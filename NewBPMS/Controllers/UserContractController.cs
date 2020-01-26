@@ -93,7 +93,7 @@ namespace NewBPMS.Controllers
             {
                 if (model.ItemChosen[i] != "false")
                 {
-                    var k = (from p in _userContractRepository.EntityItems
+                    List<UserProductValueDetailsViewModel> k = (from p in _userContractRepository.EntityItems
                              join q in _userRepository.EntityItems
                              on p.UserId equals q.Id
                              join r in _contractRepository.EntityItems
@@ -110,13 +110,7 @@ namespace NewBPMS.Controllers
                                  Amount=(p.Ratio)*r.Amount
                              }).ToList();
 
-                    listViewModels.Add(new UserProductValueDetailsViewModel
-                    {
-                        StaffNo = _userRepository.EntityItems.Where(x => x.Id == model.ItemChosen[i]).FirstOrDefault().StaffNo,
-                        StaffName = _userRepository.EntityItems.Where(x => x.Id == model.ItemChosen[i]).FirstOrDefault().StaffName,
-                        ContractNo=_contractRepository
-                        Score = _scoreRecordRepository.EntityItems.Where(x => x.UserId == model.ItemChosen[i] && x.ScoreTime >= startDateTime && x.ScoreTime <= endDateTime).Sum(x => x.Score),
-                    });
+                    listViewModels=listViewModels.Union(k).ToList();
                 }
             }
 
