@@ -1,5 +1,4 @@
-﻿
-@model ContractIndexViewModel
+﻿@model ContractIndexViewModel
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
 
@@ -23,6 +22,15 @@
             <input asp-for="ContractName" class="form-control" />
             <span asp-validation-for="ContractName" class="text-danger"></span>
         </div>
+    </div>
+    <div class="row form-group">
+        <label asp-for="ContractNo" class="col-4 col-md-1 col-form-label control-label"> </label>
+        <div class="col-4 col-md-3">
+            <input asp-for="ContractNo" class="form-control" />
+            <span asp-validation-for="ContractNo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row form-group">
         <div class="col-4 col-md-3">
             <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> 查询</button>
         </div>
@@ -86,4 +94,4 @@
 
 }
 
-<a asp-action="Create" class="btn btn-primary">添加合同/项目</a>
+<a asp-action="Create" class="btn btn-info"><i class="fa fa-plus"></i> 添加合同/项目</a>

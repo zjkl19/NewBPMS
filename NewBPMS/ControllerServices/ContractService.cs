@@ -28,12 +28,12 @@ namespace NewBPMS.ControllerServices
             _userContractRepository = userContractRepository;
         }
 
-        public IEnumerable<ContractViewModel> GetContractIndexlinqVar(string ContractName = "")
+        public IEnumerable<ContractViewModel> GetContractIndexlinqVar(string ContractNo = "", string ContractName = "")
         {
 
             var linqVar = _contractRepository.EntityItems
                 .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
-                .Where(p => p.Name.Contains(ContractName ?? ""));
+                .Where(p => p.Name.Contains(ContractName ?? "") && (p.No.Contains(ContractNo ?? "")));
 
             return linqVar;
         }

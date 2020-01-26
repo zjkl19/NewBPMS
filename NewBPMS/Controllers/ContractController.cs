@@ -34,14 +34,15 @@ namespace NewBPMS.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-        public IActionResult Index(int? page, string ContractName = "")
+        public IActionResult Index(int? page, string ContractNo = "",string ContractName = "")
         {
-            var linqVar = _contractService.GetContractIndexlinqVar(ContractName);
+            var linqVar = _contractService.GetContractIndexlinqVar(ContractNo, ContractName);
             var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
             var onePageOflinqVar = linqVar.OrderByDescending(x => x.No).ToPagedList(pageNumber, 10); // will only contain 25 products max because of the pageSize
 
             var model = new ContractIndexViewModel
             {
+                ContractNo = ContractNo,
                 ContractName = ContractName,
                 StatusMessage = StatusMessage,
                 ContractViewModels = onePageOflinqVar,
