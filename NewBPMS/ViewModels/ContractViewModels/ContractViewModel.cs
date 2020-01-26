@@ -26,17 +26,15 @@ namespace NewBPMS.ViewModels.ContractViewModels
         /// <summary>
         /// 合同金额（仅含本所检测项目金额，扣除监控费用以及其它所检测费用）
         /// </summary>
+        [Display(Name = "合同额")]
         [Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
-        /// <summary>
-        /// 签订日期
-        /// </summary>
+        [Display(Name = "签订日期")]
+        [DataType(DataType.Date)]
         public DateTime SignedDate { get; set; }
 
-        /// <summary>
-        /// 期限
-        /// </summary>
+        [Display(Name = "期限")]
         public int Deadline { get; set; }
 
         /// <summary>
@@ -44,9 +42,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         /// </summary>
         public int PromisedDeadline { get; set; }
 
-        /// <summary>
-        /// 工作内容
-        /// </summary>
+        [Display(Name = "工作内容")]
         public string JobContent { get; set; }
 
         /// <summary>

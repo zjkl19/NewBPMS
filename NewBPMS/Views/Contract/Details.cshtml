@@ -6,27 +6,47 @@
     var headerMetadata = Model.UserProductValueViewModels.FirstOrDefault();
 }
 
-<h1>@ViewData["Title"]</h1>
-
 <div>
     <partial name="StatusMessagePartial" model='Model.StatusMessage'>
 </div>
+
 <div>
-    <div class="row form-group">
-        <label asp-for="ContractViewModel.Name" class="col-4 col-md-1 col-form-label control-label"> </label>
+    <div class="row">
+        <label asp-for="ContractViewModel.No" class="col-4 col-md-1"> </label>
         <div class="col-4 col-md-3">
-            <input asp-for="ContractViewModel.Name" class="form-control" />
+            @Html.DisplayFor(x => x.ContractViewModel.No)
         </div>
     </div>
-    <div class="row form-group">
-        <label asp-for="ContractViewModel.No" class="col-4 col-md-1 col-form-label control-label"> </label>
+    <div class="row">
+        <label asp-for="ContractViewModel.Name" class="col-4 col-md-1"> </label>
         <div class="col-4 col-md-3">
-            <input asp-for="ContractViewModel.No" class="form-control" />
+            @Html.DisplayFor(x => x.ContractViewModel.Name)
         </div>
     </div>
-    <div class="row form-group">
+    <div class="row">
+        <label asp-for="ContractViewModel.SignedDate" class="col-4 col-md-1"> </label>
         <div class="col-4 col-md-3">
-            <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> 查询</button>
+            @Html.DisplayFor(x => x.ContractViewModel.SignedDate)
+        </div>
+        <label asp-for="ContractViewModel.Deadline" class="col-4 col-md-1"> </label>
+        <div class="col-4 col-md-3">
+            @Html.DisplayFor(x => x.ContractViewModel.Deadline)
+        </div>
+    </div>
+    <div class="row">
+        <label asp-for="ContractViewModel.Amount" class="col-4 col-md-1"> </label>
+        <div class="col-4 col-md-3">
+            @Html.DisplayFor(x => x.ContractViewModel.Amount)
+        </div>
+        <label asp-for="ContractViewModel.UserName" class="col-4 col-md-1"> </label>
+        <div class="col-4 col-md-3">
+            @Html.DisplayFor(x => x.ContractViewModel.UserName)
+        </div>
+    </div>
+    <div class="row">
+        <label asp-for="ContractViewModel.JobContent" class="col-4 col-md-1"> </label>
+        <div class="col-4 col-md-3">
+            @Html.DisplayFor(x => x.ContractViewModel.JobContent)
         </div>
     </div>
 </div>
