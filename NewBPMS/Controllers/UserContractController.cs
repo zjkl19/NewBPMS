@@ -135,8 +135,9 @@ namespace NewBPMS.Controllers
                     var k = _userContractRepository.EntityItems
                             .Where(p => p.UserId == model.ItemChosen[i])
                             .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => (p, q))
-                            .Join(_contractRepository.EntityItems, s => s.p.ContractId, r => r.Id, (s, r) =>
-                            _mapper.Map<UserProductValueDetailsViewModel>(s.p));
+                            .Join(_contractRepository.EntityItems, s => s.p.ContractId, r => r.Id, (s, r) => (s, r))
+                            .Where(x => x.r.FinishStatus == (int)FinishStatus.Finished)
+                            .Select(x => _mapper.Map<UserProductValueDetailsViewModel>(x.s.p));
       
 
                     listViewModels = listViewModels.Union(k).ToList();

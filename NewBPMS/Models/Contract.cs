@@ -96,6 +96,16 @@ namespace NewBPMS.Models
         public DateTime SubmitDateTime { get; set; } = new DateTime(9999, 1, 1);
 
         /// <summary>
+        /// 审核状态
+        /// </summary>
+        public int ReviewStatus { get; set; }
+
+        /// <summary>
+        /// 完成状态
+        /// </summary>
+        public int FinishStatus { get; set; }
+
+        /// <summary>
         /// 完成时间
         /// </summary>
         public DateTime FinishDateTime { get; set; } = new DateTime(9999, 1, 1);

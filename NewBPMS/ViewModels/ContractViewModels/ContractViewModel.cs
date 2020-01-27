@@ -95,10 +95,40 @@ namespace NewBPMS.ViewModels.ContractViewModels
         public string ChangeLog { get; set; }
 
         /// <summary>
+        /// 审核状态
+        /// </summary>
+        public int ReviewStatus { get; set; }
+
+        /// <summary>
+        /// 完成状态
+        /// </summary>
+        public int FinishStatus { get; set; }
+
+        /// <summary>
         /// 1份合同只能由1位职工负责
         /// </summary>
         public string UserId { get; set; }
         [Display(Name = "负责人")]
         public string UserName { get; set; }
+    }
+
+    public enum ReviewStatus
+    {
+        [Display(Name = "未提交")]
+        NotSubmited = 0,
+        [Display(Name = "未校对，未审核")]
+        NotReviewed = 1,
+        [Display(Name = "已校对，待审核")]
+        Checked = 2,
+        [Display(Name = "已审核")]
+        Reviewed = 3,
+    }
+
+    public enum FinishStatus
+    {
+        [Display(Name = "未完成")]
+        NotFinished = 0,
+        [Display(Name = "已完成")]
+        Finished = 1
     }
 }

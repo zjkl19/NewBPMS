@@ -37,10 +37,14 @@ namespace NewBPMS.Models
 
         [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
+
+        public string UserName { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         [ForeignKey("Contract")]
         public Guid ContractId { get; set; }
+
+        public string ContractName { get; set; }
         public virtual Contract Contract { get; set; }
 
 

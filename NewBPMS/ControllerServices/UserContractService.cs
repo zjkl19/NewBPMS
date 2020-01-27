@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
+using NewBPMS.ViewModels.ContractViewModels;
 using NewBPMS.ViewModels.UserContractViewModels;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,7 @@ namespace NewBPMS.ControllerServices
                              join r in _userRepository.EntityItems on p.UserId equals r.Id
                              where q.FinishDateTime >= queryModel.StartDateTime
                              && q.FinishDateTime <= queryModel.EndDateTime
+                             && q.FinishStatus==(int)FinishStatus.Finished
                              select new
                              {
                                  r.StaffName,
