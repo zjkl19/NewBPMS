@@ -82,8 +82,78 @@ namespace NewBPMS.Controllers
             p.CheckDateTime = DateTime.Now;
             p.CheckUserName = user.StaffName;
 
-            await _contractRepository.EditAsync(p);
+            try
+            {
+                await _contractRepository.EditAsync(p);
+            }
+            catch (DbUpdateException ex)
+            {
+
+                throw;
+            }
+
             return RedirectToAction(nameof(Check));
+        }
+        [HttpGet]
+        public IActionResult Review()
+        {
+            var model = new ContractReviewViewModel
+            {
+                StatusMessage = StatusMessage,
+                ContractViewModels = _contractRepository.EntityItems
+                .Where(x => x.CheckStatus == (int)CheckStatus.Checked && x.ReviewStatus==(int)ReviewStatus.NotReviewed)
+                .Select(x => _mapper.Map<ContractViewModel>(x)),
+            };
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ReviewConfirm(Guid Id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var p = await _contractRepository.QueryByIdAsync(Id);
+
+            p.ReviewStatus = (int)ReviewStatus.Reviewed;
+            p.ReviewDateTime = DateTime.Now;
+            p.ReviewUserName = user.StaffName;
+
+            p.FinishStatus = (int)FinishStatus.Finished;
+
+            try
+            {
+                await _contractRepository.EditAsync(p);
+            }
+            catch (DbUpdateException ex)
+            {
+
+                throw;
+            }
+            
+
+            return RedirectToAction(nameof(Check));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RestoreSubmit(Guid Id,string RetAction=nameof(Check))
+        {
+            var p = await _contractRepository.QueryByIdAsync(Id);
+
+            p.SubmitStatus = (int)SubmitStatus.NotSubmitted;
+            p.CheckStatus = (int)CheckStatus.NotChecked;
+            p.ReviewStatus = (int)ReviewStatus.NotReviewed;
+
+            try
+            {
+                await _contractRepository.EditAsync(p);
+            }
+            catch (DbUpdateException ex)
+            {
+
+                throw;
+            }
+
+
+            return RedirectToAction(RetAction);
         }
 
         [HttpGet]

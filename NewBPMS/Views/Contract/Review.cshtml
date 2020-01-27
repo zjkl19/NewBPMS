@@ -1,6 +1,6 @@
-﻿@model ContractCheckViewModel
+﻿@model ContractReviewViewModel
 @{
-    ViewData["Title"] = "校核";
+    ViewData["Title"] = "审核";
 
     int i = 1;
 
@@ -50,8 +50,8 @@
                         @Html.DisplayFor(modelItem => item.UserName)
                     </td>
                     <td>
-                        <a asp-action="CheckConfirm" asp-route-id="@item.Id" class="btn btn-primary">确认</a>
-                        | <a asp-action="RestoreSubmit" asp-route-id="@item.Id" asp-route-RetAction="Check" class="btn btn-danger">回退</a>
+                        <a asp-action="ReviewConfirm" asp-route-id="@item.Id" class="btn btn-primary">确认</a>
+                        | <a asp-action="RestoreSubmit" asp-route-id="@item.Id" asp-route-RetAction="Review" class="btn btn-danger">回退</a>
                     </td>
                 </tr>
 
