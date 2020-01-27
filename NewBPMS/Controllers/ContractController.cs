@@ -40,7 +40,7 @@ namespace NewBPMS.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-        public IActionResult Index(int? page, string ContractNo = "",string ContractName = "")
+        public IActionResult Index(int? page, string ContractNo = "", string ContractName = "")
         {
             var linqVar = _contractService.GetContractIndexlinqVar(ContractNo, ContractName);
             var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
@@ -54,6 +54,26 @@ namespace NewBPMS.Controllers
                 ContractViewModels = onePageOflinqVar,
             };
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Submit(Guid ContractId)
+        {
+            var p = await _contractRepository.QueryByIdAsync(ContractId);
+
+            p.SubmitStatus = (int)SubmitStatus.Submitted;
+
+            try
+            {
+                await _contractRepository.EditAsync(p);
+            }
+            catch (DbUpdateException ex)
+            {
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(Details), new { Id = ContractId });
         }
 
         /// <summary>
@@ -76,7 +96,7 @@ namespace NewBPMS.Controllers
         public async Task<IActionResult> CheckConfirm(Guid Id)
         {
             var user = await _userManager.GetUserAsync(User);
-            var p =await _contractRepository.QueryByIdAsync(Id);
+            var p = await _contractRepository.QueryByIdAsync(Id);
 
             p.CheckStatus = (int)CheckStatus.Checked;
             p.CheckDateTime = DateTime.Now;
@@ -101,7 +121,7 @@ namespace NewBPMS.Controllers
             {
                 StatusMessage = StatusMessage,
                 ContractViewModels = _contractRepository.EntityItems
-                .Where(x => x.CheckStatus == (int)CheckStatus.Checked && x.ReviewStatus==(int)ReviewStatus.NotReviewed)
+                .Where(x => x.CheckStatus == (int)CheckStatus.Checked && x.ReviewStatus == (int)ReviewStatus.NotReviewed)
                 .Select(x => _mapper.Map<ContractViewModel>(x)),
             };
             return View(model);
@@ -128,13 +148,13 @@ namespace NewBPMS.Controllers
 
                 throw;
             }
-            
+
 
             return RedirectToAction(nameof(Check));
         }
 
         [HttpGet]
-        public async Task<IActionResult> RestoreSubmit(Guid Id,string RetAction=nameof(Check))
+        public async Task<IActionResult> RestoreSubmit(Guid Id, string RetAction = nameof(Check))
         {
             var p = await _contractRepository.QueryByIdAsync(Id);
 

@@ -83,7 +83,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         /// <summary>
         /// 提交状态
         /// </summary>
-        public int SubmitStatus { get; set; }
+        public SubmitStatus SubmitStatus { get; set; }
         /// <summary>
         /// 提交时间
         /// </summary>

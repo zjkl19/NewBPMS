@@ -1,0 +1,14 @@
+﻿@model SubmitProductValueViewModel
+<div class="card">
+    <div class="card-body">
+        <form asp-controller="Contract" asp-action="Submit" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="ContractId" hidden>
+            @Html.EditorFor(x => x.TermsAccepted) 我已经完成了该合同要求的所有内容，并且出具了合同要求出具的所有检测报告
+            <span asp-validation-for="TermsAccepted" class="text-danger"></span>
+            <button class="btn btn-success">申请分配产值</button>
+        </form>
+    </div>
+</div>
+

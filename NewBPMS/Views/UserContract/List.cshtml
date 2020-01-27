@@ -6,9 +6,13 @@
 }
 
 <h3>@ViewData["Title"]</h3>
-<div class="alert alert-info">
+@*<div class="alert alert-info">
     积分试行期间，积分规则将会适时调整，带来不便敬请谅解。
 </div>
+<div class="alert alert-danger">
+    由于该查询对服务器性能消耗很大，故一次最多查询100条记录。
+</div>*@
+
 @* 各种功能必须加载的js脚本 *@
 <script src="~/js/SelectAllOption.js"></script>
 <script>
@@ -36,9 +40,7 @@
         });
     });
 </script>
-<div class="alert alert-danger">
-    由于该查询对服务器性能消耗很大，故一次最多查询100条记录。
-</div>
+
 <form asp-action="List" method="post" data-ajax="true"
       data-ajax-mode="replace"
       data-ajax-update="#ListUserProductValueDetail">

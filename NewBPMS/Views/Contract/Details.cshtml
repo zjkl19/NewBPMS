@@ -50,6 +50,13 @@
         </div>
     </div>
 </div>
+<div>
+    <partial name="_SubmitProductValuePartial" 
+     model='new SubmitProductValueViewModel { 
+    ContractId=Model.ContractViewModel.Id
+    ,TermsAccepted=Model.ContractViewModel.SubmitStatus==SubmitStatus.Submitted?true:false}'>
+</div>
+
 
 @if (Model.UserProductValueViewModels.Count() != 0)
 {
