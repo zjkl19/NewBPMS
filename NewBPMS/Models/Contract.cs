@@ -85,21 +85,36 @@ namespace NewBPMS.Models
         /// </summary>
         public int SignStatus { get; set; }
 
+
         /// <summary>
         /// 提交状态
         /// </summary>
         public int SubmitStatus { get; set; }
-
         /// <summary>
         /// 提交时间
         /// </summary>
         public DateTime SubmitDateTime { get; set; } = new DateTime(9999, 1, 1);
+        /// <summary>
+        /// 校核状态
+        /// </summary>
+        public int CheckStatus { get; set; }
 
+        public string CheckUserName { get; set; }
+        /// <summary>
+        /// 提交时间
+        /// </summary>
+        public DateTime CheckDateTime { get; set; } = new DateTime(9999, 1, 1);
         /// <summary>
         /// 审核状态
         /// </summary>
         public int ReviewStatus { get; set; }
 
+        public string ReviewUserName { get; set; }
+
+        /// <summary>
+        /// 审核时间
+        /// </summary>
+        public DateTime ReviewDateTime { get; set; } = new DateTime(9999, 1, 1);
         /// <summary>
         /// 完成状态
         /// </summary>

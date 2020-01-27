@@ -17,6 +17,7 @@ namespace NewBPMS.Controllers
     [Authorize]
     public class ContractController : Controller
     {
+        private readonly IUserManagerRepository _userManager;
         private readonly IContractService _contractService;
         private readonly IContractRepository _contractRepository;
         private readonly IUserRepository _userRepository;
@@ -26,8 +27,10 @@ namespace NewBPMS.Controllers
             IMapper mapper,
              IContractService contractService
            , IContractRepository contractRepository
-           , IUserRepository userRepository)
+           , IUserRepository userRepository
+            , IUserManagerRepository userManager)
         {
+            _userManager = userManager;
             _mapper = mapper;
             _contractService = contractService;
             _contractRepository = contractRepository;
@@ -51,6 +54,36 @@ namespace NewBPMS.Controllers
                 ContractViewModels = onePageOflinqVar,
             };
             return View(model);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Check()
+        {
+            var model = new ContractCheckViewModel
+            {
+                StatusMessage = StatusMessage,
+                ContractViewModels = _contractRepository.EntityItems.Where(x => x.CheckStatus == (int)CheckStatus.NotChecked)
+                .Select(x => _mapper.Map<ContractViewModel>(x)),
+            };
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CheckConfirm(Guid Id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var p =await _contractRepository.QueryByIdAsync(Id);
+
+            p.CheckStatus = (int)CheckStatus.Checked;
+            p.CheckDateTime = DateTime.Now;
+            p.CheckUserName = user.StaffName;
+
+            await _contractRepository.EditAsync(p);
+            return RedirectToAction(nameof(Check));
         }
 
         [HttpGet]

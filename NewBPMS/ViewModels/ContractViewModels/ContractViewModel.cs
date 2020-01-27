@@ -76,33 +76,43 @@ namespace NewBPMS.ViewModels.ContractViewModels
         public int SignStatus { get; set; }
 
         /// <summary>
-        /// 提交状态
-        /// </summary>
-        public int SubmitStatus { get; set; }
-
-        /// <summary>
-        /// 提交时间
-        /// </summary>
-        public DateTime SubmitDateTime { get; set; } = new DateTime(9999, 1, 1);
-        /// <summary>
-        /// 完成时间
-        /// </summary>
-        public DateTime FinishDateTime { get; set; }
-
-        /// <summary>
         /// 变更记录
         /// </summary>
         public string ChangeLog { get; set; }
 
         /// <summary>
+        /// 提交状态
+        /// </summary>
+        public int SubmitStatus { get; set; }
+        /// <summary>
+        /// 提交时间
+        /// </summary>
+        public DateTime SubmitDateTime { get; set; }
+
+        /// <summary>
+        /// 校核状态
+        /// </summary>
+        public int CheckStatus { get; set; }
+        /// <summary>
+        /// 校核时间
+        /// </summary>
+        public DateTime CheckDateTime { get; set; }
+        /// <summary>
         /// 审核状态
         /// </summary>
         public int ReviewStatus { get; set; }
-
+        /// <summary>
+        /// 审核时间
+        /// </summary>
+        public DateTime ReviewDateTime { get; set; } = new DateTime(9999, 1, 1);
         /// <summary>
         /// 完成状态
         /// </summary>
         public int FinishStatus { get; set; }
+        /// <summary>
+        /// 完成时间
+        /// </summary>
+        public DateTime FinishDateTime { get; set; }
 
         /// <summary>
         /// 1份合同只能由1位职工负责
@@ -112,16 +122,28 @@ namespace NewBPMS.ViewModels.ContractViewModels
         public string UserName { get; set; }
     }
 
-    public enum ReviewStatus
+    public enum SubmitStatus
     {
         [Display(Name = "未提交")]
-        NotSubmited = 0,
-        [Display(Name = "未校对，未审核")]
-        NotReviewed = 1,
-        [Display(Name = "已校对，待审核")]
-        Checked = 2,
+        NotSubmitted = 0,
+        [Display(Name = "已提交")]
+        Submitted = 1,
+    }
+
+    public enum CheckStatus
+    {
+        [Display(Name = "未校对")]
+        NotChecked = 0,
+        [Display(Name = "已校对")]
+        Checked = 1,
+    }
+
+    public enum ReviewStatus
+    {
+        [Display(Name = "未审核")]
+        NotReviewed = 0,
         [Display(Name = "已审核")]
-        Reviewed = 3,
+        Reviewed = 1,
     }
 
     public enum FinishStatus

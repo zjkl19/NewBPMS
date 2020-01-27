@@ -1,0 +1,61 @@
+﻿@model ContractCheckViewModel
+@{
+    ViewData["Title"] = "校核";
+
+    int i = 1;
+
+    var headerMetadata = Model.ContractViewModels.FirstOrDefault();
+}
+
+
+@if (Model.ContractViewModels.Count() != 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    序号
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.No)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.UserName)
+                </th>
+
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.ContractViewModels)
+            {
+                <tr>
+                    <td>
+                        @i
+                        @{
+                            i++;
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.No)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        <a asp-action="CheckConfirm" asp-route-id="@item.Id" class="btn btn-primary">确认</a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+
