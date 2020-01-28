@@ -13,6 +13,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         public Guid Id { get; set; }
 
         [Required]
+        [Remote(action: "VerifyContractNo", controller: "Contract", AdditionalFields = "Id")]
         [Display(Name = "编号")]
         public string No { get; set; }
 

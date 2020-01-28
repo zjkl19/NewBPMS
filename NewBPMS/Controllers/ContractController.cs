@@ -56,9 +56,38 @@ namespace NewBPMS.Controllers
             }
 
         }
+
+        public IActionResult VerifyContractNoForEdit([Bind(include: "Id,No")]EditContractViewModel model)
+        {
+            string message = null;
+            var result = IsUnique(model.Id,model.No);
+            if (!result)
+            {
+                message = "已存在合同编号：" + model.No;
+                return Json(message);
+            }
+            else
+            {
+                return Json(true);
+            }
+
+        }
         public bool IsUnique(string No)
         {
             var cnt = _contractRepository.QueryEntity<Contract>(x => x.No == No);
+            if (cnt.Any())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool IsUnique(Guid Id,string No)
+        {
+            var cnt = _contractRepository.QueryEntity<Contract>(x => x.No == No && x.Id!=Id);
             if (cnt.Any())
             {
                 return false;
@@ -276,7 +305,11 @@ namespace NewBPMS.Controllers
         public async Task<IActionResult> Edit(EditContractViewModel model)
         {
             //AsNoTracking
-            
+            if (!IsUnique(model.Id,model.No))
+            {
+                ModelState.AddModelError("No", "已存在合同编号：" + model.No);
+
+            }
 
             if (!ModelState.IsValid)
             {
