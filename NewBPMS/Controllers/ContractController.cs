@@ -57,11 +57,12 @@ namespace NewBPMS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Submit(Guid ContractId)
+        public async Task<IActionResult> Submit(SubmitProductValueViewModel model)
         {
-            var p = await _contractRepository.QueryByIdAsync(ContractId);
+            var p = await _contractRepository.QueryByIdAsync(model.ContractId);
 
             p.SubmitStatus = (int)SubmitStatus.Submitted;
+            p.FinishDateTime = model.FinishDateTime;
 
             try
             {
@@ -73,7 +74,7 @@ namespace NewBPMS.Controllers
                 throw;
             }
 
-            return RedirectToAction(nameof(Details), new { Id = ContractId });
+            return RedirectToAction(nameof(Details), new { Id = model.ContractId });
         }
 
         /// <summary>

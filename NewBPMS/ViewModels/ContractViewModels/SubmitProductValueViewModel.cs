@@ -10,6 +10,9 @@ namespace NewBPMS.ViewModels.ContractViewModels
     {
         public Guid ContractId { get; set; }
 
+        [Display(Name ="完成时间")]
+        [DataType(DataType.Date)]
+        public DateTime FinishDateTime { get; set; }
         [Range(typeof(bool),"true","true",ErrorMessage ="你必须先进行确认")]
         public bool TermsAccepted { get; set; }
     }

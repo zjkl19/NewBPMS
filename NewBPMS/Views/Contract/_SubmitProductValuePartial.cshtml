@@ -5,9 +5,18 @@
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="ContractId" hidden>
-            @Html.EditorFor(x => x.TermsAccepted) 我已经完成了该合同要求的所有内容，并且出具了合同要求出具的所有检测报告
-            <span asp-validation-for="TermsAccepted" class="text-danger"></span>
-            <button class="btn btn-success">申请分配产值</button>
+            <div class="form-group">
+                <label asp-for="FinishDateTime" class="control-label"></label>
+                <input asp-for="FinishDateTime" class="form-control" />
+                <span asp-validation-for="FinishDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(x => x.TermsAccepted) 我已经完成了该合同要求的所有内容，并且出具了合同要求出具的所有检测报告，所有参与人员的产值已经分配完毕
+                <span asp-validation-for="TermsAccepted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success">申请分配产值</button>
+            </div>
         </form>
     </div>
 </div>
