@@ -10,6 +10,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
     {
         public Guid ContractId { get; set; }
 
+        [Required]
         [Display(Name ="完成时间")]
         [DataType(DataType.Date)]
         public DateTime FinishDateTime { get; set; }

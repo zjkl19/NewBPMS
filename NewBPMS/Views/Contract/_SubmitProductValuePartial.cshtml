@@ -11,7 +11,8 @@
                 <span asp-validation-for="FinishDateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @Html.EditorFor(x => x.TermsAccepted) 我已经完成了该合同要求的所有内容，并且出具了合同要求出具的所有检测报告，所有参与人员的产值已经分配完毕
+                @*@Html.EditorFor(x => x.TermsAccepted) 我已经完成了该合同要求的所有内容，并且出具了合同要求出具的所有检测报告，所有参与人员的产值已经分配完毕*@
+                <input asp-for="TermsAccepted" value="@Model.TermsAccepted"> 我已经完成了该合同要求的所有内容，并且出具了合同要求出具的所有检测报告，所有参与人员的产值已经分配完毕
                 <span asp-validation-for="TermsAccepted" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -21,3 +22,4 @@
     </div>
 </div>
 
+<partial name="_ValidationScriptsPartial" />

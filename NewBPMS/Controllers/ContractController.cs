@@ -117,6 +117,11 @@ namespace NewBPMS.Controllers
         [HttpPost]
         public async Task<IActionResult> Submit(SubmitProductValueViewModel model)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var p = await _contractRepository.QueryByIdAsync(model.ContractId);
 
             p.SubmitStatus = (int)SubmitStatus.Submitted;
