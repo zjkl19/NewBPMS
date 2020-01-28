@@ -52,14 +52,24 @@ namespace NewBPMS.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Display(Name = "OA工号")]
+            public int StaffNo { get; set; }
+
+            [Required]
+            [Display(Name = "真实姓名")]
+            public string StaffName { get; set; }
+
+            [Required]
+            //[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "{0}必须至少{2}并且最多{1}字符长度。", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "密码")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "确认密码")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "两次输入的密码不匹配。")]
+            //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -75,7 +85,8 @@ namespace NewBPMS.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, StaffNo = Input.StaffNo, StaffName = Input.StaffName };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
