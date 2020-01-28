@@ -15,6 +15,7 @@ using X.PagedList;
 namespace NewBPMS.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class ContractController : Controller
     {
         private readonly IUserManagerRepository _userManager;
@@ -184,7 +185,6 @@ namespace NewBPMS.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateContractViewModel model)
         {
             //var cnt = await _mainRepository.QueryByNoAsync(model.No);
@@ -242,14 +242,26 @@ namespace NewBPMS.Controllers
         public async Task<IActionResult> Edit(EditContractViewModel model)
         {
             //AsNoTracking
-            //var contract = _contractRepository.EntityItems.Where(x => x.Id == model.Id).FirstOrDefault();
+            
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var contract = _contractRepository.EntityItems.Where(x => x.Id == model.Id).FirstOrDefault();
+            contract.Name = model.Name;
+            contract.No = model.No;
+            contract.JobContent = model.JobContent;
+            contract.Amount = model.Amount;
+            contract.SignedDate = model.SignedDate;
+            contract.Deadline = model.Deadline;
+            contract.FinishDateTime = model.FinishDateTime;
 
             try
             {
 
-                var itemToEdit = _mapper.Map<Contract>(model);
-
-                await _contractRepository.EditAsync(itemToEdit);
+                await _contractRepository.EditAsync(contract);
 
                 //StatusMessage = $"成功编辑\"参与人员\"{model.StaffName}";
                 StatusMessage = $"成功编辑\"合同\"";
@@ -305,7 +317,6 @@ namespace NewBPMS.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid Id)
         {
             if (Id == null)

@@ -99,57 +99,75 @@
 <h4>@ViewData["Title"]</h4>
 
 <hr />
-<div class="row">
-    <p>
-        <a asp-action="Index" class="btn btn-info"><i class="fa fa-arrow-circle-left"></i> 返回</a>
-    </p>
-</div>
-<div class="row">
-    <div class="col-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+
+<a asp-action="Index" class="btn btn-info"><i class="fa fa-arrow-circle-left"></i> 返回合同列表</a>
+<div>
+
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row form-group ">
+            <label asp-for="Name" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
+            <div class="col-md-4">
+                <textarea asp-for="Name" class="form-control" />@Html.DisplayFor(x => x.Name)</textarea>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="No" class="control-label"></label>
+        </div>
+
+        <div class="row form-group">
+            <label asp-for="No" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
+            <div class="col-7 col-md-4">
                 <input asp-for="No" class="form-control" />
                 <span asp-validation-for="No" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="JobContent" class="control-label"></label>
-                <input asp-for="JobContent" class="form-control" />
+        </div>
+
+        <div class="row form-group ">
+            <label asp-for="JobContent" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
+            <div class="col-md-4">
+                <textarea asp-for="JobContent" class="form-control" />@Html.DisplayFor(x => x.JobContent)</textarea>
                 <span asp-validation-for="JobContent" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
+        <div class="row form-group">
+            <label asp-for="Amount" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
+            <div class="col-7 col-md-4">
                 <input asp-for="Amount" class="form-control" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="SignedDate" class="control-label"></label>
+        <div class="row form-group">
+            <label asp-for="SignedDate" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
+            <div class="col-7 col-md-4">
                 <input asp-for="SignedDate" class="form-control" />
                 <span asp-validation-for="SignedDate" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" type="hidden" class="form-control" />
-                <input type="button" data-toggle="modal" data-target="#popup_id" value="选择负责人" />
+        <div class="row form-group">
+            <label asp-for="Deadline" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
+            <div class="col-7 col-md-4">
+                <input asp-for="Deadline" class="form-control" />
+                <span asp-validation-for="Deadline" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="row form-group">
+            <input asp-for="UserId" type="hidden" class="form-control" />
+            <div class="col-md-2">
+                <input class="btn btn-primary" type="button" data-toggle="modal" data-target="#popup_id" value="选择负责人" />
                 <span asp-validation-for="UserId" class="text-danger"></span>
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" readonly />
             </div>
+            <label asp-for="UserName" class="control-label font-weight-bold col-md-1"></label>
+            <input asp-for="UserName" class="form-control col-md-3 text-left" readonly />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="创建" class="btn btn-success" />
+        </div>
+    </form>
 
-            <div class="form-group">
-                <input type="submit" value="添加" class="btn btn-success" />
-            </div>
-        </form>
-    </div>
 </div>
 
 <div>
@@ -199,3 +217,6 @@
 </div>
 
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

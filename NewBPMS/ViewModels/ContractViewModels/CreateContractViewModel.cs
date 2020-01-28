@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,13 +20,11 @@ namespace NewBPMS.ViewModels.ContractViewModels
 
 
         [Display(Name = "总金额")]    //（仅含本所检测项目金额）
-        [Column(TypeName = "money")]
         public decimal TotalAmount { get; set; }
 
         [Required]
         //合同金额（仅含本所检测项目金额，扣除如监控、维养费用以及其它所检测费用）
         [Display(Name = "合同金额")]
-        [Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
         [Required]
@@ -54,6 +53,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         public string ClientContactPersonPhone { get; set; }
 
         //已所有报告出具作为界定合同完成的唯一标准
+        [BindNever]
         [Display(Name = "合同完成时间")]
         public DateTime FinishDateTime { get; set; }
 
