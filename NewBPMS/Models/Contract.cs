@@ -136,7 +136,10 @@ namespace NewBPMS.Models
         [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-
+        /// <summary>
+        /// 对应ApplicationUser
+        /// </summary>
+        public string UserName { get; set; }
         //[ForeignKey("CreateStaff")]
         //public Guid CreateStaffId { get; set; }
 

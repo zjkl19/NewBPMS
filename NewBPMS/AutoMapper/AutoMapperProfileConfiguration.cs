@@ -10,6 +10,10 @@ namespace NewBPMS.AutoMapper
     {
         public AutoMapperProfileConfiguration()
         {
+            CreateMap<Contract, EditContractViewModel>();
+
+            CreateMap<EditContractViewModel, Contract>();
+
 
             CreateMap<Contract, DeleteContractViewModel>()
                 .ForMember(dest => dest.UserName, src => src.MapFrom(x => x.ApplicationUser.StaffName));

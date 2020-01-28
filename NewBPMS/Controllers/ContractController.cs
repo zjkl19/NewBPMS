@@ -221,6 +221,48 @@ namespace NewBPMS.Controllers
 
             return RedirectToAction(nameof(ContractController.Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid Id)
+        {
+
+            //查询项目负责人
+            var item = _contractRepository.EntityItems.Where(x => x.Id == Id).FirstOrDefault();
+
+            var itemToEdit = _mapper.Map<EditContractViewModel>(item);
+
+
+            //TODO:AutoMapper重构
+            //var userContractToEdit = _mapper.Map<EditUserContractViewModel>(userContract);
+
+            return View(itemToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditContractViewModel model)
+        {
+
+            var contract = _contractRepository.EntityItems.Where(x => x.Id == model.Id).FirstOrDefault();
+
+            try
+            {
+
+                var itemToEdit = _mapper.Map<Contract>(model);
+
+                await _contractRepository.EditAsync(itemToEdit);
+
+                //StatusMessage = $"成功编辑\"参与人员\"{model.StaffName}";
+                StatusMessage = $"成功编辑\"合同\"";
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
         /// <summary>
         /// 合同详情，包括产值分配信息
         /// </summary>
