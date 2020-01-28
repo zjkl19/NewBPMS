@@ -38,7 +38,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NewBPMS</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><span class="fa fa-home"></span></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -47,7 +47,7 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">首页</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Contract" asp-action="Index">合同/项目管理</a>
@@ -64,9 +64,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="UserContract" asp-action="Index">产值汇总</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -80,7 +78,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - NewBPMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            桥隧项目管理系统 版本：v3.0 | <a href="https://dotnet.microsoft.com/learn/web/what-is-aspnet-core">Powered by .NET Core 3.1</a> | &copy; 2020 - 福建省建筑科学研究院有限责任公司 - 福建省建筑工程质量检测中心有限公司 | <a asp-area="" asp-controller="Home" asp-action="Privacy">隐私策略</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

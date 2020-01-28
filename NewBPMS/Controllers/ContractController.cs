@@ -145,7 +145,8 @@ namespace NewBPMS.Controllers
             var model = new ContractCheckViewModel
             {
                 StatusMessage = StatusMessage,
-                ContractViewModels = _contractRepository.EntityItems.Where(x => x.CheckStatus == (int)CheckStatus.NotChecked)
+                ContractViewModels = _contractRepository.EntityItems
+                .Where(x => x.CheckStatus == (int)CheckStatus.NotChecked && x.SubmitStatus==(int)SubmitStatus.Submitted)
                 .Select(x => _mapper.Map<ContractViewModel>(x)),
             };
             return View(model);
@@ -180,7 +181,9 @@ namespace NewBPMS.Controllers
             {
                 StatusMessage = StatusMessage,
                 ContractViewModels = _contractRepository.EntityItems
-                .Where(x => x.CheckStatus == (int)CheckStatus.Checked && x.ReviewStatus == (int)ReviewStatus.NotReviewed)
+                .Where(x => x.SubmitStatus==(int)SubmitStatus.Submitted
+                && x.CheckStatus == (int)CheckStatus.Checked
+                && x.ReviewStatus == (int)ReviewStatus.NotReviewed)
                 .Select(x => _mapper.Map<ContractViewModel>(x)),
             };
             return View(model);
