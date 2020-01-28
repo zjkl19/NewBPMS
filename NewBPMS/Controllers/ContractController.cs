@@ -241,8 +241,8 @@ namespace NewBPMS.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditContractViewModel model)
         {
-
-            var contract = _contractRepository.EntityItems.Where(x => x.Id == model.Id).FirstOrDefault();
+            //AsNoTracking
+            //var contract = _contractRepository.EntityItems.Where(x => x.Id == model.Id).FirstOrDefault();
 
             try
             {

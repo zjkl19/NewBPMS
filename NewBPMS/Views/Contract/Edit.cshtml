@@ -98,9 +98,8 @@
 <a asp-action="Index" class="btn btn-info"><i class="fa fa-arrow-circle-left"></i> 返回合同列表</a>
 <div>
 
-    <form asp-action="Edit">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+    <form asp-action="Edit" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="row form-group ">
             <label asp-for="Name" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
             <div class="col-md-4">
@@ -142,6 +141,14 @@
         </div>
 
         <div class="row form-group">
+            <label asp-for="Deadline" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
+            <div class="col-7 col-md-4">
+                <input asp-for="Deadline" class="form-control" />
+                <span asp-validation-for="Deadline" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row form-group">
             <label asp-for="FinishDateTime" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
             <div class="col-7 col-md-4">
                 <input asp-for="FinishDateTime" class="form-control" />
@@ -151,16 +158,14 @@
 
 
         <div class="row form-group">
-
             <input asp-for="UserId" type="hidden" class="form-control" />
             <div class="col-md-2">
                 <input class="btn btn-primary" type="button" data-toggle="modal" data-target="#popup_id" value="选择负责人" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
-            <span asp-validation-for="UserId" class="text-danger"></span>
             <label asp-for="UserName" class="control-label font-weight-bold col-md-1"></label>
-            <input asp-for="UserName" class="form-control col-md-1" readonly />
+            <input asp-for="UserName" class="form-control col-md-3 text-left" readonly />
         </div>
-
         <div class="form-group">
             <input type="submit" value="编辑" class="btn btn-success" />
         </div>
@@ -208,3 +213,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
