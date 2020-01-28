@@ -254,8 +254,11 @@ namespace NewBPMS.Controllers
             {
                 return NotFound();
             }
-            var linqVar = await _contractRepository.QueryByIdAsync(Id);
-            var model = _mapper.Map<DeleteContractViewModel>(linqVar);
+            var model = _contractRepository.EntityItems
+                .Where(p => p.Id == Id)
+                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<DeleteContractViewModel>(p))
+                    .FirstOrDefault();
+
             return View(model);
         }
 

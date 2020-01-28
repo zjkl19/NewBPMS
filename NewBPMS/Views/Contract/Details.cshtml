@@ -57,6 +57,7 @@
     ,TermsAccepted=Model.ContractViewModel.SubmitStatus==SubmitStatus.Submitted?true:false}'>
 </div>
 
+<hr />
 
 @if (Model.UserProductValueViewModels.Count() != 0)
 {
@@ -122,6 +123,8 @@
     </table>
 
 }
+
+
 
 <a asp-controller="UserContract" asp-action="Create" asp-route-ContractId="@Model.UserProductValueViewModels.FirstOrDefault().ContractId"
    data-ajax="true"

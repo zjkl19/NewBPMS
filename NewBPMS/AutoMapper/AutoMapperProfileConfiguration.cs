@@ -11,8 +11,8 @@ namespace NewBPMS.AutoMapper
         public AutoMapperProfileConfiguration()
         {
 
-            CreateMap<Contract, DeleteContractViewModel>();
-
+            CreateMap<Contract, DeleteContractViewModel>()
+                .ForMember(dest => dest.UserName, src => src.MapFrom(x => x.ApplicationUser.StaffName));
             //CreateMap<source, destination>()
             CreateMap<Contract, ContractViewModel>()
             //    .ForMember(dest => dest.EngineeringStatus, src => src.MapFrom(x => x.EngineeringStatus))
