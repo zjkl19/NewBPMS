@@ -20,9 +20,12 @@ namespace NewBPMS.ViewModels.UserContractViewModels
         [Display(Name = "姓名")]
         public string StaffName { get; set; }
 
+        [Required]
         [Display(Name = "分工")]
         public Labor Labor { get; set; }
 
+        [Required]
+        [Range(0, 1)]
         [Display(Name = "产值比例")]
         public decimal Ratio { get; set; }
 

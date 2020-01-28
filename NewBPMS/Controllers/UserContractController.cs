@@ -156,7 +156,7 @@ namespace NewBPMS.Controllers
             //查询项目负责人
             var userContract = _userContractRepository.EntityItems.Where(x => x.Id == Id).FirstOrDefault();
 
-            var userContractToEdit = from p in _userContractRepository.EntityItems
+            var userContractToEdit = (from p in _userContractRepository.EntityItems
                           join q in _userRepository.EntityItems
                           on p.UserId equals q.Id
                           where p.Id == Id
@@ -168,7 +168,7 @@ namespace NewBPMS.Controllers
                               ContractId = userContract.ContractId,
                               UserId = userContract.UserId,
                               StaffName=q.StaffName
-                          };
+                          }).FirstOrDefault();
 
             //if (user.Id != contract.UserId)
             //{

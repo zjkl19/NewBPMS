@@ -126,7 +126,7 @@
                 <td class="form-group">
 
                     <select asp-for="Labor" asp-items="Html.GetEnumSelectList<Labor>()" class="form-control"></select>
-                    <span asp-validation-for="Labor" class="text-danger"></span>
+
                 </td>
                 <td class="form-group">
                     <input asp-for="Ratio" placeholder="例:0.35" class="form-control" />
@@ -195,3 +195,6 @@
         </div>
     </div>
 </div>
+
+
+<partial name="_ValidationScriptsPartial" />
