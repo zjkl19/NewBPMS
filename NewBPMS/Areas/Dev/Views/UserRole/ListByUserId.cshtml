@@ -1,0 +1,75 @@
+﻿@model UserRoleListViewModel
+
+@{
+    ViewData["Title"] = "用户角色";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+@{
+    int i = 1;
+
+    var headerMetadata = Model.UserRoleViewModels.FirstOrDefault();
+
+}
+<div>
+    <partial name="StatusMessagePartial" model='Model.StatusMessage'>
+</div>
+<div>
+    @Html.DisplayNameFor(model => model.Email):@Html.DisplayFor(model => model.Email)
+</div>
+<div>
+    @Html.DisplayNameFor(model => model.UserName):@Html.DisplayFor(model => model.UserName)
+</div>
+<div>
+    @Html.DisplayNameFor(model => model.StaffName):@Html.DisplayFor(model => model.StaffName)
+</div>
+
+<p>
+    <a asp-action="Create" asp-route-UserId="@Model.UserId" class="btn btn-primary">添加用户角色</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+
+            <th>
+                序号
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => headerMetadata.RoleName)
+            </th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UserRoleViewModels)
+        {
+            <tr>
+                <td>
+                    @i
+                    @{
+                        i++;
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    <a asp-action="DeleteUserRole" asp-route-UserId="@Model.UserId" class="btn btn-danger"
+                       data-ajax="true"
+                       data-ajax-mode="replace"
+                       data-ajax-loading="#globalLoading"
+                       data-ajax-loading-duration=1000
+                       data-ajax-update="#ajaxUserRolesBody"
+                       method="get">删除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-controller="User" asp-action="Index" class="btn btn-secondary">返回</a>
+</div>
+

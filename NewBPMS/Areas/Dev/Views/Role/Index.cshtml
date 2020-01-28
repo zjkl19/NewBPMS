@@ -1,0 +1,76 @@
+﻿@model RoleIndexViewModel
+
+@{
+    ViewData["Title"] = "角色管理";
+
+    int i = 1;
+
+    RoleViewModel headerMetadata;
+}
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <partial name="StatusMessagePartial" model='Model.StatusMessage'>
+</div>
+<hr />
+@if (Model.RoleViewModels.Count() != 0)
+{
+    headerMetadata = Model.RoleViewModels.FirstOrDefault();
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    序号
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Description)
+                </th>
+
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.RoleViewModels)
+            {
+                <tr>
+                    <td>
+                        @i
+                        @{
+                            i++;
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">编辑</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">删除</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+<div>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">添加新角色</a>
+    </p>
+    <p>
+        <a asp-controller="Dev" asp-action="Index" class="btn btn-secondary">返回</a>
+    </p>
+
+</div>

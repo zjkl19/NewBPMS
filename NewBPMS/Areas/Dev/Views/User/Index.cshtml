@@ -1,0 +1,105 @@
+﻿
+@model UserIndexViewModel
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@{
+    ViewData["Title"] = "权限管理";
+
+    int i = 1;
+
+    ApplicationUserViewModel headerMetadata;// = Model.ApplicationUserViewModels.FirstOrDefault();
+
+}
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <partial name="StatusMessagePartial" model='Model.StatusMessage'>
+</div>
+
+<form asp-action="Index">
+    <div class="row form-group">
+        <label asp-for="StaffName" class="col-4 col-md-1 col-form-label control-label"> </label>
+
+        <div class="col-4 col-md-3">
+            <input asp-for="StaffName"  class="form-control" />
+            <span asp-validation-for="StaffName" class="text-danger"></span>
+        </div>
+        <div class="col-3 col-md-1">
+            <button class="btn btn-primary" type="submit">查询</button>
+        </div>
+    </div>
+</form>
+<hr/>
+@if (Model.ApplicationUserViewModels.Count()!=0)
+{
+     headerMetadata = Model.ApplicationUserViewModels.FirstOrDefault();
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    序号
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.StaffId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.StaffName)
+                </th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.ApplicationUserViewModels)
+            {
+            <tr>
+                <td>
+                    @i
+                    @{
+                        i++;
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StaffId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StaffName)
+                </td>
+
+                <td>
+                    <a asp-area="Dev" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary" target="_blank">编辑</a> |
+                    <a asp-area="Dev" asp-action="DeleteUser" asp-route-id="@item.Id" class="btn btn-danger">删除</a> |
+                    <a asp-area="Dev" asp-controller="UserRole" asp-action="ListByUserId" asp-route-id="@item.Id" class="btn btn-primary">用户角色</a> | 
+                    <a asp-action="ResetPassword" asp-route-id="@item.Id" class="btn btn-danger">重置密码</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    if (Model.ApplicationUserViewModels.Count() > 10)
+    {
+        @Html.PagedListPager((IPagedList)Model.ApplicationUserViewModels, page => Url.Action("Index", new { page, StaffName = Model.StaffName }))
+    }
+}
+<div>
+    <p>
+        <a asp-controller="Dev" asp-action="Index" class="btn btn-secondary">返回</a>
+    </p>
+</div>
+
+
+
+
