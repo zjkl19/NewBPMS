@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
     public class CreateContractViewModel
     {
         [Required]
+        [Remote(action: "VerifyContractNo", controller: "Contract")]
         [Display(Name = "编号")]
         public string No { get; set; }
 

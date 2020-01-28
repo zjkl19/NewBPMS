@@ -41,6 +41,34 @@ namespace NewBPMS.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
+        public IActionResult VerifyContractNo([Bind(include: "No")]CreateContractViewModel model)
+        {
+            string message = null;
+            var result = IsUnique(model.No);
+            if (!result)
+            {
+                message = "已存在合同编号：" + model.No;
+                return Json(message);
+            }
+            else
+            {
+                return Json(true);
+            }
+
+        }
+        public bool IsUnique(string No)
+        {
+            var cnt = _contractRepository.QueryEntity<Contract>(x => x.No == No);
+            if (cnt.Any())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public IActionResult Index(int? page, string ContractNo = "", string ContractName = "")
         {
             var linqVar = _contractService.GetContractIndexlinqVar(ContractNo, ContractName);
@@ -193,6 +221,12 @@ namespace NewBPMS.Controllers
             //    ModelState.AddModelError("No", "已存在合同编号：" + model.No);
 
             //}
+
+            if (!IsUnique(model.No))
+            {
+                ModelState.AddModelError("No", "已存在合同编号：" + model.No);
+
+            }
 
             if (!ModelState.IsValid)
             {
