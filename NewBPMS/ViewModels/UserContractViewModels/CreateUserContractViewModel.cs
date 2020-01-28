@@ -22,7 +22,7 @@ namespace NewBPMS.ViewModels.UserContractViewModels
         public Labor Labor { get; set; }
 
         [Required]
-        [Range(0,1)]
+        [Remote(action: "IsTotalRatioNotGreaterThenOneForCreate", controller: "UserContract", AdditionalFields = "ContractId")]
         [Display(Name = "产值比例")]
         public decimal Ratio { get; set; }
 

@@ -16,6 +16,7 @@ using NewBPMS.ViewModels.UserContractViewModels;
 namespace NewBPMS.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class UserContractController : Controller
     {
         private readonly IUserManagerRepository _userManager;
@@ -29,7 +30,7 @@ namespace NewBPMS.Controllers
             IUserManagerRepository userManager
              , IUserContractRepository userContractRepository
              , IUserContractService userContractService
-             ,IUserRepository userRepository
+             , IUserRepository userRepository
              , IContractRepository contractRepository
             , IMapper mapper)
         {
@@ -74,7 +75,7 @@ namespace NewBPMS.Controllers
 
             var model = new ListViewModel
             {
-               UserSelectListViewModel = userSelectListViewModel,
+                UserSelectListViewModel = userSelectListViewModel,
             };
             return View(model);
         }
@@ -88,9 +89,9 @@ namespace NewBPMS.Controllers
 
             var listViewModels = new List<UserProductValueDetailsViewModel>();
 
-    //        ContractViewModel = _contractRepository.EntityItems
-    //.Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
-    //.Where(p => p.Id == Id).FirstOrDefault(),
+            //        ContractViewModel = _contractRepository.EntityItems
+            //.Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
+            //.Where(p => p.Id == Id).FirstOrDefault(),
 
             //积分查询人数最大不超过maxListUsers
             for (int i = 0; i < (model.ItemChosen.Count <= maxListUsers ? model.ItemChosen.Count : maxListUsers); i++)
@@ -138,7 +139,7 @@ namespace NewBPMS.Controllers
                             .Join(_contractRepository.EntityItems, s => s.p.ContractId, r => r.Id, (s, r) => (s, r))
                             .Where(x => x.r.FinishStatus == (int)FinishStatus.Finished)
                             .Select(x => _mapper.Map<UserProductValueDetailsViewModel>(x.s.p));
-      
+
 
                     listViewModels = listViewModels.Union(k).ToList();
                 }
@@ -157,18 +158,18 @@ namespace NewBPMS.Controllers
             var userContract = _userContractRepository.EntityItems.Where(x => x.Id == Id).FirstOrDefault();
 
             var userContractToEdit = (from p in _userContractRepository.EntityItems
-                          join q in _userRepository.EntityItems
-                          on p.UserId equals q.Id
-                          where p.Id == Id
-                          select new EditUserContractViewModel
-                          {
-                              Id = userContract.Id,
-                              Labor = (Labor)userContract.Labor,
-                              Ratio = userContract.Ratio,
-                              ContractId = userContract.ContractId,
-                              UserId = userContract.UserId,
-                              StaffName=q.StaffName
-                          }).FirstOrDefault();
+                                      join q in _userRepository.EntityItems
+                                      on p.UserId equals q.Id
+                                      where p.Id == Id
+                                      select new EditUserContractViewModel
+                                      {
+                                          Id = userContract.Id,
+                                          Labor = (Labor)userContract.Labor,
+                                          Ratio = userContract.Ratio,
+                                          ContractId = userContract.ContractId,
+                                          UserId = userContract.UserId,
+                                          StaffName = q.StaffName
+                                      }).FirstOrDefault();
 
             //if (user.Id != contract.UserId)
             //{
@@ -178,12 +179,94 @@ namespace NewBPMS.Controllers
             //TODO:AutoMapper重构
             //var userContractToEdit = _mapper.Map<EditUserContractViewModel>(userContract);
 
-            return PartialView("Edit", userContractToEdit );
+            return PartialView("Edit", userContractToEdit);
+        }
+
+        public IActionResult IsTotalRatioNotGreaterThenOneForCreate([Bind(include: "ContractId,Ratio")]CreateUserContractViewModel model)
+        {
+            string message = null;
+            var result = IsTotalRatioNotGreaterThenOne(model.ContractId, model.Ratio);
+            if (result)
+            {
+                return Json(true);
+
+            }
+            else
+            {
+                message = $"产值分配比例之和不能大于1";
+                return Json(message);
+            }
+
+        }
+
+        public IActionResult IsTotalRatioNotGreaterThenOneForEdit([Bind(include: "Id,ContractId,Ratio")]EditUserContractViewModel model)
+        {
+            string message = null;
+            var result = IsTotalRatioNotGreaterThenOne(model.Id, model.ContractId, model.Ratio);
+            if (result)
+            {
+                return Json(true);
+
+            }
+            else
+            {
+                message = $"产值分配比例之和不能大于1";
+                return Json(message);
+            }
+
+        }
+
+        public bool IsTotalRatioNotGreaterThenOne(Guid ContractId, decimal ratio)
+        {
+
+            decimal itemRatio = _userContractRepository.EntityItems.Where(p => p.ContractId == ContractId).Sum(p => p.Ratio);
+
+            decimal totalRatio = itemRatio + ratio;
+
+            if (totalRatio > 1)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        //重载
+        public bool IsTotalRatioNotGreaterThenOne(Guid Id, Guid ContractId, decimal ratio)
+        {
+
+            var itemEdit = _userContractRepository.EntityItems.Where(p => p.Id == Id).FirstOrDefault();
+
+            decimal itemRatio = _userContractRepository.EntityItems
+                .Where(p => p.ContractId == ContractId && p.Id != Id).Sum(p => p.Ratio);
+
+            decimal totalRatio = itemRatio + ratio;    //正在编辑的比例要扣掉
+
+            if (totalRatio > 1)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserContractViewModel model)
         {
+            if (!IsTotalRatioNotGreaterThenOne(model.Id, model.ContractId, model.Ratio))
+            {
+                ModelState.AddModelError("Ratio", "产值总比例之和不能大于1");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _userManager.GetUserAsync(User).ConfigureAwait(false);
 
             var contract = _contractRepository.EntityItems.Where(x => x.Id == model.ContractId).FirstOrDefault();
@@ -196,7 +279,10 @@ namespace NewBPMS.Controllers
             try
             {
 
-                var userContractToEdit = _mapper.Map<UserContract>(model);
+                //var userContractToEdit = _mapper.Map<UserContract>(model);
+                var userContractToEdit = _userContractRepository.EntityItems.Where(x => x.Id == model.Id).FirstOrDefault();
+                userContractToEdit.Labor = (int)model.Labor;
+                userContractToEdit.Ratio = model.Ratio;
 
                 await _userContractRepository.EditAsync(userContractToEdit);
 
@@ -215,12 +301,22 @@ namespace NewBPMS.Controllers
         [HttpGet]
         public IActionResult Create(Guid ContractId)
         {
-            return PartialView("Create", new CreateUserContractViewModel { ContractId = ContractId});
+            return PartialView("Create", new CreateUserContractViewModel { ContractId = ContractId });
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserContractViewModel model)
         {
+            if (!IsTotalRatioNotGreaterThenOne(model.ContractId, model.Ratio))
+            {
+                ModelState.AddModelError("Ratio", "产值总比例之和不能大于1");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _userManager.GetUserAsync(User).ConfigureAwait(false);
 
             var contract = _contractRepository.EntityItems.Where(x => x.Id == model.ContractId).FirstOrDefault();
@@ -246,7 +342,7 @@ namespace NewBPMS.Controllers
                 throw (ex);
             }
 
-            return RedirectToAction("Details","Contract",new {Id=model.ContractId });
+            return RedirectToAction("Details", "Contract", new { Id = model.ContractId });
         }
 
 
@@ -281,7 +377,7 @@ namespace NewBPMS.Controllers
                 throw ex;
             }
 
-            return RedirectToAction("Details", "Contract", new { Id =varDeleted.ContractId });
+            return RedirectToAction("Details", "Contract", new { Id = varDeleted.ContractId });
 
         }
         //[HttpPost]
