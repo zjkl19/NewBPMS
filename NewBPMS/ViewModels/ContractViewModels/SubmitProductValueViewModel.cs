@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NewBPMS.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace NewBPMS.ViewModels.ContractViewModels
         [Display(Name ="完成时间")]
         [DataType(DataType.Date)]
         public DateTime FinishDateTime { get; set; }
-        [Range(typeof(bool),"true","true",ErrorMessage ="你必须先进行确认")]
-        public bool TermsAccepted { get; set; }
+        //[Range(typeof(bool),"true","true",ErrorMessage ="你必须先进行确认")]
+        [MustBeTrue(ErrorMessage ="你需要先进行确认")]
+        public string TermsAccepted { get; set; }
     }
 }

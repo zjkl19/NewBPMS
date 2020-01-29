@@ -54,7 +54,7 @@
     <partial name="_SubmitProductValuePartial" 
      model='new SubmitProductValueViewModel { 
     ContractId=Model.ContractViewModel.Id
-    ,TermsAccepted=Model.ContractViewModel.SubmitStatus==SubmitStatus.Submitted?true:false}'>
+    ,TermsAccepted=Model.ContractViewModel.SubmitStatus==SubmitStatus.Submitted?"true":"false"}'>
 </div>
 
 <hr />

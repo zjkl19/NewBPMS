@@ -1,7 +1,7 @@
 ﻿@model SubmitProductValueViewModel
 <div class="card">
     <div class="card-body">
-        <form asp-controller="Contract" asp-action="Submit" method="post">
+        <form id="SubmitProductValue" asp-controller="Contract" asp-action="Submit" method="post">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="ContractId" hidden>
@@ -12,7 +12,7 @@
             </div>
             <div class="form-group">
                 @*@Html.EditorFor(x => x.TermsAccepted) 我已经完成了该合同要求的所有内容，并且出具了合同要求出具的所有检测报告，所有参与人员的产值已经分配完毕*@
-                <input asp-for="TermsAccepted" value="@Model.TermsAccepted"> 我已经完成了该合同要求的所有内容，并且出具了合同要求出具的所有检测报告，所有参与人员的产值已经分配完毕
+                <input type="checkbox" asp-for="TermsAccepted" value="@Model.TermsAccepted"> 我已经完成了该合同要求的所有内容，并且出具了合同要求出具的所有检测报告，所有参与人员的产值已经分配完毕
                 <span asp-validation-for="TermsAccepted" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -23,3 +23,27 @@
 </div>
 
 <partial name="_ValidationScriptsPartial" />
+<script>
+    //https://www.jb51.net/article/158152.htm
+    //添加验证方法
+$.validator.addMethod('MustBeTrue',function (value, element, params) {
+     //value ，是当前验证的元素的值。
+     //element 元素本身。
+     //params 是传入的参数(options.rules)
+    var termsAccepted = $("#SubmitProductValue").find("#TermsAccepted").val();
+    if ($("#TermsAccepted")[0].checked) {
+        return true;
+    }
+    else {
+        return false;
+    }
+    
+  });
+ 
+//注册一个适配器，参数1是适配器名称,参数2是验证规则的名称
+$.validator.unobtrusive.adapters.add('MustBeTrue',[''],function (options) {
+    //适配器规则绑定到jquery validation上面
+    options.rules['MustBeTrue'] = [(options.params[''])];
+    options.messages['MustBeTrue'] = options.message;
+  });
+</script>
