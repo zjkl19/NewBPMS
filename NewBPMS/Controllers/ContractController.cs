@@ -114,6 +114,34 @@ namespace NewBPMS.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Restore(Guid Id)
+        {
+            if (Id==null)
+            {
+                return NotFound();
+            }
+
+            var p = await _contractRepository.QueryByIdAsync(Id);
+
+            p.SubmitStatus = (int)SubmitStatus.NotSubmitted;
+            p.CheckStatus = (int)CheckStatus.NotChecked;
+            p.ReviewStatus = (int)ReviewStatus.NotReviewed;
+            p.FinishStatus = (int)FinishStatus.NotFinished;
+
+            try
+            {
+                await _contractRepository.EditAsync(p);
+            }
+            catch (DbUpdateException ex)
+            {
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(Details), new { Id });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Submit(SubmitProductValueViewModel model)
         {
@@ -161,9 +189,11 @@ namespace NewBPMS.Controllers
             var model = new ContractCheckViewModel
             {
                 StatusMessage = StatusMessage,
+
                 ContractViewModels = _contractRepository.EntityItems
-                .Where(x => x.CheckStatus == (int)CheckStatus.NotChecked && x.SubmitStatus==(int)SubmitStatus.Submitted)
-                .Select(x => _mapper.Map<ContractViewModel>(x)),
+                .Where(x => x.CheckStatus == (int)CheckStatus.NotChecked && x.SubmitStatus == (int)SubmitStatus.Submitted)
+                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
+ 
             };
             return View(model);
         }
@@ -197,10 +227,11 @@ namespace NewBPMS.Controllers
             {
                 StatusMessage = StatusMessage,
                 ContractViewModels = _contractRepository.EntityItems
-                .Where(x => x.SubmitStatus==(int)SubmitStatus.Submitted
+                .Where(x => x.SubmitStatus == (int)SubmitStatus.Submitted
                 && x.CheckStatus == (int)CheckStatus.Checked
                 && x.ReviewStatus == (int)ReviewStatus.NotReviewed)
-                .Select(x => _mapper.Map<ContractViewModel>(x)),
+                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
+
             };
             return View(model);
         }

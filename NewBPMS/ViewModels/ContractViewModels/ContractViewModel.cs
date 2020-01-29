@@ -11,10 +11,10 @@ namespace NewBPMS.ViewModels.ContractViewModels
     {
         public Guid Id { get; set; }
 
-        [Display(Name = "编号")]
+        [Display(Name = "合同编号")]
         public string No { get; set; }
 
-        [Display(Name = "名称")]
+        [Display(Name = "合同名称")]
         public string Name { get; set; }
 
         /// <summary>

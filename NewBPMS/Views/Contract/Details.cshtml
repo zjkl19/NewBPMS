@@ -60,37 +60,37 @@
 
     @* 合同已提交，但是未确认，则显示进度 *@
     @if (Model.ContractViewModel.SubmitStatus == SubmitStatus.Submitted
-        && Model.ContractViewModel.FinishStatus != FinishStatus.Finished)
+       && Model.ContractViewModel.FinishStatus != FinishStatus.Finished)
     {
-    <div class="row">
-        <div class="col-md-3">
-            产值分配结果已提交，正在校核或审核
+        <div class="row">
+            <div class="col-md-4">
+                产值分配结果已提交，正在校核或审核
+            </div>
         </div>
-    </div>
     }
 
     @* 合同已完成，则显示完成日期 *@
     @if (Model.ContractViewModel.SubmitStatus == SubmitStatus.Submitted
-        && Model.ContractViewModel.FinishStatus == FinishStatus.Finished)
+       && Model.ContractViewModel.FinishStatus == FinishStatus.Finished)
     {
-    <div class="row">
-        <label asp-for="ContractViewModel.FinishDateTime" class="col-md-2 font-weight-bold"> </label>
-        <div class="col-md-3">
-            @Html.DisplayFor(x => x.ContractViewModel.FinishDateTime)
+        <div class="row">
+            <label asp-for="ContractViewModel.FinishDateTime" class="col-md-2 font-weight-bold"> </label>
+            <div class="col-md-3">
+                @Html.DisplayFor(x => x.ContractViewModel.FinishDateTime)
+            </div>
         </div>
-    </div>
     }
 </div>
 
 @* 合同未提交，则显示提交页面 *@
 @if (Model.ContractViewModel.SubmitStatus == SubmitStatus.NotSubmitted)
 {
-<div>
-    <partial name="_SubmitProductValuePartial"
-             model='new SubmitProductValueViewModel {
+    <div>
+        <partial name="_SubmitProductValuePartial"
+                 model='new SubmitProductValueViewModel {
     ContractId=Model.ContractViewModel.Id
     }'>
-</div>
+    </div>
 }
 
 
@@ -98,66 +98,66 @@
 
 @if (Model.UserProductValueViewModels.Count() != 0)
 {
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                序号
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => headerMetadata.StaffName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => headerMetadata.Labor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => headerMetadata.Ratio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => headerMetadata.Amount)
-            </th>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    序号
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.StaffName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Labor)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Ratio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => headerMetadata.Amount)
+                </th>
 
-            <th>操作</th>
-        </tr>
-    </thead>
-    <tbody>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        @foreach (var item in Model.UserProductValueViewModels)
+            @foreach (var item in Model.UserProductValueViewModels)
             {
-        <tr>
-            <td>
-                @i
-                @{
+                <tr>
+                    <td>
+                        @i
+                        @{
                             i++;
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Labor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ratio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                <a asp-controller="UserContract" asp-action="Edit" asp-route-Id="@item.Id"
-                   data-ajax="true"
-                   data-ajax-mode="replace"
-                   data-ajax-loading-duration=1000
-                   data-ajax-update="#CreateOrEditUserContract"
-                   method="get"
-                   class="btn btn-secondary @editStatus">编辑</a>
-                | <a asp-controller="UserContract" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger @editStatus">删除</a>
-            </td>
-        </tr>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Labor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ratio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        <a asp-controller="UserContract" asp-action="Edit" asp-route-Id="@item.Id"
+                           data-ajax="true"
+                           data-ajax-mode="replace"
+                           data-ajax-loading-duration=1000
+                           data-ajax-update="#CreateOrEditUserContract"
+                           method="get"
+                           class="btn btn-secondary @editStatus">编辑</a>
+                        | <a asp-controller="UserContract" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger @editStatus">删除</a>
+                    </td>
+                </tr>
 
             }
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
 }
 
@@ -172,10 +172,12 @@
    class="btn btn-primary @editStatus">
     添加产值分配人员
 </a>
-
+<p></p>
 <div id="CreateOrEditUserContract">
 
 </div>
+
+<a asp-controller="Contract" asp-action="Restore" asp-route-Id="@Model.ContractViewModel.Id" class="btn btn-danger">重置提交状态</a>
 @*<div>
         <partial name="../UserContract/Create" model="new CreateUserContractViewModel { ContractId=Model.UserProductValueViewModels.FirstOrDefault().ContractId }">
     </div>*@
