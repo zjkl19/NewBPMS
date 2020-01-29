@@ -131,6 +131,11 @@ namespace NewBPMS.Models
         public string ChangeLog { get; set; }
 
         /// <summary>
+        /// 备注
+        /// </summary>
+        public string Comment { get; set; }
+
+        /// <summary>
         /// 1份合同只能由1位职工负责
         /// </summary>
         [ForeignKey("ApplicationUser")]
@@ -143,9 +148,6 @@ namespace NewBPMS.Models
         //[ForeignKey("CreateStaff")]
         //public Guid CreateStaffId { get; set; }
 
-        //public string CreateStaffName { get; set; }
-
-        //public DateTime CreateDateTime { get; set; } = new DateTime(1900, 1, 1);
 
         //[ForeignKey("EditStaff")]
         //public Guid EditStaffId { get; set; }

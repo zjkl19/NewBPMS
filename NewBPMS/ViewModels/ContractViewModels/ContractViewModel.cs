@@ -122,6 +122,8 @@ namespace NewBPMS.ViewModels.ContractViewModels
         public string UserId { get; set; }
         [Display(Name = "负责人")]
         public string UserName { get; set; }
+        [Display(Name = "备注")]
+        public string Comment { get; set; }
     }
 
     public enum SubmitStatus
