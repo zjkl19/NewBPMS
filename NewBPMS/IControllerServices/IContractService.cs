@@ -15,5 +15,9 @@ namespace NewBPMS.IControllerServices
         /// <param name="Id">合同Id</param>
         /// <returns></returns>
         IEnumerable<UserProductValueViewModel> GetUserProductValue(Guid Id);
+
+        public IEnumerable<ContractWarningViewModel> GetDelayContract();
+
+        public IEnumerable<ContractWarningViewModel> GetDelayWarningContract();
     }
 }

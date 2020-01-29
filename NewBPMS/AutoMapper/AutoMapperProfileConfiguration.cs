@@ -10,6 +10,12 @@ namespace NewBPMS.AutoMapper
     {
         public AutoMapperProfileConfiguration()
         {
+            CreateMap<Contract, ContractWarningViewModel>()
+                .ForMember(dest => dest.UserName, src => src.MapFrom(x => x.ApplicationUser.StaffName))
+                .ForMember(dest => dest.DelayDays, src => src.MapFrom(x => DateTime.Now.Date.AddDays(x.Deadline*(-1)).Subtract(x.SignedDate).TotalDays))
+                .ForMember(dest => dest.DelayWarningDays, src => src.MapFrom(x => x.SignedDate.AddDays(x.Deadline).Subtract(DateTime.Now.Date).TotalDays));
+
+
             CreateMap<Contract, EditContractViewModel>();
 
             CreateMap<EditContractViewModel, Contract>();

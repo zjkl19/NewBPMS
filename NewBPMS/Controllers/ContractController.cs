@@ -139,6 +139,17 @@ namespace NewBPMS.Controllers
 
             return RedirectToAction(nameof(Details), new { Id = model.ContractId });
         }
+        [HttpGet]
+        public IActionResult Warning()
+        {
+            var model = new ContractWarningIndexViewModel
+            {
+                StatusMessage = StatusMessage,
+                ContractDelayViewModels = _contractService.GetDelayContract(),
+                ContractDelayWarningViewModels=_contractService.GetDelayWarningContract(),
+            };
+            return View(model);
+        }
 
         /// <summary>
         /// 

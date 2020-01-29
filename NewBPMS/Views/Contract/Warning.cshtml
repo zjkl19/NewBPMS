@@ -1,0 +1,129 @@
+﻿@model ContractWarningIndexViewModel
+@{
+    ViewData["Title"] = "合同/项目警告";
+
+    int i = 1; int j = 1;
+
+    var headerMetadata = Model.ContractDelayViewModels.FirstOrDefault();
+}
+
+<h3>@ViewData["Title"]</h3>
+<div>
+    <partial name="StatusMessagePartial" model='Model.StatusMessage'>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            @if (Model.ContractDelayViewModels.Count() != 0)
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => headerMetadata.No)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => headerMetadata.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => headerMetadata.UserName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => headerMetadata.DelayDays)
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.ContractDelayViewModels)
+                        {
+                            <tr>
+                                <td>
+                                    @i
+                                    @{
+                                        i++;
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.No)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DelayDays)
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+            }
+        </section>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            @if (Model.ContractDelayWarningViewModels.Count() != 0)
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => headerMetadata.No)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => headerMetadata.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => headerMetadata.UserName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => headerMetadata.DelayWarningDays)
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.ContractDelayWarningViewModels)
+                        {
+                            <tr>
+                                <td>
+                                    @i
+                                    @{
+                                        i++;
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.No)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DelayWarningDays)
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+            }
+        </section>
+    </div>
+</div>
