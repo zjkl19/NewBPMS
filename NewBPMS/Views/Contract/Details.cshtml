@@ -4,6 +4,14 @@
 
     int i = 1;
     var headerMetadata = Model.UserProductValueViewModels.FirstOrDefault();
+
+    string editStatus = string.Empty;
+    if (Model.ContractViewModel.SubmitStatus == SubmitStatus.Submitted)
+    {
+
+        editStatus = "disabled";
+
+    }
 }
 
 <div>
@@ -142,8 +150,8 @@
                    data-ajax-loading-duration=1000
                    data-ajax-update="#CreateOrEditUserContract"
                    method="get"
-                   class="btn btn-secondary">编辑</a>
-                | <a asp-controller="UserContract" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">删除</a>
+                   class="btn btn-secondary @editStatus">编辑</a>
+                | <a asp-controller="UserContract" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger @editStatus">删除</a>
             </td>
         </tr>
 
@@ -161,7 +169,7 @@
    data-ajax-loading-duration=1000
    data-ajax-update="#CreateOrEditUserContract"
    method="get"
-   class="btn btn-primary">
+   class="btn btn-primary @editStatus">
     添加产值分配人员
 </a>
 

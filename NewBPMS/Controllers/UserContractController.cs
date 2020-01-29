@@ -273,7 +273,7 @@ namespace NewBPMS.Controllers
 
             if (user.Id != contract.UserId)
             {
-                return PartialView("/Views/Account/AccessDenied.cshtml");    //?View
+                return View("AccessDenied");    //?View
             }
 
             try
@@ -323,7 +323,7 @@ namespace NewBPMS.Controllers
 
             if (user.Id != contract.UserId)
             {
-                return PartialView("/Views/Account/AccessDenied.cshtml");    //?View
+                return View("AccessDenied");    //?View
             }
 
             try
