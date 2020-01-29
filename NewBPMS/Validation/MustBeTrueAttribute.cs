@@ -11,7 +11,7 @@ namespace NewBPMS.Validation
     {
         public override bool IsValid(object value)
         {
-            return value.ToString()!="false";
+            return value.ToString()=="true";
         }
 
         public void AddValidation(ClientModelValidationContext context)

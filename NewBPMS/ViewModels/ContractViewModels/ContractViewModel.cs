@@ -92,7 +92,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         /// <summary>
         /// 校核状态
         /// </summary>
-        public int CheckStatus { get; set; }
+        public CheckStatus CheckStatus { get; set; }
         /// <summary>
         /// 校核时间
         /// </summary>
@@ -100,7 +100,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         /// <summary>
         /// 审核状态
         /// </summary>
-        public int ReviewStatus { get; set; }
+        public ReviewStatus ReviewStatus { get; set; }
         /// <summary>
         /// 审核时间
         /// </summary>
@@ -108,10 +108,12 @@ namespace NewBPMS.ViewModels.ContractViewModels
         /// <summary>
         /// 完成状态
         /// </summary>
-        public int FinishStatus { get; set; }
+        public FinishStatus FinishStatus { get; set; }
         /// <summary>
         /// 完成时间
         /// </summary>
+        [Display(Name = "合同完成时间")]
+        [DataType(DataType.Date)]
         public DateTime FinishDateTime { get; set; }
 
         /// <summary>
