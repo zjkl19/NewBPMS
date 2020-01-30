@@ -9,6 +9,8 @@ namespace NewBPMS.ViewModels.ContractViewModels
     {
         public string StatusMessage { get; set; }
 
-        public IEnumerable<ContractViewModel> ContractViewModels { get; set; }
+        //public IEnumerable<ContractViewModel> ContractViewModels { get; set; }
+
+        public IEnumerable<DetailsContractViewModel> DetailsContractViewModels { get; set; }
     }
 }

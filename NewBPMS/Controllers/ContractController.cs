@@ -244,13 +244,30 @@ namespace NewBPMS.Controllers
             var model = new ContractReviewViewModel
             {
                 StatusMessage = StatusMessage,
-                ContractViewModels = _contractRepository.EntityItems
+                DetailsContractViewModels = _contractRepository.EntityItems
                 .Where(x => x.SubmitStatus == (int)SubmitStatus.Submitted
                 && x.CheckStatus == (int)CheckStatus.Checked
                 && x.ReviewStatus == (int)ReviewStatus.NotReviewed)
-                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
+                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => 
+                new DetailsContractViewModel    //Ignore StatusMessage
+                {
+                    ContractViewModel=new ContractViewModel { Id=p.Id,Name=p.Name,No=p.No },
+                    UserProductValueViewModels=_contractService.GetUserProductValue(p.Id)
+                    
+                })
 
             };
+
+            //var userProductViewModel = _contractService.GetUserProductValue(Id);
+
+            //var model = new DetailsContractViewModel
+            //{
+            //    StatusMessage = StatusMessage,
+            //    ContractViewModel = _contractRepository.EntityItems
+            //        .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
+            //        .Where(p => p.Id == Id).FirstOrDefault(),
+            //    UserProductValueViewModels = userProductViewModel,
+            //};
             return View(model);
         }
 
