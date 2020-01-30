@@ -1,6 +1,7 @@
 ﻿@model ContractReviewViewModel
 @{
     ViewData["Title"] = "审核";
+    string HintPrefix = "Hint";
 }
 
 <div>
@@ -8,10 +9,15 @@
 </div>
 @if (Model.DetailsContractViewModels.Count() != 0)
 {
+    int k = 1;
     @foreach (var item in Model.DetailsContractViewModels)
     {
         int i = 1;
         var headerMetadata = Model.DetailsContractViewModels.FirstOrDefault().ContractViewModel;
+
+        string HintName = $"{HintPrefix}{k}";
+        string HintNameWithSharp = $"#{HintName}";
+
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -61,72 +67,138 @@
                         @Html.DisplayFor(modelItem => item.ContractViewModel.UserName)
                     </td>
                     <td>
-                        <a asp-action="ReviewConfirm" asp-route-id="@item.ContractViewModel.Id" class="btn btn-primary">确认</a>
+                        <a href=@HintNameWithSharp class="btn btn-info" data-toggle="collapse">查看/隐藏分配详情</a>
+                        | <a asp-action="ReviewConfirm" asp-route-id="@item.ContractViewModel.Id" class="btn btn-primary">确认</a>
                         | <a asp-action="RestoreSubmit" asp-route-id="@item.ContractViewModel.Id" asp-route-RetAction="Review" class="btn btn-danger">回退</a>
                     </td>
                 </tr>
+                @if (item.UserProductValueViewModels.Count() != 0)
+                {
+                    var subHeaderMetadata = item.UserProductValueViewModels.FirstOrDefault();
+                    int j = 1;
+                    <tr>
+                        <td id=@HintName colspan="5" class="collapse">
 
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            序号
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => subHeaderMetadata.StaffName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => subHeaderMetadata.Labor)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => subHeaderMetadata.Ratio)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => subHeaderMetadata.Amount)
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var subItem in item.UserProductValueViewModels)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @j
+                                                @{
+                                                    j++;
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => subItem.StaffName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => subItem.Labor)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => subItem.Ratio)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => subItem.Amount)
+                                            </td>
+
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+
+
+                        </td>
+                    </tr>
+                }
 
             </tbody>
         </table>
-        <hr />
-        @if (item.UserProductValueViewModels.Count() != 0)
-        {
-            var subHeaderMetadata = item.UserProductValueViewModels.FirstOrDefault();
-            int j = 1;
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>
-                            序号
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => subHeaderMetadata.StaffName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => subHeaderMetadata.Labor)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => subHeaderMetadata.Ratio)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => subHeaderMetadata.Amount)
-                        </th>
 
-                    </tr>
-                </thead>
-                <tbody>
+        @*<hr />
+            <div id=@HintName class="collapse">
+                @if (item.UserProductValueViewModels.Count() != 0)
+                {
 
-                    @foreach (var subItem in item.UserProductValueViewModels)
-                    {
-                        <tr>
-                            <td>
-                                @j
-                                @{
-                                    j++;
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => subItem.StaffName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => subItem.Labor)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => subItem.Ratio)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => subItem.Amount)
-                            </td>
+                    var subHeaderMetadata = item.UserProductValueViewModels.FirstOrDefault();
+                    int j = 1;
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    序号
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => subHeaderMetadata.StaffName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => subHeaderMetadata.Labor)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => subHeaderMetadata.Ratio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => subHeaderMetadata.Amount)
+                                </th>
 
-                        </tr>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                    }
-                </tbody>
-            </table>
+                            @foreach (var subItem in item.UserProductValueViewModels)
+                            {
+                                <tr>
+                                    <td>
+                                        @j
+                                        @{
+                                            j++;
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => subItem.StaffName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => subItem.Labor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => subItem.Ratio)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => subItem.Amount)
+                                    </td>
 
-        }
+                                </tr>
 
+                            }
+                        </tbody>
+                    </table>
+
+                }
+            </div>*@
+        k = k + 1;
     }
 }
 

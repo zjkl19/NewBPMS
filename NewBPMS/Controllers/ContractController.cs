@@ -97,10 +97,10 @@ namespace NewBPMS.Controllers
                 return true;
             }
         }
-        
+
         public async Task<IActionResult> Index(int? page, bool OnlyMe, string ContractNo = "", string ContractName = "")
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -108,7 +108,7 @@ namespace NewBPMS.Controllers
             var user = await _userManager.GetUserAsync(User);
 
             var linqVar = _contractService.GetContractIndexlinqVar(ContractNo, ContractName);
-            if(OnlyMe==true)
+            if (OnlyMe == true)
             {
                 linqVar = linqVar.Where(x => x.UserId == user.Id);
             }
@@ -248,12 +248,12 @@ namespace NewBPMS.Controllers
                 .Where(x => x.SubmitStatus == (int)SubmitStatus.Submitted
                 && x.CheckStatus == (int)CheckStatus.Checked
                 && x.ReviewStatus == (int)ReviewStatus.NotReviewed)
-                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => 
+                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) =>
                 new DetailsContractViewModel    //Ignore StatusMessage
                 {
-                    ContractViewModel=new ContractViewModel { Id=p.Id,Name=p.Name,No=p.No },
-                    UserProductValueViewModels=_contractService.GetUserProductValue(p.Id)
-                    
+                    ContractViewModel = new ContractViewModel { Id = p.Id, Name = p.Name, No = p.No, UserName = p.UserName },
+                    UserProductValueViewModels = _contractService.GetUserProductValue(p.Id)
+
                 })
 
             };
