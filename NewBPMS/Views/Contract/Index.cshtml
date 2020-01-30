@@ -80,8 +80,19 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.No)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                    <td title="@item.Name">
+                        @* 控制内容显示，过长的内容只显示部分，其余部分用省略号表示 *@
+                        @if (item.Name.Length <= 20)
+                        {
+                            @Html.DisplayFor(modelItem => item.Name)
+
+                        }
+                        else
+                        {
+                            @Html.Raw(item.Name.Substring(0, 20))
+                            @Html.Raw("......")
+
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UserName)
@@ -98,7 +109,7 @@
     </table>
     if (Model.ContractViewModels.Count() > 10)
     {
-        @Html.PagedListPager((IPagedList)Model.ContractViewModels, page => Url.Action("Index", new { page,OnlyMe=Model.OnlyMe, ContractNo = Model.ContractNo , ContractName = Model.ContractName }))
+        @Html.PagedListPager((IPagedList)Model.ContractViewModels, page => Url.Action("Index", new { page, OnlyMe = Model.OnlyMe, ContractNo = Model.ContractNo, ContractName = Model.ContractName }))
     }
 
 }

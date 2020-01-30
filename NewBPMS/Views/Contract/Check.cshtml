@@ -45,8 +45,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.No)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                    <td title="@item.Name">
+                        @if (item.Name.Length <= 20)
+                        {
+                            @Html.DisplayFor(modelItem => item.Name)
+
+                        }
+                        else
+                        {
+                            @Html.Raw(item.Name.Substring(0, 20))
+                            @Html.Raw("......")
+
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UserName)

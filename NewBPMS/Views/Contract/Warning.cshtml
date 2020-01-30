@@ -54,8 +54,18 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.No)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
+                                <td title="@item.Name">
+                                    @if (item.Name.Length <= 8)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.Name)
+
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(item.Name.Substring(0, 8))
+                                        @Html.Raw("......")
+
+                                    }
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.UserName)
@@ -102,15 +112,15 @@
                         @foreach (var item in Model.ContractDelayWarningViewModels)
                         {
                             string warnLevel = null;
-                            if(item.DelayWarningDays>=0 && item.DelayWarningDays<=3)
+                            if (item.DelayWarningDays >= 0 && item.DelayWarningDays <= 3)
                             {
                                 warnLevel = "table-danger";
                             }
-                            else if(item.DelayWarningDays>=4 && item.DelayWarningDays<=5)
+                            else if (item.DelayWarningDays >= 4 && item.DelayWarningDays <= 5)
                             {
                                 warnLevel = "table-warning";
                             }
-                            else if(item.DelayWarningDays>=6 && item.DelayWarningDays<=7)
+                            else if (item.DelayWarningDays >= 6 && item.DelayWarningDays <= 7)
                             {
                                 warnLevel = "table-info";
                             }
@@ -124,8 +134,18 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.No)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
+                                <td title="@item.Name">
+                                    @if (item.Name.Length <= 8)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.Name)
+
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(item.Name.Substring(0, 8))
+                                        @Html.Raw("......")
+
+                                    }
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.UserName)
