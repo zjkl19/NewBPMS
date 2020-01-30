@@ -11,6 +11,9 @@
 <div>
     <partial name="StatusMessagePartial" model='Model.StatusMessage'>
 </div>
+<div class="alert alert-info">
+    合同完成剩余时间6~7天蓝色预警，4~5天橙色预警，0~3天红色预警。
+</div>
 <div class="row">
     <div class="col-md-6">
         <section>
@@ -18,7 +21,7 @@
             {
                 <table class="table table-bordered">
                     <thead>
-                        <tr>
+                        <tr class="table-primary">
                             <th>
                                 序号
                             </th>
@@ -41,7 +44,7 @@
 
                         @foreach (var item in Model.ContractDelayViewModels)
                         {
-                            <tr>
+                            <tr class="table-danger">
                                 <td>
                                     @i
                                     @{
@@ -75,7 +78,7 @@
             {
                 <table class="table table-bordered">
                     <thead>
-                        <tr>
+                        <tr class="table-primary">
                             <th>
                                 序号
                             </th>
@@ -98,7 +101,20 @@
 
                         @foreach (var item in Model.ContractDelayWarningViewModels)
                         {
-                            <tr>
+                            string warnLevel = null;
+                            if(item.DelayWarningDays>=0 && item.DelayWarningDays<=3)
+                            {
+                                warnLevel = "table-danger";
+                            }
+                            else if(item.DelayWarningDays>=4 && item.DelayWarningDays<=5)
+                            {
+                                warnLevel = "table-warning";
+                            }
+                            else if(item.DelayWarningDays>=6 && item.DelayWarningDays<=7)
+                            {
+                                warnLevel = "table-info";
+                            }
+                            <tr class="@warnLevel">
                                 <td>
                                     @j
                                     @{
