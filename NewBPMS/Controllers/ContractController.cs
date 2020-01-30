@@ -60,7 +60,7 @@ namespace NewBPMS.Controllers
         public IActionResult VerifyContractNoForEdit([Bind(include: "Id,No")]EditContractViewModel model)
         {
             string message = null;
-            var result = IsUnique(model.Id,model.No);
+            var result = IsUnique(model.Id, model.No);
             if (!result)
             {
                 message = "已存在合同编号：" + model.No;
@@ -85,9 +85,9 @@ namespace NewBPMS.Controllers
             }
         }
 
-        public bool IsUnique(Guid Id,string No)
+        public bool IsUnique(Guid Id, string No)
         {
-            var cnt = _contractRepository.QueryEntity<Contract>(x => x.No == No && x.Id!=Id);
+            var cnt = _contractRepository.QueryEntity<Contract>(x => x.No == No && x.Id != Id);
             if (cnt.Any())
             {
                 return false;
@@ -97,10 +97,21 @@ namespace NewBPMS.Controllers
                 return true;
             }
         }
-
-        public IActionResult Index(int? page, string ContractNo = "", string ContractName = "")
+        [HttpGet]
+        public async Task<IActionResult> Index(int? page, bool OnlyMe, string ContractNo = "", string ContractName = "")
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);                  
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+
             var linqVar = _contractService.GetContractIndexlinqVar(ContractNo, ContractName);
+            if(OnlyMe==true)
+            {
+                linqVar = linqVar.Where(x => x.UserId == user.Id);
+            }
             var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
             var onePageOflinqVar = linqVar.OrderByDescending(x => x.No).ToPagedList(pageNumber, 10); // will only contain 25 products max because of the pageSize
 
@@ -117,7 +128,7 @@ namespace NewBPMS.Controllers
         [HttpGet]
         public async Task<IActionResult> Restore(Guid Id)
         {
-            if (Id==null)
+            if (Id == null)
             {
                 return NotFound();
             }
@@ -145,7 +156,7 @@ namespace NewBPMS.Controllers
         [HttpPost]
         public async Task<IActionResult> Submit(SubmitProductValueViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -167,6 +178,8 @@ namespace NewBPMS.Controllers
 
             return RedirectToAction(nameof(Details), new { Id = model.ContractId });
         }
+
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Warning()
         {
@@ -174,7 +187,7 @@ namespace NewBPMS.Controllers
             {
                 StatusMessage = StatusMessage,
                 ContractDelayViewModels = _contractService.GetDelayContract(),
-                ContractDelayWarningViewModels=_contractService.GetDelayWarningContract(),
+                ContractDelayWarningViewModels = _contractService.GetDelayWarningContract(),
             };
             return View(model);
         }
@@ -193,7 +206,7 @@ namespace NewBPMS.Controllers
                 ContractViewModels = _contractRepository.EntityItems
                 .Where(x => x.CheckStatus == (int)CheckStatus.NotChecked && x.SubmitStatus == (int)SubmitStatus.Submitted)
                 .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
- 
+
             };
             return View(model);
         }
@@ -355,7 +368,7 @@ namespace NewBPMS.Controllers
         public async Task<IActionResult> Edit(EditContractViewModel model)
         {
             //AsNoTracking
-            if (!IsUnique(model.Id,model.No))
+            if (!IsUnique(model.Id, model.No))
             {
                 ModelState.AddModelError("No", "已存在合同编号：" + model.No);
 

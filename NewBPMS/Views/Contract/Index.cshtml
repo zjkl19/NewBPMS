@@ -31,6 +31,15 @@
         </div>
     </div>
     <div class="row form-group">
+        <div class="checkbox">
+            <label asp-for="OnlyMe">
+                <input asp-for="OnlyMe" />
+                @Html.DisplayNameFor(m => m.OnlyMe)
+            </label>
+        </div>
+
+    </div>
+    <div class="row form-group">
         <div class="col-4 col-md-3">
             <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> 查询</button>
         </div>
@@ -89,7 +98,7 @@
     </table>
     if (Model.ContractViewModels.Count() > 10)
     {
-        @Html.PagedListPager((IPagedList)Model.ContractViewModels, page => Url.Action("Index", new { page, ContractNo = Model.ContractNo , ContractName = Model.ContractName }))
+        @Html.PagedListPager((IPagedList)Model.ContractViewModels, page => Url.Action("Index", new { page,OnlyMe=Model.OnlyMe, ContractNo = Model.ContractNo , ContractName = Model.ContractName }))
     }
 
 }

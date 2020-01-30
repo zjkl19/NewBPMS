@@ -16,6 +16,9 @@ namespace NewBPMS.ViewModels.ContractViewModels
         [Display(Name = "合同名称")]
         public string ContractName { get; set; }
 
+        [Display(Name = "只看我负责的合同/项目")]
+        public bool OnlyMe { get; set; }
+
         public IEnumerable<ContractViewModel> ContractViewModels { get; set; }
     }
 }
