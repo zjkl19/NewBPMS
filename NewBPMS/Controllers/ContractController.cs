@@ -226,6 +226,7 @@ namespace NewBPMS.Controllers
             try
             {
                 await _contractRepository.EditAsync(p);
+                StatusMessage = $"已校核\"{p.Name}\"";
             }
             catch (DbUpdateException ex)
             {
@@ -269,10 +270,10 @@ namespace NewBPMS.Controllers
             try
             {
                 await _contractRepository.EditAsync(p);
+                StatusMessage = $"已审核\"{p.Name}\"";
             }
             catch (DbUpdateException ex)
             {
-
                 throw;
             }
 

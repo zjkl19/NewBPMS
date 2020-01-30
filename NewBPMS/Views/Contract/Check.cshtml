@@ -6,7 +6,9 @@
 
     var headerMetadata = Model.ContractViewModels.FirstOrDefault();
 }
-
+<div>
+    <partial name="StatusMessagePartial" model='Model.StatusMessage'>
+</div>
 
 @if (Model.ContractViewModels.Count() != 0)
 {
