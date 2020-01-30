@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace NewBPMS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DevController : Controller
     {
         public IActionResult Index()

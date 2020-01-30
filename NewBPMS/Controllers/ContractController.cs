@@ -196,6 +196,7 @@ namespace NewBPMS.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public IActionResult Check()
         {
@@ -211,6 +212,7 @@ namespace NewBPMS.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> CheckConfirm(Guid Id)
         {
@@ -233,6 +235,8 @@ namespace NewBPMS.Controllers
 
             return RedirectToAction(nameof(Check));
         }
+
+        [Authorize(Roles = "PowerManager")]
         [HttpGet]
         public IActionResult Review()
         {
@@ -249,6 +253,7 @@ namespace NewBPMS.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "PowerManager")]
         [HttpGet]
         public async Task<IActionResult> ReviewConfirm(Guid Id)
         {
@@ -298,12 +303,13 @@ namespace NewBPMS.Controllers
             return RedirectToAction(RetAction);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateContractViewModel model)
         {
@@ -348,6 +354,7 @@ namespace NewBPMS.Controllers
             return RedirectToAction(nameof(ContractController.Index));
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(Guid Id)
         {
@@ -364,6 +371,7 @@ namespace NewBPMS.Controllers
             return View(itemToEdit);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(EditContractViewModel model)
         {
@@ -431,6 +439,7 @@ namespace NewBPMS.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpGet]
         public async Task<IActionResult> Delete(Guid Id)
         {
@@ -446,6 +455,7 @@ namespace NewBPMS.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid Id)
         {
