@@ -55,9 +55,9 @@ namespace NewBPMS.Controllers
                 SummaryUserProductValueQueryViewModel = new SummaryUserProductValueQueryViewModel
                 {
                     StaffNoString =
-                     string.Join(",", _userRepository.EntityItems.Select(x => new {  x.StaffNo }).OrderBy(x=>x.StaffNo)
+                     string.Join(",", _userRepository.EntityItems.Select(x => new { x.StaffNo }).OrderBy(x => x.StaffNo)
                      .ToList().Select(u => u.StaffNo.ToString(CultureInfo.InvariantCulture)).ToList<string>())
-                 }
+                }
             };
             return View(model);
         }
@@ -75,6 +75,34 @@ namespace NewBPMS.Controllers
         }
 
         [HttpGet]
+        public IActionResult ListOwn()
+        {
+            var model = new ListViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ListOwn([Bind(include: "StartDateTime,EndDateTime")]ListViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            var startDateTime = model.StartDateTime;
+            var endDateTime = model.EndDateTime;
+
+            var listViewModels = _userContractRepository.EntityItems
+                    .Where(p => p.UserId == user.Id)
+                    .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => (p, q))
+                    .Join(_contractRepository.EntityItems, s => s.p.ContractId, r => r.Id, (s, r) => (s, r))
+                    .Where(x => x.r.FinishStatus == (int)FinishStatus.Finished
+                    && x.r.FinishDateTime>=startDateTime && x.r.FinishDateTime<=endDateTime)
+                    .Select(x => _mapper.Map<UserProductValueDetailsViewModel>(x.s.p)).ToList();
+
+
+            return PartialView("_ListUserProductValueDetailsPartial", listViewModels);
+        }
+
+        [Authorize(Roles = "PowerManager,Admin")]
+        [HttpGet]
         public IActionResult List()
         {
             var userSelectListViewModel = _userRepository.EntityItems.Select(x => new UserSelectViewModel
@@ -91,8 +119,8 @@ namespace NewBPMS.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "PowerManager,Admin")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult List(ListViewModel model)
         {
             var startDateTime = model.StartDateTime;
@@ -148,7 +176,8 @@ namespace NewBPMS.Controllers
                             .Where(p => p.UserId == model.ItemChosen[i])
                             .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => (p, q))
                             .Join(_contractRepository.EntityItems, s => s.p.ContractId, r => r.Id, (s, r) => (s, r))
-                            .Where(x => x.r.FinishStatus == (int)FinishStatus.Finished)
+                            .Where(x => x.r.FinishStatus == (int)FinishStatus.Finished
+                    && x.r.FinishDateTime >= startDateTime && x.r.FinishDateTime <= endDateTime)
                             .Select(x => _mapper.Map<UserProductValueDetailsViewModel>(x.s.p));
 
 

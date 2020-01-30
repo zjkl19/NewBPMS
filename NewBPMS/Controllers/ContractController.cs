@@ -97,12 +97,12 @@ namespace NewBPMS.Controllers
                 return true;
             }
         }
-        [HttpGet]
+        
         public async Task<IActionResult> Index(int? page, bool OnlyMe, string ContractNo = "", string ContractName = "")
         {
             if(!ModelState.IsValid)
             {
-                return BadRequest(ModelState);                  
+                return BadRequest(ModelState);
             }
 
             var user = await _userManager.GetUserAsync(User);

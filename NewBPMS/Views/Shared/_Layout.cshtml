@@ -77,11 +77,18 @@
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="UserContract" asp-action="List">产值详细列表</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="UserContract" asp-action="ListOwn">我的产值</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="UserContract" asp-action="Index">产值汇总</a>
-                            </li>
+                            @if (User.IsInRole("PowerManager") || User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserContract" asp-action="List">产值详细列表</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserContract" asp-action="Index">产值汇总</a>
+                                </li>
+                            }
+
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">

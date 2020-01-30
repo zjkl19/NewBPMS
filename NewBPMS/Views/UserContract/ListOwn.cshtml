@@ -1,0 +1,42 @@
+﻿@model ListViewModel
+@{
+    ViewData["Title"] = "我的产值";
+}
+
+<h3>@ViewData["Title"]</h3>
+@*<div class="alert alert-info">
+    积分试行期间，积分规则将会适时调整，带来不便敬请谅解。
+</div>
+<div class="alert alert-danger">
+    由于该查询对服务器性能消耗很大，故一次最多查询100条记录。
+</div>*@
+
+@* 各种功能必须加载的js脚本 *@
+
+
+<form asp-action="ListOwn" method="post" data-ajax="true"
+      data-ajax-mode="replace"
+      data-ajax-update="#ListUserProductValueDetail">
+    <div class="row form-group">
+        <label asp-for="StartDateTime" class=" col-6 col-md-1 col-form-label control-label"></label>
+        <div class="col-md-3 col-6">
+            <input asp-for="StartDateTime" class="form-control" />
+            <span asp-validation-for="StartDateTime" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label asp-for="EndDateTime" class="col-6 col-md-1 col-form-label control-label"></label>
+        <div class="col-md-3 col-6">
+            <input asp-for="EndDateTime" class="form-control" />
+            <span asp-validation-for="EndDateTime" class="text-danger"></span>
+        </div>
+    </div>
+    
+    <p>
+        <button class="btn btn-primary">提交</button>
+    </p>
+</form>
+
+<div id="ListUserProductValueDetail">
+
+</div>
