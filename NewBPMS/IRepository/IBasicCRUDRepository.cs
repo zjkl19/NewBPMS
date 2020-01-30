@@ -9,6 +9,7 @@ namespace NewBPMS.IRepository
     public interface IBasicCRUDRepository<T> where T : class
     {
         IEnumerable<T> EntityItems { get; }
+
         /// <summary>
         /// 通过Lamda表达式获取实体
         /// </summary>
