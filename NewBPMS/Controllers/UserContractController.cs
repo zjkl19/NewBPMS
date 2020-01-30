@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -49,8 +50,18 @@ namespace NewBPMS.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new UserContractIndexViewModel
+            {
+                SummaryUserProductValueQueryViewModel = new SummaryUserProductValueQueryViewModel
+                {
+                    StaffNoString =
+                     string.Join(",", _userRepository.EntityItems.Select(x => new {  x.StaffNo }).OrderBy(x=>x.StaffNo)
+                     .ToList().Select(u => u.StaffNo.ToString(CultureInfo.InvariantCulture)).ToList<string>())
+                 }
+            };
+            return View(model);
         }
+
 
         [HttpPost]
         public IActionResult SummaryUserProductValue([Bind(Prefix = "SummaryUserProductValueQueryViewModel")]SummaryUserProductValueQueryViewModel queryModel)
