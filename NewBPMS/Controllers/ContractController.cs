@@ -21,6 +21,7 @@ namespace NewBPMS.Controllers
         private readonly IUserManagerRepository _userManager;
         private readonly IContractService _contractService;
         private readonly IContractRepository _contractRepository;
+        private readonly IUserContractRepository _userContractRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
@@ -28,6 +29,7 @@ namespace NewBPMS.Controllers
             IMapper mapper,
              IContractService contractService
            , IContractRepository contractRepository
+           , IUserContractRepository userContractRepository
            , IUserRepository userRepository
             , IUserManagerRepository userManager)
         {
@@ -35,6 +37,7 @@ namespace NewBPMS.Controllers
             _mapper = mapper;
             _contractService = contractService;
             _contractRepository = contractRepository;
+            _userContractRepository = userContractRepository;
             _userRepository = userRepository;
         }
 
@@ -449,6 +452,8 @@ namespace NewBPMS.Controllers
             var model = new DetailsContractViewModel
             {
                 StatusMessage = StatusMessage,
+
+                PdtPercent=_userContractRepository.EntityItems.Where(x=>x.ContractId==Id).Sum(x=>x.Ratio)*100,
                 ContractViewModel = _contractRepository.EntityItems
                     .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
                     .Where(p => p.Id == Id).FirstOrDefault(),

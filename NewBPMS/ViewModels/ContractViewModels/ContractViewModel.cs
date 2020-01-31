@@ -30,6 +30,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         [Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
+
         [Display(Name = "签订日期")]
         [DataType(DataType.Date)]
         public DateTime SignedDate { get; set; }
