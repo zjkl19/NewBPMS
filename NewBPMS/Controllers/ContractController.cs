@@ -189,8 +189,8 @@ namespace NewBPMS.Controllers
             var model = new ContractWarningIndexViewModel
             {
                 StatusMessage = StatusMessage,
-                ContractDelayViewModels = _contractService.GetDelayContract(),
-                ContractDelayWarningViewModels = _contractService.GetDelayWarningContract(),
+                ContractDelayViewModels = _contractService.GetDelayContract().Take(100),
+                ContractDelayWarningViewModels = _contractService.GetDelayWarningContract().Take(100),
             };
             return View(model);
         }

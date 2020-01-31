@@ -11,6 +11,34 @@
 <div>
     <partial name="StatusMessagePartial" model='Model.StatusMessage'>
 </div>
+<label class="am-switch am-switch-lg">
+    <input type="checkbox" id="check_is_f">10分钟自动刷新
+    <span class="am-switch-checkbox"></span>
+</label>
+<script>
+    //定时刷新
+    is_f = localStorage.getItem("is_f");
+    if (is_f == 2) {
+        $('#check_is_f').attr("checked", true);
+        tf = setTimeout('myrefresh()', 60000); //指定秒刷新一次
+    }
+
+
+    $('.am-switch input[type=checkbox]').on('click', function () {
+        if ($(this).is(':checked')) {
+            localStorage.setItem("is_f", 2);
+            tf = setTimeout('myrefresh()', 60000); //指定秒刷新一次
+        } else {
+            clearTimeout(tf); //取消自动刷新
+            localStorage.setItem("is_f", 0);
+        }
+    })
+
+    function myrefresh() {
+        window.location.reload();
+    }
+</script>
+
 <div class="alert alert-info">
     合同完成剩余时间6~7天蓝色预警，4~5天橙色预警，0~3天红色预警。
 </div>
