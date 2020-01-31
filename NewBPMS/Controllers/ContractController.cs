@@ -420,6 +420,7 @@ namespace NewBPMS.Controllers
             contract.SignedDate = model.SignedDate;
             contract.Deadline = model.Deadline;
             contract.FinishDateTime = model.FinishDateTime;
+            contract.UserName = model.UserName;
 
             try
             {
