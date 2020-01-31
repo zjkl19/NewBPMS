@@ -35,7 +35,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         public DateTime SignedDate { get; set; }
 
         [Required]
-        [Display(Name = "期限")]    //合同有规定则填合同期限，没有规定由项目负责人填写估计期限
+        [Display(Name = "期限（单位：天）")]    //合同有规定则填合同期限，没有规定由项目负责人填写估计期限
         public int Deadline { get; set; }
 
         [Required]

@@ -16,7 +16,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         [DataType(DataType.Date)]
         public DateTime FinishDateTime { get; set; }
         //[Range(typeof(bool),"true","true",ErrorMessage ="你必须先进行确认")]
-        [MustBeTrue(ErrorMessage ="你需要先进行确认")]
+        [MustBeTrue(ErrorMessage ="你需要先进行确认，才能申请分配产值")]
         public string TermsAccepted { get; set; }
     }
 }

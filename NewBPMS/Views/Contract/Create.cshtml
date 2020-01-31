@@ -21,7 +21,7 @@
             }).get();
 
             $("#ResonpseStaffId").attr("value", $.trim(Id));
-            $("#ResonpseStaffName").attr("value", Name);
+            $("#ResonpseStaffName").attr("value", $.trim(Name));
 
             console.log(Id)
             console.log(No)
@@ -108,7 +108,8 @@
         <div class="row form-group ">
             <label asp-for="Name" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
             <div class="col-md-4">
-                <textarea asp-for="Name" class="form-control" /></textarea>
+                <textarea asp-for="Name" class="form-control"
+                          placeholder="例：莆田市绶溪公园一期过溪桥工程桥梁桩基检测及静动载试验"/></textarea>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
@@ -116,7 +117,7 @@
         <div class="row form-group">
             <label asp-for="No" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
             <div class="col-7 col-md-4">
-                <input asp-for="No" class="form-control" />
+                <input asp-for="No" class="form-control" placeholder="例:HT02CB1600246"/>
                 <span asp-validation-for="No" class="text-danger"></span>
             </div>
         </div>
@@ -124,16 +125,19 @@
         <div class="row form-group ">
             <label asp-for="JobContent" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
             <div class="col-md-4">
-                <textarea asp-for="JobContent" class="form-control" /></textarea>
+                <textarea asp-for="JobContent" class="form-control"  placeholder="例：1、静载试验；2、动载试验（能说明清楚即可）"/></textarea>
                 <span asp-validation-for="JobContent" class="text-danger"></span>
             </div>
         </div>
 
         <div class="row form-group">
-            <label asp-for="Amount" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
-            <div class="col-7 col-md-4">
-                <input asp-for="Amount" class="form-control" />
+            <label asp-for="Amount" class="col-md-2 col-form-label control-label font-weight-bold"> </label>
+            <div class="col-md-4">
+                <input asp-for="Amount" class="form-control" placeholder="例：93000" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 alert alert-danger">
+                只含本所检测项目金额，不含维养、监控等项目金额
             </div>
         </div>
 
@@ -146,10 +150,13 @@
         </div>
 
         <div class="row form-group">
-            <label asp-for="Deadline" class="col-4 col-md-2 col-form-label control-label font-weight-bold"> </label>
-            <div class="col-7 col-md-4">
-                <input asp-for="Deadline" class="form-control" />
+            <label asp-for="Deadline" class="col-md-2 col-form-label control-label font-weight-bold"> </label>
+            <div class="col-md-4">
+                <input asp-for="Deadline" class="form-control"  placeholder="例：50"/>
                 <span asp-validation-for="Deadline" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 alert alert-danger">
+                没有明确期限，则负责人应说明预计期限
             </div>
         </div>
 

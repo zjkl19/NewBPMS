@@ -328,7 +328,11 @@ namespace NewBPMS.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var model = new CreateContractViewModel
+            {
+                SignedDate = DateTime.Now,
+            };
+            return View(model);
         }
         [Authorize(Roles = "Manager")]
         [HttpPost]
