@@ -36,5 +36,8 @@ namespace NewBPMS.ViewModels.UserContractViewModels
 
         [HiddenInput]
         public Guid ContractId { get; set; }
+
+        [HiddenInput]
+        public decimal ContractAmount { get; set; }
     }
 }

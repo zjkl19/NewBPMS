@@ -13,7 +13,7 @@
 
     }
 }
-
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
 <div>
     <partial name="StatusMessagePartial" model='Model.StatusMessage'>
 </div>
@@ -60,7 +60,7 @@
 
     @* 合同已提交，但是未确认，则显示进度 *@
     @if (Model.ContractViewModel.SubmitStatus == SubmitStatus.Submitted
-       && Model.ContractViewModel.FinishStatus != FinishStatus.Finished)
+      && Model.ContractViewModel.FinishStatus != FinishStatus.Finished)
     {
         <div class="row">
             <div class="col-md-4">
@@ -71,7 +71,7 @@
 
     @* 合同已完成，则显示完成日期 *@
     @if (Model.ContractViewModel.SubmitStatus == SubmitStatus.Submitted
-       && Model.ContractViewModel.FinishStatus == FinishStatus.Finished)
+      && Model.ContractViewModel.FinishStatus == FinishStatus.Finished)
     {
         <div class="row">
             <label asp-for="ContractViewModel.FinishDateTime" class="col-md-2 font-weight-bold"> </label>

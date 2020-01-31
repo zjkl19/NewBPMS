@@ -1,5 +1,6 @@
 ﻿@model CreateUserContractViewModel
 
+
 <script>
     //获取id,工号,姓名
     $(document).ready(function () {
@@ -92,69 +93,76 @@
         })
     });
 </script>
-<form asp-controller="UserContract" asp-action="Create" method="post">
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-
-                <th>
-                    @Html.DisplayNameFor(x => x.StaffName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(x => x.Labor)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(x => x.Ratio)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(x => x.Amount)
-                </th>
-            </tr>
-
-        </thead>
-        <tbody>
-            <tr>
-
-                <td class="form-group">
-                    <input asp-for="UserId" class="form-control" hidden />
-
-                    <input type="button" data-toggle="modal" data-target="#popup_id" value="选择职工" />
-                    <input asp-for="StaffName" class="form-control" readonly />
-                    <input asp-for="ContractId" class="form-control" hidden />
-                </td>
-                <td class="form-group">
-
-                    <select asp-for="Labor" asp-items="Html.GetEnumSelectList<Labor>()" class="form-control"></select>
-
-                </td>
-                <td class="form-group">
-                    <input asp-for="Ratio" placeholder="例:0.35" class="form-control" />
-                </td>
-                <td class="form-group">
-                    <input asp-for="Amount" placeholder="自动计算" class="form-control" readonly />
-                </td>
-                @*<td class="form-group">
-                        <input type="submit" value="保存" class="btn btn-primary" />
-                    </td>*@
-            </tr>
-            <tr>
-
-                <td class="form-group"></td>
-                <td class="form-group">
-                    <span asp-validation-for="Labor" class="text-danger"></span>
-                </td>
-                <td class="form-group">
-                    <span asp-validation-for="Ratio" class="text-danger"></span>
-                </td>
-                <td class="form-group"></td>
 
 
-            </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-success" type="submit">提交</button>
-</form>
+<div id="app">
+    <input v-model="ContractAmount" hidden>
+    <form asp-controller="UserContract" asp-action="Create" method="post">
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(x => x.StaffName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Labor)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Ratio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(x => x.Amount)
+                    </th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td class="form-group">
+                        <input asp-for="UserId" class="form-control" hidden />
+
+                        <input type="button" data-toggle="modal" data-target="#popup_id" value="选择职工" />
+                        <input asp-for="StaffName" class="form-control" readonly />
+                        <input asp-for="ContractId" class="form-control" hidden />
+                    </td>
+                    <td class="form-group">
+
+                        <select asp-for="Labor" asp-items="Html.GetEnumSelectList<Labor>()" class="form-control"></select>
+
+                    </td>
+                    <td class="form-group">
+                        <input v-model="VRatio" asp-for="Ratio" placeholder="例:0.35" class="form-control" />
+                    </td>
+                    <td class="form-group">
+                        {{ parseFloat(VRatio) * parseFloat(ContractAmount) }}
+                        @*<input asp-for="Amount" placeholder="自动计算" class="form-control" readonly />*@
+                    </td>
+                    @*<td class="form-group">
+                            <input type="submit" value="保存" class="btn btn-primary" />
+                        </td>*@
+                </tr>
+                <tr>
+
+                    <td class="form-group"></td>
+                    <td class="form-group">
+                        <span asp-validation-for="Labor" class="text-danger"></span>
+                    </td>
+                    <td class="form-group">
+                        <span asp-validation-for="Ratio" class="text-danger"></span>
+                    </td>
+                    <td class="form-group"></td>
+
+
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-success" type="submit">提交</button>
+    </form>
+
+</div>
 <!-- 模态框 -->
 <div class="modal fade" id="popup_id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -196,5 +204,14 @@
     </div>
 </div>
 
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            VRatio: null,
+            ContractAmount: @Model.ContractAmount
+        }
+    })
+</script>
 
 <partial name="_ValidationScriptsPartial" />

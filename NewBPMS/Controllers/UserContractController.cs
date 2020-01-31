@@ -200,6 +200,8 @@ namespace NewBPMS.Controllers
             var userContractToEdit = (from p in _userContractRepository.EntityItems
                                       join q in _userRepository.EntityItems
                                       on p.UserId equals q.Id
+                                      join r in _contractRepository.EntityItems
+                                      on p.ContractId equals r.Id
                                       where p.Id == Id
                                       select new EditUserContractViewModel
                                       {
@@ -208,7 +210,8 @@ namespace NewBPMS.Controllers
                                           Ratio = userContract.Ratio,
                                           ContractId = userContract.ContractId,
                                           UserId = userContract.UserId,
-                                          StaffName = q.StaffName
+                                          StaffName = q.StaffName,
+                                          ContractAmount=r.Amount
                                       }).FirstOrDefault();
 
             //if (user.Id != contract.UserId)
@@ -341,7 +344,13 @@ namespace NewBPMS.Controllers
         [HttpGet]
         public IActionResult Create(Guid ContractId)
         {
-            return PartialView("Create", new CreateUserContractViewModel { ContractId = ContractId });
+            if(ContractId==null)
+            {
+                return NotFound();
+            }
+            var contract = _contractRepository.QueryById(ContractId);
+
+            return PartialView("Create", new CreateUserContractViewModel { ContractId = ContractId,ContractAmount=contract.Amount });
         }
 
         [HttpPost]
