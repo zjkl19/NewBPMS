@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
 using NewBPMS.ViewModels.ContractViewModels;
@@ -55,6 +56,34 @@ namespace NewBPMS.Areas.api.Controllers
 
             };
             return model;
+        }
+
+        // PUT: api/Contracts/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutContract(Guid id)
+        {
+            //var user = await _userManager.GetUserAsync(User);
+            var p = await _contractRepository.QueryByIdAsync(id);
+
+            p.CheckStatus = (int)CheckStatus.Checked;
+            p.CheckDateTime = DateTime.Now;
+            //p.CheckUserName = user.StaffName;
+            p.CheckUserName = "api测试";
+
+            try
+            {
+                await _contractRepository.EditAsync(p);
+                StatusMessage = $"已校核\"{p.Name}\"";
+            }
+            catch (DbUpdateException ex)
+            {
+
+                throw;
+            }
+
+            return NoContent();
         }
     }
 }
