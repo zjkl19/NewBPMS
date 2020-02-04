@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
+using NewBPMS.Models;
 using NewBPMS.ViewModels.ContractViewModels;
 
 namespace NewBPMS.Areas.api.Controllers
@@ -62,20 +63,40 @@ namespace NewBPMS.Areas.api.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContract(Guid id)
+        public async Task<IActionResult> PutContract(Guid id, Contract contract)
         {
-            //var user = await _userManager.GetUserAsync(User);
-            var p = await _contractRepository.QueryByIdAsync(id);
+            if (id == null || contract.Id==null)
+            {
+                return NotFound();
+            }
 
-            p.CheckStatus = (int)CheckStatus.Checked;
-            p.CheckDateTime = DateTime.Now;
+            if (id != contract.Id)
+            {
+                return BadRequest();
+            }
+            //var user = await _userManager.GetUserAsync(User);
+
+            //Obsoleted code
+            //var p = await _contractRepository.QueryByIdAsync(id);
+            //p.CheckStatus = (int)CheckStatus.Checked;
+            //p.CheckDateTime = DateTime.Now;
             //p.CheckUserName = user.StaffName;
-            p.CheckUserName = "api测试";
+            //p.CheckUserName = "api测试";
 
             try
             {
-                await _contractRepository.EditAsync(p);
-                StatusMessage = $"已校核\"{p.Name}\"";
+                await _contractRepository.EditAsync(contract);
+                
+                //判断是校核还是回退操作
+                if(contract.CheckStatus==(int)CheckStatus.Checked)
+                {
+                    StatusMessage = $"已校核\"{contract.Name}\"";
+                }
+                else
+                {
+                    StatusMessage = $"已回退\"{contract.Name}\"";
+                }
+                
             }
             catch (DbUpdateException ex)
             {
@@ -83,7 +104,7 @@ namespace NewBPMS.Areas.api.Controllers
                 throw;
             }
 
-            return NoContent();
+            return Content(StatusMessage);
         }
     }
 }
