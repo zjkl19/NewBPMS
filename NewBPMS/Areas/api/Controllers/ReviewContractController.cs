@@ -46,7 +46,7 @@ namespace NewBPMS.Areas.api.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-        [Authorize(Roles = "PowerManager")]
+        //[Authorize(Roles = "PowerManager")]
         [HttpGet]
         public ActionResult<ContractReviewViewModel> Review()
         {
