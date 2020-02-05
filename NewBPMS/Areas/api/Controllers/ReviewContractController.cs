@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NewBPMS.Areas.api.ViewModels.ContractViewModels;
 using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
 using NewBPMS.Models;
@@ -16,7 +18,7 @@ namespace NewBPMS.Areas.api.Controllers
     [Area("api")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ContractController : ControllerBase
+    public class ReviewCheckContractController : ControllerBase
     {
         private readonly IUserManagerRepository _userManager;
         private readonly IContractService _contractService;
@@ -25,7 +27,7 @@ namespace NewBPMS.Areas.api.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ContractController(
+        public ReviewCheckContractController(
             IMapper mapper,
              IContractService contractService
            , IContractRepository contractRepository
@@ -44,17 +46,25 @@ namespace NewBPMS.Areas.api.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
+        [Authorize(Roles = "PowerManager")]
         [HttpGet]
-        public ActionResult<ContractCheckViewModel> Check()
+        public ActionResult<ContractReviewViewModel> Review()
         {
-            var model = new ContractCheckViewModel
+            var model = new ContractReviewViewModel
             {
                 StatusMessage = StatusMessage,
 
-                ContractViewModels = _contractRepository.EntityItems
-                .Where(x => x.CheckStatus == (int)CheckStatus.NotChecked && x.SubmitStatus == (int)SubmitStatus.Submitted)
-                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
+                DetailsContractViewModels = _contractRepository.EntityItems
+                .Where(x => x.SubmitStatus == (int)SubmitStatus.Submitted
+                && x.CheckStatus == (int)CheckStatus.Checked
+                && x.ReviewStatus == (int)ReviewStatus.NotReviewed)
+                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) =>
+                new DetailsContractViewModel    //Ignore StatusMessage
+                {
+                    ContractViewModel = new ContractViewModel { Id = p.Id, Name = p.Name, No = p.No, UserName = p.UserName },
+                    UserProductValueViewModels = _contractService.GetUserProductValue(p.Id)
 
+                })
             };
             return model;
         }
@@ -62,9 +72,12 @@ namespace NewBPMS.Areas.api.Controllers
         // PUT: api/Contracts/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+        [Authorize(Roles = "PowerManager")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContract(Guid id, Contract contract)
         {
+            var user = await _userManager.GetUserAsync(User);
+
             if (id == null || contract.Id==null)
             {
                 return NotFound();
@@ -73,24 +86,20 @@ namespace NewBPMS.Areas.api.Controllers
             if (id != contract.Id)
             {
                 return BadRequest();
-            }
-            //var user = await _userManager.GetUserAsync(User);
+            }    
 
-            //Obsoleted code
-            //var p = await _contractRepository.QueryByIdAsync(id);
-            //p.CheckStatus = (int)CheckStatus.Checked;
-            //p.CheckDateTime = DateTime.Now;
-            //p.CheckUserName = user.StaffName;
-            //p.CheckUserName = "api测试";
+            contract.ReviewStatus = (int)ReviewStatus.Reviewed;
+            contract.ReviewDateTime = DateTime.Now;
+            contract.ReviewUserName = user.StaffName;
 
             try
             {
                 await _contractRepository.EditAsync(contract);
                 
-                //判断是校核还是回退操作
-                if(contract.CheckStatus==(int)CheckStatus.Checked)
+                //判断是审核还是回退操作
+                if(contract.ReviewStatus==(int)ReviewStatus.Reviewed)
                 {
-                    StatusMessage = $"已校核\"{contract.Name}\"";
+                    StatusMessage = $"已审核\"{contract.Name}\"";
                 }
                 else
                 {
