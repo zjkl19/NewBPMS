@@ -18,7 +18,7 @@ namespace NewBPMS.Areas.api.Controllers
     [Area("api")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ReviewCheckContractController : ControllerBase
+    public class ReviewContractController : ControllerBase
     {
         private readonly IUserManagerRepository _userManager;
         private readonly IContractService _contractService;
@@ -27,7 +27,7 @@ namespace NewBPMS.Areas.api.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ReviewCheckContractController(
+        public ReviewContractController(
             IMapper mapper,
              IContractService contractService
            , IContractRepository contractRepository
