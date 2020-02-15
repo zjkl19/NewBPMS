@@ -10,6 +10,7 @@ using NewBPMS.IControllerServices;
 using NewBPMS.IRepository;
 using NewBPMS.Models;
 using NewBPMS.ViewModels.ContractViewModels;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace NewBPMS.Controllers
@@ -116,7 +117,7 @@ namespace NewBPMS.Controllers
                 linqVar = linqVar.Where(x => x.UserId == user.Id);
             }
             var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
-            var onePageOflinqVar = linqVar.OrderByDescending(x => x.No).ToPagedList(pageNumber, 10); // will only contain 25 products max because of the pageSize
+            var onePageOflinqVar =await linqVar.OrderByDescending(x => x.No).ToPagedList(pageNumber, 10).ToListAsync(); // will only contain 25 products max because of the pageSize
 
             var model = new ContractIndexViewModel
             {
@@ -413,6 +414,7 @@ namespace NewBPMS.Controllers
             }
 
             var contract = _contractRepository.EntityItems.Where(x => x.Id == model.Id).FirstOrDefault();
+            
             contract.Name = model.Name;
             contract.No = model.No;
             contract.JobContent = model.JobContent;

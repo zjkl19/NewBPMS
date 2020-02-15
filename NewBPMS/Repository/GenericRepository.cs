@@ -18,13 +18,17 @@ namespace NewBPMS.Repository
             context = _context;
         }
 
+        public virtual DbSet<T> ContextSet => context.Set<T>();
+
+
         /// <summary>
         /// 通过Lamda表达式获取实体
         /// </summary>
         /// <param name="predicate">Lamda表达式（p=>p.Id==Id）</param>
         /// <returns></returns>
-        public virtual T Get(Expression<Func<T, bool>> predicate)
+        public virtual T GetEntity(Expression<Func<T, bool>> predicate)
         {
+            
             return context.Set<T>().AsNoTracking().SingleOrDefault(predicate);
         }
 

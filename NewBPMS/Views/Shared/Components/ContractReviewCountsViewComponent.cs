@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 namespace NewBPMS.Views.Shared.Components
 {
     public class ContractReviewCountsViewComponent : ViewComponent
@@ -22,12 +22,17 @@ namespace NewBPMS.Views.Shared.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
 
-            int count = (from p in _contractRepository.EntityItems
-                         where
-                         p.CheckStatus == (int)CheckStatus.Checked
-                         && p.ReviewStatus == (int)ReviewStatus.NotReviewed
-                         && p.SubmitStatus == (int)SubmitStatus.Submitted
-                         select p).Count();
+            var count = await _contractRepository.ContextSet.Where(p=>
+                     p.CheckStatus == (int)CheckStatus.Checked
+                     && p.ReviewStatus == (int)ReviewStatus.NotReviewed
+                     && p.SubmitStatus == (int)SubmitStatus.Submitted).CountAsync();
+
+            //int count = (from p in _contractRepository.EntityItems
+            //             where
+            //             p.CheckStatus == (int)CheckStatus.Checked
+            //             && p.ReviewStatus == (int)ReviewStatus.NotReviewed
+            //             && p.SubmitStatus == (int)SubmitStatus.Submitted
+            //             select p).Count();
 
             return View(count);
         }

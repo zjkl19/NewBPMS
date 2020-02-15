@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,12 +11,13 @@ namespace NewBPMS.IRepository
     {
         IEnumerable<T> EntityItems { get; }
 
+        DbSet<T> ContextSet { get; }
         /// <summary>
         /// 通过Lamda表达式获取实体
         /// </summary>
         /// <param name="predicate">Lamda表达式（p=>p.Id==Id）</param>
         /// <returns></returns>
-        T Get(Expression<Func<T, bool>> predicate);
+        T GetEntity(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// 通过Lamda表达式获取DbSet
