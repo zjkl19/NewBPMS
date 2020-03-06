@@ -19,6 +19,7 @@ using AutoMapper;
 using NewBPMS.ControllerServices;
 using NewBPMS.IControllerServices;
 using NewBPMS.AutoMapper;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace NewBPMS
 {
@@ -105,6 +106,7 @@ namespace NewBPMS
 
             services.AddScoped<IContractService, ContractService>();
             services.AddScoped<IUserContractService, UserContractService>();
+            services.AddScoped<IEmailSender, EmailSender>();
 
         }
 

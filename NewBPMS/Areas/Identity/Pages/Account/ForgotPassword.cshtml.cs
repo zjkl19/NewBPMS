@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using NewBPMS.Models;
+using System.Diagnostics;
 
 namespace NewBPMS.Areas.Identity.Pages.Account
 {
@@ -41,11 +42,11 @@ namespace NewBPMS.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage("./ForgotPasswordConfirmation");
-                }
+                //if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                //{
+                //    // Don't reveal that the user does not exist or is not confirmed
+                //    return RedirectToPage("./ForgotPasswordConfirmation");
+                //}
 
                 // For more information on how to enable account confirmation and password reset please 
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
@@ -57,10 +58,23 @@ namespace NewBPMS.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                //await _emailSender.SendEmailAsync(
+                //    Input.Email,
+                //    "Reset Password",
+                //    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                try
+                {
+                    await _emailSender.SendEmailAsync(
+                        Input.Email,
+                        "重置密码",
+                        $"请将链接 {HtmlEncoder.Default.Encode(callbackUrl)} 复制到浏览器地址栏打开，根据提示来重置密码");
+                }
+                catch (Exception ex)
+                {
+
+                    Debug.WriteLine(ex.Message);
+                }
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
