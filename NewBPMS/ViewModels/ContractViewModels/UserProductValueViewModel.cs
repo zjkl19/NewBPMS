@@ -20,6 +20,7 @@ namespace NewBPMS.ViewModels.ContractViewModels
         public Labor Labor { get; set; }
 
         [Display(Name = "产值比例")]
+        [DisplayFormat(DataFormatString = "{0:N3}")]
         public decimal Ratio { get; set; }
 
         [Display(Name = "产值")]

@@ -324,6 +324,8 @@ namespace NewBPMS.Controllers
 
                 //var userContractToEdit = _mapper.Map<UserContract>(model);
                 var userContractToEdit = _userContractRepository.EntityItems.Where(x => x.Id == model.Id).FirstOrDefault();
+                userContractToEdit.UserId = model.UserId;
+                userContractToEdit.UserName = model.StaffName;
                 userContractToEdit.Labor = (int)model.Labor;
                 userContractToEdit.Ratio = model.Ratio;
 

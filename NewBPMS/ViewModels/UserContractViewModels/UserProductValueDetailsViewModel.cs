@@ -25,6 +25,7 @@ namespace NewBPMS.ViewModels.UserContractViewModels
         public Labor Labor { get; set; }
 
         [Display(Name = "占合同比例")]
+        [DisplayFormat(DataFormatString = "{0:N3}")]
         public decimal Ratio { get; set; }
 
         [Display(Name = "金额")]

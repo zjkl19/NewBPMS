@@ -92,8 +92,8 @@ namespace NewBPMS.ViewModels.ContractViewModels
 
         [Display(Name = "承接人")]
         public string AcceptUserName { get; set; }
-        [Display(Name = "承接时间（大致即可，一般用来统计承接人一年承接的合同量）")]
+        [Display(Name = "承接时间")]
         [DataType(DataType.Date)]
-        public DateTime AcceptDateTime { get; set; }
+        public DateTime AcceptDateTime { get; set; } = DateTime.Now;
     }
 }
