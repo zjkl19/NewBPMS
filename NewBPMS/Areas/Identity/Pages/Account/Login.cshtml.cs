@@ -48,6 +48,7 @@ namespace NewBPMS.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [Display(Name = "密码")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 

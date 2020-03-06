@@ -1,12 +1,13 @@
 ﻿@page
 @model RegisterModel
+@using static NewBPMS.ViewModels.DepartmentEnum;
 @{
     ViewData["Title"] = "注册";
 }
 
 <h1>@ViewData["Title"]</h1>
-
-<div class="row">
+<script src="~/lib/vue/2.6.11/vue.min.js"></script>
+<div id="app" class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>创建新账户</h4>
@@ -28,6 +29,16 @@
                 <span asp-validation-for="Input.StaffName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Input.Department"></label>
+                <select v-model="VDepartment" asp-for="Input.Department" asp-items="Html.GetEnumSelectList<Department>()" class="form-control"></select>
+                <span asp-validation-for="Input.Department" class="text-danger"></span>
+            </div>
+            <div class="form-group" v-show="displayStatus">
+                <label asp-for="Input.DepartmentName"></label>（部门为“其它”时请填写）
+                <input asp-for="Input.DepartmentName" class="form-control" />
+                <span asp-validation-for="Input.DepartmentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
@@ -43,35 +54,52 @@
     <div class="col-md-6 col-md-offset-2">
         <section>
             @*<h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                <hr />
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
                         <div>
                             <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
+                                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                for details on setting up this ASP.NET application to support logging in via external services.
                             </p>
                         </div>
-                    </form>
-                }
-            }*@
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in Model.ExternalLogins)
+                                    {
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }*@
         </section>
     </div>
 </div>
-
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            VDepartment: null
+        },
+        computed: {
+            displayStatus: function () {
+                if (this.VDepartment != 999) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+    })
+</script>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
