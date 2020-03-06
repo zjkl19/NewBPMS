@@ -145,6 +145,21 @@ namespace NewBPMS.Models
         /// 对应ApplicationUser
         /// </summary>
         public string UserName { get; set; }
+
+        /// <summary>
+        /// 1份合同只能由1位职工承接
+        /// </summary>
+        [ForeignKey("AcceptUser")]
+        public string AcceptUserId { get; set; }
+
+        public virtual ApplicationUser AcceptUser { get; set; }
+
+        public string AcceptUserName { get; set; }
+
+        /// <summary>
+        /// 承接时间
+        /// </summary>
+        public DateTime AcceptDateTime { get; set; }
         //[ForeignKey("CreateStaff")]
         //public Guid CreateStaffId { get; set; }
 

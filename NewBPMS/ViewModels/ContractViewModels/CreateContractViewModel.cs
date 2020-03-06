@@ -87,5 +87,13 @@ namespace NewBPMS.ViewModels.ContractViewModels
         public string UserId { get; set; }
         [Display(Name = "负责人")]
         public string UserName { get; set; }
+
+        public string AcceptUserId { get; set; }
+
+        [Display(Name = "承接人")]
+        public string AcceptUserName { get; set; }
+        [Display(Name = "承接时间（大致即可，一般用来统计承接人一年承接的合同量）")]
+        [DataType(DataType.Date)]
+        public DateTime AcceptDateTime { get; set; }
     }
 }
