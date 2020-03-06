@@ -26,6 +26,18 @@ namespace NewBPMS.Models
         [PersonalData]
         public int StaffNo { get; set; }
 
+        /// <summary>
+        /// 部门
+        /// </summary>
+        [PersonalData]
+        public int Department { get; set; }
+
+        /// <summary>
+        /// 部门名称
+        /// </summary>
+        [PersonalData]
+        public string DepartmentName { get; set; }
+
         public virtual ICollection<Contract> Contracts { get; }
         public virtual ICollection<UserContract> UserContracts { get;}
         

@@ -21,6 +21,7 @@ namespace NewBPMS.Models
         /// <summary>
         /// 产值比例
         /// </summary>
+        [Column(TypeName = "decimal(18, 3)")]
         public decimal Ratio { get; set; }
 
         /// <summary>
