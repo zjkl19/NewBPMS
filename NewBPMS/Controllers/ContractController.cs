@@ -362,7 +362,7 @@ namespace NewBPMS.Controllers
             {
                 await _contractRepository.CreateAsync(contract);
 
-                StatusMessage = $"项目\"{contract.Name}\"成功创建";
+                StatusMessage = $"合同\"{contract.Name}\"成功创建";
             }
             catch (DbUpdateException ex)
             {
@@ -422,6 +422,8 @@ namespace NewBPMS.Controllers
             contract.SignedDate = model.SignedDate;
             contract.Deadline = model.Deadline;
             contract.FinishDateTime = model.FinishDateTime;
+            contract.AcceptUserId = model.AcceptUserId;
+            contract.UserId = model.UserId;
             contract.UserName = model.UserName;
 
             try

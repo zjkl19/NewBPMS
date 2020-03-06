@@ -4,34 +4,34 @@
 }
 <script>
     //获取id,工号,姓名
-    $(document).ready(function () {
-        $('#selectResonpseStaffButton').on('click', function () {
-            Id = $(":input:radio:checked").map(function () {
-                return $(this).parent().siblings('td').eq(0).text();  // 根据checkbox定位到后面的td，然后使用text()函数获取内容
-            }).get();   // 获取内容数组并拼接为字符串
+    //$(document).ready(function () {
+    //    $('#selectResonpseStaffButton').on('click', function () {
+    //        Id = $(":input:radio:checked").map(function () {
+    //            return $(this).parent().siblings('td').eq(0).text();  // 根据checkbox定位到后面的td，然后使用text()函数获取内容
+    //        }).get();   // 获取内容数组并拼接为字符串
 
-            No = $(":input:radio:checked").map(function () {
-                return $(this).parent().siblings('td').eq(2).text();
-            }).get();
+    //        No = $(":input:radio:checked").map(function () {
+    //            return $(this).parent().siblings('td').eq(2).text();
+    //        }).get();
 
-            Name = $(":input:radio:checked").map(function () {
-                return $(this).parent().siblings('td').eq(3).text();
-            }).get();
+    //        Name = $(":input:radio:checked").map(function () {
+    //            return $(this).parent().siblings('td').eq(3).text();
+    //        }).get();
 
-            $("#ResonpseStaffId").attr("value", $.trim(Id));
-            $("#ResonpseStaffName").attr("value", Name);
+    //        $("#ResonpseStaffId").attr("value", $.trim(Id));
+    //        $("#ResonpseStaffName").attr("value", Name);
 
-            console.log(Id)
-            console.log(No)
-            console.log(Name)
+    //        console.log(Id)
+    //        console.log(No)
+    //        console.log(Name)
 
-        });
-    });
+    //    });
+    //});
 
     $(document).ready(function () {
         $('#selectUserButton').on('click', function () {
 
-            var item = $(":button.btn.btn-primary").attr("data-whatever");
+            var item = $("#selectUserButton").attr("data-whatever");
 
             Id = $(":input:radio:checked").map(function () {
                 return $(this).parent().siblings('td').eq(0).text();  // 根据checkbox定位到后面的td，然后使用text()函数获取内容
@@ -48,17 +48,14 @@
             var itemId
             var itemName
 
-            //if (item == 'selectAcceptStaffButton') {
-            //    itemId = "#AcceptStaffId";
-            //    itemName = "#AcceptStaffName";
-            //}
-            //else {
-            //    itemId = "#ResponseStaffId";
-            //    itemName = "#ResponseStaffName";
-            //}
-
-            itemId = "#UserId";
-            itemName = "#UserName";
+            if (item == 'selectAcceptUserButton') {
+                itemId = "#AcceptUserId";
+                itemName = "#AcceptUserName";
+            }
+            else {
+                itemId = "#UserId";
+                itemName = "#UserName";
+            }
 
             console.log(itemId)
             console.log(itemName)
@@ -161,12 +158,23 @@
         <div class="row form-group">
             <input asp-for="UserId" type="hidden" class="form-control" />
             <div class="col-md-2">
-                <input class="btn btn-primary" type="button" data-toggle="modal" data-target="#popup_id" value="选择负责人" />
+                <input id="UserButton" class="btn btn-primary" type="button" data-toggle="modal" data-target="#popup_id" data-whatever="selectUserButton" value="选择负责人" />
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <label asp-for="UserName" class="control-label font-weight-bold col-md-1"></label>
             <input asp-for="UserName" class="form-control col-md-3 text-left" readonly />
         </div>
+
+        <div class="row form-group">
+            <input asp-for="AcceptUserId" type="hidden" class="form-control" />
+            <div class="col-md-2">
+                <input id="AcceptUserButton" class="btn btn-primary" type="button" data-toggle="modal" data-target="#popup_id" data-whatever="selectAcceptUserButton" value="选择承接人" />
+                <span asp-validation-for="AcceptUserId" class="text-danger"></span>
+            </div>
+            <label asp-for="AcceptUserName" class="control-label font-weight-bold col-md-1"></label>
+            <input asp-for="AcceptUserName" class="form-control col-md-3 text-left" readonly />
+        </div>
+
         <div class="form-group">
             <input type="submit" value="编辑" class="btn btn-success" />
         </div>
