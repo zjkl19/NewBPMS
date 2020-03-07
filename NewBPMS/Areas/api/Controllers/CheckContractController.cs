@@ -94,7 +94,7 @@ namespace NewBPMS.Areas.api.Controllers
 
             try
             {
-                await _contractRepository.EditAsync(contract);
+                await _contractRepository.EditAsync(p);
                 
                 //判断是校核还是回退操作
                 if(contract.CheckStatus==(int)CheckStatus.Checked)
