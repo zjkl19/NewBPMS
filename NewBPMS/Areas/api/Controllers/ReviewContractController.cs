@@ -93,6 +93,8 @@ namespace NewBPMS.Areas.api.Controllers
             p.ReviewDateTime = DateTime.Now;
             p.ReviewUserName = user.StaffName;
 
+            p.FinishStatus = (int)FinishStatus.Finished;
+
             try
             {
                 await _contractRepository.EditAsync(p);
