@@ -12,7 +12,7 @@
     <partial name="StatusMessagePartial" model='Model.StatusMessage'>
 </div>
 <label class="am-switch am-switch-lg">
-    <input type="checkbox" id="check_is_f">10分钟自动刷新
+    <input type="checkbox" id="check_is_f">5分钟自动刷新
     <span class="am-switch-checkbox"></span>
 </label>
 <script>
@@ -20,14 +20,14 @@
     is_f = localStorage.getItem("is_f");
     if (is_f == 2) {
         $('#check_is_f').attr("checked", true);
-        tf = setTimeout('myrefresh()', 60000); //指定秒刷新一次
+        tf = setTimeout('myrefresh()', 30000); //指定秒刷新一次
     }
 
 
     $('.am-switch input[type=checkbox]').on('click', function () {
         if ($(this).is(':checked')) {
             localStorage.setItem("is_f", 2);
-            tf = setTimeout('myrefresh()', 60000); //指定秒刷新一次
+            tf = setTimeout('myrefresh()', 30000); //指定秒刷新一次
         } else {
             clearTimeout(tf); //取消自动刷新
             localStorage.setItem("is_f", 0);
