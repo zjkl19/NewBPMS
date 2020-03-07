@@ -200,7 +200,7 @@ namespace NewBPMS.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager,ContractChecker")]
         [HttpGet]
         public IActionResult Check()
         {
@@ -216,7 +216,7 @@ namespace NewBPMS.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "ContractChecker")]
         [HttpGet]
         public async Task<IActionResult> CheckConfirm(Guid Id)
         {
@@ -241,7 +241,7 @@ namespace NewBPMS.Controllers
             return RedirectToAction(nameof(Check));
         }
 
-        [Authorize(Roles = "PowerManager")]
+        [Authorize(Roles = "ContractReviewer")]
         [HttpGet]
         public IActionResult Review()
         {
@@ -275,7 +275,7 @@ namespace NewBPMS.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "PowerManager")]
+        [Authorize(Roles = "PowerManager,ContractReviewer")]
         [HttpGet]
         public async Task<IActionResult> ReviewConfirm(Guid Id)
         {

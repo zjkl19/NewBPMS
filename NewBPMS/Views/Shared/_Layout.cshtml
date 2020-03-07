@@ -64,13 +64,13 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Contract" asp-action="Warning">合同预警</a>
                             </li>
-                            @if (User.IsInRole("Manager"))
+                            @if (User.IsInRole("ContractChecker"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Contract" asp-action="Check">校核 @await Component.InvokeAsync("ContractCheckCounts")</a>
                                 </li>
                             }
-                            @if (User.IsInRole("PowerManager"))
+                            @if (User.IsInRole("ContractReviewer"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Contract" asp-action="Review">审核 @await Component.InvokeAsync("ContractReviewCounts")</a>

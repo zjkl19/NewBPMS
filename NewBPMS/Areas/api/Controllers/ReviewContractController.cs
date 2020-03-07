@@ -46,7 +46,7 @@ namespace NewBPMS.Areas.api.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-        //[Authorize(Roles = "PowerManager")]
+        [Authorize(Roles = "ContractReviewer")]
         [HttpGet]
         public ActionResult<ContractReviewViewModel> Review()
         {
@@ -72,7 +72,7 @@ namespace NewBPMS.Areas.api.Controllers
         // PUT: api/Contracts/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [Authorize(Roles = "PowerManager")]
+        [Authorize(Roles = "ContractReviewer")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContract(Guid id, Contract contract)
         {
