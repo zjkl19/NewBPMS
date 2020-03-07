@@ -86,11 +86,12 @@ namespace NewBPMS.Areas.api.Controllers
             if (id != contract.Id)
             {
                 return BadRequest();
-            }    
+            }
 
-            contract.ReviewStatus = (int)ReviewStatus.Reviewed;
-            contract.ReviewDateTime = DateTime.Now;
-            contract.ReviewUserName = user.StaffName;
+            var p = _contractRepository.ContextSet.Where(x => x.Id == contract.Id).AsNoTracking().FirstOrDefault();
+            p.ReviewStatus = (int)ReviewStatus.Reviewed;
+            p.ReviewDateTime = DateTime.Now;
+            p.ReviewUserName = user.StaffName;
 
             try
             {

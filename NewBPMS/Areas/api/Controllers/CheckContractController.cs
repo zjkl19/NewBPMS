@@ -12,6 +12,7 @@ using NewBPMS.IRepository;
 using NewBPMS.Models;
 using NewBPMS.ViewModels.ContractViewModels;
 
+
 namespace NewBPMS.Areas.api.Controllers
 {
     [Area("api")]
@@ -77,7 +78,7 @@ namespace NewBPMS.Areas.api.Controllers
             {
                 return BadRequest();
             }
-            //var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User);
 
             //Obsoleted code
             //var p = await _contractRepository.QueryByIdAsync(id);
@@ -85,6 +86,11 @@ namespace NewBPMS.Areas.api.Controllers
             //p.CheckDateTime = DateTime.Now;
             //p.CheckUserName = user.StaffName;
             //p.CheckUserName = "api测试";
+
+            var p = _contractRepository.ContextSet.Where(x=>x.Id==contract.Id).AsNoTracking().FirstOrDefault();
+            p.CheckStatus = (int)CheckStatus.Checked;
+            p.CheckDateTime = DateTime.Now;
+            p.CheckUserName = user.StaffName;
 
             try
             {
