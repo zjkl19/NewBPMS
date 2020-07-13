@@ -31,12 +31,12 @@ namespace NewBPMS.ControllerServices
 
         public IEnumerable<ContractViewModel> GetContractIndexlinqVar(string ContractNo = "", string ContractName = "")
         {
-            var contracts = _contractRepository.ContextSet.Include(x => x.ApplicationUser).Select(x => _mapper.Map<ContractViewModel>(x));
-            //var linqVar = _contractRepository.EntityItems
-            //    .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
-            //    .Where(p => p.Name.Contains(ContractName ?? "") && (p.No.Contains(ContractNo ?? "")));
+            //var contracts = _contractRepository.ContextSet.Include(x => x.ApplicationUser).Select(x => _mapper.Map<ContractViewModel>(x));
+            var linqVar = _contractRepository.EntityItems
+                .Join(_userRepository.EntityItems, p => p.UserId, q => q.Id, (p, q) => _mapper.Map<ContractViewModel>(p))
+                .Where(p => p.Name.Contains(ContractName ?? "") && (p.No.Contains(ContractNo ?? "")));
 
-            return contracts;
+            return linqVar;
         }
 
         public IEnumerable<UserProductValueViewModel> GetUserProductValue(Guid Id)
