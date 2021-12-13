@@ -21,6 +21,10 @@ namespace NewBPMS.ViewModels.UserContractViewModels
         [Display(Name = "合同名称")]
         public string ContractName { get; set; }
 
+        [Display(Name = "合同完成时间")]
+        [DataType(DataType.Date)]
+        public DateTime ContractFinishDateTime { get; set; }
+
         [Display(Name = "分工")]
         public Labor Labor { get; set; }
 

@@ -17,9 +17,9 @@
             <th>
                 @Html.DisplayNameFor(model => headerMetadata.ContractNo)
             </th>
-            @*<th>
+            <th>
                 @Html.DisplayNameFor(model => headerMetadata.ContractName)
-            </th>*@
+            </th>
             <th>
                 @Html.DisplayNameFor(model => headerMetadata.Labor)
             </th>
@@ -29,38 +29,44 @@
             <th>
                 @Html.DisplayNameFor(model => headerMetadata.Amount)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => headerMetadata.ContractFinishDateTime)
+            </th>
         </tr>
     </thead>
     <tbody>
         @for (int i = 0; i < Model.Count; i++)
         {
-            <tr>
-                <td>
-                    @(i + 1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].StaffName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].StaffNo)
-                </td>
+        <tr>
+            <td>
+                @(i + 1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model[i].StaffName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model[i].StaffNo)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].ContractNo)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => Model[i].ContractName)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].Labor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].Ratio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model[i].Amount)
-                </td>
-            </tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model[i].ContractNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model[i].ContractName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model[i].Labor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model[i].Ratio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model[i].Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model[i].ContractFinishDateTime)
+            </td>
+        </tr>
         }
     </tbody>
 </table>
