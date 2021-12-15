@@ -1,7 +1,7 @@
 ﻿@model ContractIndexViewModel
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
-
+@using X.PagedList.Mvc.Core.Common;
 @{
     ViewData["Title"] = "合同/项目管理";
 
@@ -107,9 +107,21 @@
             }
         </tbody>
     </table>
-    if (Model.ContractViewModels.Count() > 10)
+    if (Model.ContractViewModels != null && Model.ContractViewModels.Any())
     {
-        @Html.PagedListPager((IPagedList)Model.ContractViewModels, page => Url.Action("Index", new { page, OnlyMe = Model.OnlyMe, ContractNo = Model.ContractNo, ContractName = Model.ContractName }))
+        @Html.PagedListPager((IPagedList)Model.ContractViewModels, page => Url.Action("Index", new { page, OnlyMe = Model.OnlyMe, ContractNo = Model.ContractNo, ContractName = Model.ContractName }), new PagedListRenderOptions
+{
+LinkToFirstPageFormat = "首页",
+LinkToNextPageFormat = "下一页",
+LinkToPreviousPageFormat = "上一页",
+LinkToLastPageFormat = "末页",
+MaximumPageNumbersToDisplay = 5,
+DisplayItemSliceAndTotal = false,//从头到尾显示页码
+UlElementClasses = new[] { "pagination"},  // 为ul li a 元素添加链接，使用ContainerDivClasses = new[] { "pagination" }替换 UlElementClasses = new[] { "pagination"},也是相同的效果。也可以不要此行代码，因为Bootstrap4与3相比，ul的class名没有变化，li 元素和a 元素加了page-item和page-link的类名。
+LiElementClasses = new[] { "page-item" },
+PageClasses = new[] { "page-link" },
+
+})
     }
 
 }

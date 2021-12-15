@@ -117,8 +117,8 @@ namespace NewBPMS.Controllers
                 linqVar = linqVar.Where(x => x.UserId == user.Id);
             }
             var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
-            var onePageOflinqVar =await linqVar.OrderByDescending(x => x.No).ToPagedList(pageNumber, 10).ToListAsync(); // will only contain 25 products max because of the pageSize
-
+            //var onePageOflinqVar =await linqVar.OrderByDescending(x => x.No).ToPagedList(pageNumber, 10).ToListAsync(); // will only contain 25 products max because of the pageSize
+            IPagedList<ContractViewModel> onePageOflinqVar = linqVar.OrderByDescending(x => x.No).ToPagedList(pageNumber, 30);
             var model = new ContractIndexViewModel
             {
                 ContractNo = ContractNo,
